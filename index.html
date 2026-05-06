@@ -3,936 +3,539 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pedidos NSN - Sistema B2B Premium</title>
+<title>NSN Mayoristas</title>
 <style>
   :root {
-    --verde:      #2E7D32;
-    --verde-md:   #388E3C;
-    --verde-lgt:  #4CAF50;
-    --verde-pale: #E8F5E9;
-    --morado:     #6A1B9A;
-    --morado-md:  #7B1FA2;
-    --morado-lgt: #CE93D8;
-    --gris-bg:    #F0F4F0;
-    --gris-brd:   #DDD;
-    --texto:      #212121;
-    --shadow:     0 2px 12px rgba(0,0,0,0.10);
-    --shadow-lg:  0 6px 20px rgba(0,0,0,0.15);
+    --v0:#1B5E20;
+    --v1:#2E7D32;
+    --v2:#388E3C;
+    --v3:#4CAF50;
+    --v4:#58CF4F;
+    --v5:#66BB6A;
+    --v6:#4FCF86;
+    --v7:#4FCFC6;
+    --v8:#A5D6A7;
+    --v9:#E8F5E9;
+    --tx:#212121;
+    --gr:#666;
+    --lt:#F5F5F5;
   }
-  
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--gris-bg);color:var(--texto)}
-
-  /* ── Header ── */
-  .header{
-    background: linear-gradient(135deg, var(--verde) 0%, var(--morado) 100%);
-    padding:16px 20px;text-align:center;position:sticky;top:0;z-index:200;box-shadow:var(--shadow-lg)
-  }
-  .header img{height:56px;object-fit:contain;display:block;margin:0 auto 8px}
-  .header h1{color:white;font-size:18px;font-weight:700;letter-spacing:.5px}
-  .header p{color:#C8E6C9;font-size:12px;margin-top:3px}
-
-  /* ── Steps bar ── */
-  .steps{
-    display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 12px;
-    background:white;border-bottom:2px solid var(--verde-pale);flex-wrap:nowrap;overflow-x:auto;
-    position:sticky;top:80px;z-index:150;box-shadow:0 2px 8px rgba(0,0,0,.08)
-  }
-  .step-dot{
-    width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-size:13px;font-weight:700;border:2.5px solid #CCC;color:#999;flex-shrink:0;
-    transition:all .3s;background:white
-  }
-  .step-dot.done{border-color:var(--verde-lgt);background:var(--verde-lgt);color:white}
-  .step-dot.active{border-color:var(--morado-md);background:var(--morado-md);color:white;box-shadow:0 0 12px rgba(123, 31, 162, 0.4)}
-  .step-line{width:28px;height:2.5px;background:#CCC;flex-shrink:0;transition:background .3s}
-  .step-line.done{background:var(--verde-lgt)}
-
-  /* ── Screens ── */
-  .screen{display:none}.screen.active{display:block}
-
-  /* ── Container ── */
-  .container{max-width:680px;margin:0 auto;padding:18px 14px}
-
-  /* ── Card ── */
-  .card{background:white;border-radius:14px;padding:24px 22px;box-shadow:var(--shadow);margin-bottom:16px}
-  .card h2{color:var(--morado-md);font-size:21px;margin-bottom:6px;font-weight:700}
-  .card .subtitle{color:#666;font-size:13px;margin-bottom:18px}
-
-  /* ── Form ── */
-  .fg{margin-bottom:16px}
-  label{display:block;font-size:13px;font-weight:600;color:#444;margin-bottom:7px}
-  input,select,textarea{
-    width:100%;padding:12px 14px;border:2px solid var(--gris-brd);border-radius:10px;
-    font-size:15px;transition:all .2s;background:white;color:var(--texto)
-  }
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--morado-md);box-shadow:0 0 0 3px rgba(106, 27, 154, 0.1)}
-  textarea{resize:vertical;min-height:80px}
-
-  /* ── Buttons ── */
-  .btn{padding:13px 24px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s;width:100%;display:block}
-  .btn-green{background:linear-gradient(135deg, var(--verde) 0%, var(--verde-md) 100%);color:white}
-  .btn-green:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(46, 125, 50, 0.3)}
-  .btn-green:disabled{background:#A5D6A7;cursor:not-allowed;transform:none}
-  .btn-morado{background:linear-gradient(135deg, var(--morado) 0%, var(--morado-md) 100%);color:white}
-  .btn-morado:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(106, 27, 154, 0.3)}
-  .btn-mp{background:#009EE3;color:white}
-  .btn-back{background:transparent;border:2px solid #CCC;color:#666;margin-bottom:12px}
-  .btn-back:hover{border-color:var(--verde);color:var(--verde)}
-  .btn-group{display:flex;gap:10px;margin-top:16px}
-  .btn-group .btn{flex:1}
-
-  /* ── Error ── */
-  .err{color:#C62828;font-size:12px;margin-top:8px;display:none}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--lt);color:var(--tx);min-height:100vh}
+  
+  .hdr{background:linear-gradient(135deg,var(--v0),var(--v1),var(--v2));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15);text-align:center}
+  .hdr img{height:50px;margin:0 auto 6px;display:block}
+  .hdr h1{font-size:16px;font-weight:700;margin-bottom:2px}
+  .hdr p{font-size:11px;opacity:.9}
+  
+  .stps{display:flex;gap:4px;justify-content:center;padding:10px;background:#fff;border-bottom:2px solid var(--v9);flex-wrap:wrap;position:sticky;top:64px;z-index:99;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .stp{width:30px;height:30px;border-radius:50%;border:2px solid #DDD;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gr);background:#fff;flex-shrink:0;transition:all .3s}
+  .stp.done{border-color:var(--v4);background:var(--v4);color:#fff}
+  .stp.act{border-color:var(--v0);background:var(--v0);color:#fff;box-shadow:0 0 8px rgba(27,94,32,.3)}
+  
+  .scr{display:none}
+  .scr.act{display:block}
+  
+  .ctn{max-width:680px;margin:0 auto;padding:14px}
+  
+  .crd{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:12px}
+  .crd h2{color:var(--v0);font-size:18px;margin-bottom:4px;font-weight:700}
+  .crd p{color:var(--gr);font-size:12px;margin-bottom:14px}
+  
+  .fg{margin-bottom:12px}
+  label{display:block;font-size:11px;font-weight:700;color:var(--tx);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+  input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid #DDD;border-radius:8px;font-size:13px;background:#fff;color:var(--tx);transition:all .2s;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--v4);box-shadow:0 0 0 3px var(--v9)}
+  
+  .btn{padding:11px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;transition:all .2s;text-decoration:none}
+  .btn-pry{background:linear-gradient(135deg,var(--v3),var(--v4));color:#fff}
+  .btn-pry:hover{background:linear-gradient(135deg,var(--v2),var(--v3));transform:translateY(-1px);box-shadow:0 4px 12px rgba(76,175,80,.2)}
+  .btn-pry:disabled{background:var(--v8);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-sec{border:2px solid var(--v4);background:transparent;color:var(--v4);margin-bottom:8px}
+  .btn-sec:hover{background:var(--v9)}
+  .btn-grp{display:flex;gap:8px}
+  .btn-grp .btn{flex:1}
+  
+  .err{color:#C62828;font-size:11px;margin-top:6px;display:none}
   .err.show{display:block}
-
-  /* ── Info row ── */
-  .info-row{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--verde-pale);border-radius:10px;font-size:13px;color:#1B5E20;margin-bottom:14px;border-left:4px solid var(--verde)}
-
-  /* ── Category grid ── */
-  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .cat-card{
-    border:2px solid var(--gris-brd);border-radius:14px;padding:16px 14px;cursor:pointer;
-    transition:all .3s;text-align:center;user-select:none;background:white
-  }
-  .cat-card:hover{border-color:var(--verde-lgt);background:var(--verde-pale);transform:translateY(-2px)}
-  .cat-card.selected{border-color:var(--morado-md);background:rgba(106, 27, 154, 0.08);box-shadow:0 0 0 3px rgba(106, 27, 154, 0.1)}
-  .cat-emoji{font-size:32px;margin-bottom:8px}
-  .cat-name{font-size:16px;font-weight:700;margin:6px 0 3px;color:var(--morado)}
-  .cat-desc{font-size:12px;color:#777}
-  .cat-pct{font-size:18px;font-weight:800;color:var(--verde);margin-top:8px}
-
-  /* ── Progress bar de monto ── */
-  .progress-container{margin-bottom:18px}
-  .progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:13px;font-weight:600}
-  .progress-bar{height:12px;background:#E0E0E0;border-radius:12px;overflow:hidden;position:relative}
-  .progress-fill{height:100%;background:linear-gradient(90deg, var(--verde), var(--verde-lgt));width:0%;transition:width .4s cubic-bezier(0.4, 0, 0.2, 1)}
-  .progress-fill.alto{background:linear-gradient(90deg, var(--morado), var(--morado-lgt))}
-  .progress-status{font-size:13px;font-weight:600;color:var(--texto);margin-top:8px;padding:8px 12px;background:var(--gris-bg);border-radius:8px}
-
-  /* ── Products ── */
-  .search-bar{width:100%;padding:11px 14px;border:2px solid var(--gris-brd);border-radius:10px;font-size:14px;margin-bottom:16px}
-  .search-bar:focus{outline:none;border-color:var(--morado-md)}
-  .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
-  .prod-card{
-    border:2px solid #EEEEEE;border-radius:14px;overflow:hidden;transition:all .3s;
-    background:white;display:flex;flex-direction:column
-  }
-  .prod-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.12);border-color:var(--morado-lgt)}
-  .prod-card.in-cart{border-color:var(--verde);background:var(--verde-pale)}
-  .prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:#F5F5F5;display:block}
-  .prod-no-img{width:100%;aspect-ratio:1;background:#F0F4F0;display:flex;align-items:center;justify-content:center;font-size:44px}
-  .prod-info{padding:10px 11px;flex:1;display:flex;flex-direction:column}
-  .prod-name{font-size:12px;font-weight:600;color:#333;margin-bottom:4px;line-height:1.3;flex:1}
-  .prod-price{font-size:15px;font-weight:800;color:var(--verde);margin-bottom:4px}
-  .prod-orig{font-size:11px;color:#AAA;text-decoration:line-through}
-  .qty-ctrl{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 10px;border-top:1px solid #F0F0F0;background:#FAFAFA}
-  .qty-btn{
-    width:32px;height:32px;border-radius:50%;border:2.5px solid var(--verde);background:white;
-    color:var(--verde);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;
-    justify-content:center;flex-shrink:0;transition:all .15s;font-weight:700
-  }
-  .qty-btn:hover{background:var(--verde);color:white;transform:scale(1.1)}
-  .qty-val{font-size:16px;font-weight:700;min-width:26px;text-align:center;color:var(--texto)}
-
-  /* ── Cart bar ── */
-  .cart-bar{
-    position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg, var(--verde) 0%, var(--verde-md) 100%);
-    color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
-    box-shadow:0 -3px 14px rgba(0,0,0,.2);z-index:300;transition:transform .3s
-  }
-  .cart-bar.hidden{transform:translateY(100%)}
-  .cart-info{flex:1}
-  .cart-count{font-size:12px;opacity:.85;margin-bottom:2px}
-  .cart-total{font-size:21px;font-weight:800}
-  .cart-cta{background:white;color:var(--verde);padding:11px 20px;border-radius:8px;font-weight:700;font-size:14px;border:none;cursor:pointer;white-space:nowrap;transition:all .2s}
-  .cart-cta:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-
-  /* ── Cart items ── */
-  .cart-items{background:white;border-radius:14px;padding:16px;margin-bottom:16px}
-  .cart-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-bottom:1px solid #F0F0F0;border-radius:8px;transition:all .2s}
-  .cart-item:hover{background:#FAFAFA}
-  .cart-item:last-child{border-bottom:none}
-  .cart-item-img{width:70px;height:70px;background:#F0F4F0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
-  .cart-item-details{flex:1}
-  .cart-item-name{font-weight:600;font-size:14px;margin-bottom:3px;color:#333}
-  .cart-item-price{font-size:12px;color:#888;margin-bottom:8px}
-  .cart-item-qty-ctrl{display:flex;gap:6px;align-items:center}
-  .cart-item-qty-btn{width:26px;height:26px;border:1px solid var(--verde);background:white;color:var(--verde);border-radius:4px;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s}
-  .cart-item-qty-btn:hover{background:var(--verde);color:white}
-  .cart-item-remove{background:transparent;border:none;color:#C62828;cursor:pointer;font-size:18px;padding:2px 4px;transition:all .2s}
-  .cart-item-remove:hover{color:#B71C1C;transform:scale(1.15)}
-  .cart-item-total{text-align:right;min-width:70px}
-  .cart-item-total-price{font-size:16px;font-weight:800;color:var(--verde)}
-
-  /* ── Summary ── */
-  .sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;margin-bottom:16px}
-  .sum-grid div{padding:12px;background:var(--gris-bg);border-radius:10px;border-left:4px solid var(--morado)}
-  .sum-grid div strong{display:block;font-size:11px;color:#888;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
-  .sum-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px}
-  .sum-table th{background:linear-gradient(135deg, var(--verde) 0%, var(--verde-md) 100%);color:white;padding:11px 12px;text-align:left;font-weight:700}
-  .sum-table td{padding:10px 12px;border-bottom:1px solid #F0F0F0}
-  .sum-table tbody tr:nth-child(even){background:#FAFAFA}
-  .sum-table tfoot td{font-weight:700;font-size:15px;background:linear-gradient(135deg, var(--verde-pale) 0%, rgba(106, 27, 154, 0.05) 100%);padding:14px 12px;border-top:2px solid var(--verde)}
-
-  /* ── Cupón ── */
-  .cupon-section{margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #E0E0E0}
-  .cupon-label{font-size:13px;font-weight:600;color:#555;margin-bottom:8px;display:block}
-  .cupon-input-group{display:flex;gap:8px}
-  .cupon-input{flex:1;padding:11px 13px;border:2px solid var(--gris-brd);border-radius:8px;font-size:13px}
-  .cupon-input:focus{outline:none;border-color:var(--morado-md);box-shadow:0 0 0 3px rgba(106, 27, 154, 0.1)}
-  .cupon-btn{padding:11px 16px;background:var(--morado-md);color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;white-space:nowrap}
-  .cupon-btn:hover{background:var(--morado);transform:translateY(-1px)}
-  .cupon-success{color:var(--verde);font-size:12px;margin-top:6px;font-weight:600}
-
-  /* ── Loading ── */
-  .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px}
-  .spinner{width:50px;height:50px;border:4px solid var(--verde-pale);border-top-color:var(--verde);border-radius:50%;animation:spin .8s linear infinite}
+  
+  .tst{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#fff;border-left:4px solid var(--v4);border-radius:8px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:9999;font-size:12px;max-width:90%;opacity:0;pointer-events:none;transition:all .3s}
+  .tst.show{opacity:1;pointer-events:auto}
+  
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .cat-card{border:2px solid #DDD;border-radius:10px;padding:12px;cursor:pointer;text-align:center;background:#fff;transition:all .3s}
+  .cat-card:hover{border-color:var(--v4);background:var(--v9)}
+  .cat-card.sel{border-color:var(--v0);background:linear-gradient(135deg,var(--v9),#fff);box-shadow:0 0 0 2px var(--v4)}
+  .cat-ico{font-size:28px;margin-bottom:6px}
+  .cat-nm{font-size:13px;font-weight:700;color:var(--v0);margin:4px 0 2px}
+  .cat-ds{font-size:10px;color:var(--gr);line-height:1.2}
+  .cat-pct{font-size:14px;font-weight:800;color:var(--v4);margin-top:4px}
+  
+  .prog{margin-bottom:14px}
+  .prog-lbl{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:6px}
+  .prog-bar{height:8px;background:#DDD;border-radius:8px;overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--v4),var(--v6));width:0%;transition:width .3s}
+  .prog-fill.high{background:linear-gradient(90deg,var(--v0),var(--v2))}
+  .prog-txt{font-size:11px;color:var(--gr);margin-top:8px;padding:8px;background:var(--v9);border-radius:6px}
+  
+  .srch{width:100%;padding:9px 12px;border:1.5px solid #DDD;border-radius:8px;font-size:12px;margin-bottom:10px}
+  .srch:focus{outline:none;border-color:var(--v4)}
+  
+  .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+  .prod-card{border:1.5px solid #DDD;border-radius:10px;overflow:hidden;background:#fff;transition:all .2s;display:flex;flex-direction:column;height:100%}
+  .prod-card:hover{border-color:var(--v4);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+  .prod-card.in-cart{border-color:var(--v0);background:var(--v9)}
+  .prod-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--v9)}
+  .prod-noimg{width:100%;aspect-ratio:1/1;background:var(--v9);display:flex;align-items:center;justify-content:center;font-size:32px}
+  .prod-info{padding:8px;flex:1;display:flex;flex-direction:column}
+  .prod-nm{font-size:10px;font-weight:600;margin-bottom:4px;line-height:1.2;flex:1}
+  .prod-pc{font-size:11px;margin-bottom:6px}
+  .prod-pr{font-size:13px;font-weight:800;color:var(--v0)}
+  .prod-orig{color:var(--gr);text-decoration:line-through;font-size:10px}
+  .qty-ctrl{display:flex;gap:4px;margin-top:auto}
+  .qty-btn{width:24px;height:24px;border:1.5px solid var(--v4);background:#fff;color:var(--v4);border-radius:50%;cursor:pointer;font-weight:700;font-size:12px;transition:all .2s;flex-shrink:0}
+  .qty-btn:hover{background:var(--v4);color:#fff}
+  .qty-val{flex:1;text-align:center;font-size:12px;font-weight:700}
+  
+  .cart-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--v0),var(--v1));color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 8px rgba(0,0,0,.15);z-index:200;transition:transform .3s}
+  .cart-bar.hd{transform:translateY(100%)}
+  .cart-inf{flex:1}
+  .cart-cnt{font-size:10px;opacity:.9}
+  .cart-tot{font-size:16px;font-weight:800}
+  .cart-btn{background:#fff;color:var(--v0);padding:9px 14px;border-radius:6px;border:none;cursor:pointer;font-weight:700;font-size:11px;transition:all .2s;white-space:nowrap}
+  .cart-btn:hover{transform:scale(1.05)}
+  
+  .sum-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px}
+  .sum-tbl th{background:var(--v0);color:#fff;padding:7px;text-align:left}
+  .sum-tbl td{padding:7px;border-bottom:1px solid #DDD}
+  .sum-tbl tbody tr:nth-child(even){background:var(--v9)}
+  .sum-tbl tfoot td{font-weight:700;background:linear-gradient(135deg,var(--v8),var(--v9));padding:9px}
+  
+  .cupon-sec{margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #DDD}
+  .cupon-grp{display:flex;gap:6px}
+  .cupon-inp{flex:1;padding:9px 12px;border:1.5px solid #DDD;border-radius:6px;font-size:12px}
+  .cupon-btn{padding:9px 12px;background:var(--v0);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;transition:all .2s;white-space:nowrap}
+  .cupon-btn:hover{background:var(--v2)}
+  .cupon-ok{color:var(--v0);font-size:10px;margin-top:4px;font-weight:700}
+  
+  .ld{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px}
+  .spin{width:36px;height:36px;border:3px solid var(--v9);border-top-color:var(--v0);border-radius:50%;animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-
-  /* ── Success ── */
-  .success-icon{width:80px;height:80px;background:var(--verde-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px}
-
-  /* ── TOAST ── */
-  .toast{
-    position:fixed;top:100px;left:50%;transform:translateX(-50%) translateY(-120px);
-    background:white;border-radius:12px;padding:14px 18px;box-shadow:var(--shadow-lg);
-    z-index:9999;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;color:#333;
-    max-width:90%;min-width:260px;border-left:5px solid var(--verde);opacity:0;pointer-events:none;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s;
-  }
-  .toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
-  .toast.error{border-left-color:#C62828}
-  .toast.warn{border-left-color:#F57C00}
-  .toast.success{border-left-color:var(--verde)}
-  .toast-icon{font-size:22px;line-height:1;flex-shrink:0}
-  .toast-msg{flex:1;line-height:1.35}
-
-  /* ── Empty state ── */
-  .empty-state{text-align:center;padding:60px 20px;color:#999}
-  .empty-state-icon{font-size:56px;margin-bottom:12px}
-  .empty-state-text{font-size:15px}
-
+  
+  .ok-ico{width:64px;height:64px;background:var(--v9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px}
+  
   @media(max-width:480px){
-    .cat-grid,
-    .sum-grid{grid-template-columns:1fr}
+    .cat-grid{grid-template-columns:repeat(2,1fr)}
     .prod-grid{grid-template-columns:repeat(2,1fr)}
-    .btn-group{flex-direction:column}
-    .header{padding:12px 14px}
-    .header img{height:48px}
-    .steps{padding:10px 8px;gap:4px}
-    .step-dot{width:32px;height:32px;font-size:11px}
-    .cart-item{flex-direction:column}
-    .cart-item-total{text-align:left}
+    .btn-grp{flex-direction:column}
+    .hdr{padding:12px}
+    .stps{gap:2px;font-size:10px}
+    .stp{width:26px;height:26px;font-size:9px}
   }
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
-<div id="toast" class="toast" role="status" aria-live="polite">
-  <span class="toast-icon" id="toastIcon">ℹ️</span>
-  <span class="toast-msg" id="toastMsg"></span>
+<div id="tst" class="tst"></div>
+
+<div class="hdr">
+  <img id="logo" src="" alt="NSN" style="display:none">
+  <h1>NSN Mayoristas</h1>
+  <p>Catálogo B2B</p>
 </div>
 
-<!-- HEADER -->
-<div class="header" id="mainHeader">
-  <img id="logoImg" src="" alt="NSN" style="display:none;max-width:100%">
-  <h1 id="bizName">Productos y Desarrollos NSN</h1>
-  <p id="bizPhone"></p>
+<div class="stps" id="stps" style="display:none">
+  <div class="stp act" id="s1">1</div>
+  <div class="stp" id="s2">2</div>
+  <div class="stp" id="s3">3</div>
+  <div class="stp" id="s4">4</div>
+  <div class="stp" id="s5">5</div>
+  <div class="stp" id="s6">6</div>
 </div>
 
-<!-- STEPS BAR -->
-<div class="steps" id="stepsBar" style="display:none">
-  <div class="step-dot active" id="dot1">1</div>
-  <div class="step-line" id="line1"></div>
-  <div class="step-dot" id="dot2">2</div>
-  <div class="step-line" id="line2"></div>
-  <div class="step-dot" id="dot3">3</div>
-  <div class="step-line" id="line3"></div>
-  <div class="step-dot" id="dot4">4</div>
-  <div class="step-line" id="line4"></div>
-  <div class="step-dot" id="dot5">5</div>
-</div>
-
-<!-- SCREEN: LOADING -->
-<div class="screen active" id="screenLoading">
-  <div class="loading">
-    <div class="spinner"></div>
-    <p style="color:#666;font-size:15px;font-weight:600">Cargando catálogo…</p>
+<!-- LOADING -->
+<div class="scr act" id="sc-ld">
+  <div class="ld">
+    <div class="spin"></div>
+    <p style="color:var(--gr);font-size:13px;font-weight:600">Cargando…</p>
   </div>
 </div>
 
-<!-- SCREEN: STEP 1 - EMAIL -->
-<div class="screen" id="screen1">
-  <div class="container">
-    <div class="card">
-      <h2>👋 ¡Bienvenido!</h2>
-      <p class="subtitle">Ingresa tu correo electrónico para comenzar tu pedido.</p>
+<!-- LOGIN -->
+<div class="scr" id="sc-1">
+  <div class="ctn">
+    <div class="crd">
+      <h2>👋 Bienvenido</h2>
+      <p>Ingresa tu correo electrónico</p>
       <div class="fg">
-        <label for="emailInput">Correo electrónico *</label>
-        <input type="email" id="emailInput" placeholder="tu@correo.com" autocomplete="email">
-        <div class="err" id="emailErr"></div>
+        <label>Correo *</label>
+        <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email">
+        <div class="err" id="e1"></div>
       </div>
-      <button class="btn btn-morado" id="btnEmail">Continuar →</button>
+      <button class="btn btn-pry" onclick="login()">Continuar →</button>
     </div>
   </div>
 </div>
 
-<!-- SCREEN: STEP 2 - CATEGORÍA -->
-<div class="screen" id="screen2">
-  <div class="container">
-    <div class="card">
-      <h2>🏷️ Categoría de Descuento</h2>
-      <p class="subtitle">Selecciona tu nivel para ver los precios correspondientes.</p>
-      <div class="info-row" id="vipAlert" style="display:none">
-        ⭐ Cliente frecuente detectado — categoría asignada automáticamente
-      </div>
-      <div class="cat-grid" id="catGrid"></div>
-      <div class="btn-group">
-        <button class="btn btn-back" id="btnBackCat">← Atrás</button>
-        <button class="btn btn-morado" id="btnCat">Continuar →</button>
+<!-- CATEGORÍA -->
+<div class="scr" id="sc-2">
+  <div class="ctn">
+    <div class="crd">
+      <h2>🏷️ Categoría</h2>
+      <p>Elige tu nivel de descuento</p>
+      <div class="cat-grid" id="cat-grid"></div>
+      <div class="btn-grp">
+        <button class="btn btn-sec" onclick="go(1)">← Atrás</button>
+        <button class="btn btn-pry" onclick="nxtcat()">Continuar →</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SCREEN: STEP 3 - PRODUCTOS -->
-<div class="screen" id="screen3">
-  <div class="container" style="padding-bottom:100px">
-    <div class="card">
-      <h2>🛍️ Catálogo de Productos</h2>
-      <p class="subtitle" id="catLabel">Selecciona los productos y cantidades.</p>
+<!-- PRODUCTOS -->
+<div class="scr" id="sc-3">
+  <div class="ctn" style="padding-bottom:90px">
+    <div class="crd">
+      <h2>🛍️ Catálogo</h2>
+      <p id="cat-info">Selecciona productos</p>
       
-      <div class="progress-container">
-        <div class="progress-label">
-          <span>Progreso de inversión</span>
-          <span id="progressPercent">0%</span>
+      <div class="prog">
+        <div class="prog-lbl">
+          <span>Inversión</span>
+          <span id="prog-pct">0%</span>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
+        <div class="prog-bar">
+          <div class="prog-fill" id="prog-fill"></div>
         </div>
-        <div class="progress-status">
-          Acumulado: <strong id="progressMonto">$0.00</strong> | Mínimo: <strong id="progressMin">$0.00</strong>
+        <div class="prog-txt">
+          Acumulado: <strong id="prog-amt">$0</strong> | Mínimo: <strong id="prog-min">$0</strong>
         </div>
       </div>
 
-      <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Buscar producto…">
-      <div class="prod-grid" id="prodGrid"></div>
+      <input type="text" class="srch" id="srch" placeholder="🔍 Buscar…" onkeyup="fsrch()">
+      <div class="prod-grid" id="prod-grid"></div>
     </div>
   </div>
 
-  <div class="cart-bar hidden" id="cartBar">
-    <div class="cart-info">
-      <div class="cart-count" id="cartCount">0 productos</div>
-      <div class="cart-total" id="cartTotal">$0.00</div>
+  <div class="cart-bar hd" id="cart-bar">
+    <div class="cart-inf">
+      <div class="cart-cnt" id="cart-cnt">0 productos</div>
+      <div class="cart-tot" id="cart-tot">$0</div>
     </div>
-    <button class="cart-cta" id="btnToInfo">Revisar pedido →</button>
-  </div>
-</div>
-
-<!-- SCREEN: STEP 4 - DATOS PERSONALES -->
-<div class="screen" id="screen4">
-  <div class="container">
-    <div class="card">
-      <h2>📋 Tus Datos Personales</h2>
-      <p class="subtitle">Ingresa tu información para el envío.</p>
-
-      <div class="fg">
-        <label for="inNombre">Nombre completo *</label>
-        <input type="text" id="inNombre" placeholder="Juan Pérez García" autocomplete="name">
-      </div>
-
-      <div class="fg">
-        <label for="inTel">Teléfono / WhatsApp *</label>
-        <input type="tel" id="inTel" placeholder="+52 331 234 5678" autocomplete="tel">
-      </div>
-
-      <div class="fg">
-        <label for="inCalle">Calle y número *</label>
-        <input type="text" id="inCalle" placeholder="Calle Morelos 456" autocomplete="street-address">
-      </div>
-
-      <div class="fg">
-        <label for="inColonia">Colonia / Barrio *</label>
-        <input type="text" id="inColonia" placeholder="Centro">
-      </div>
-
-      <div class="fg">
-        <label for="inCiudad">Ciudad *</label>
-        <input type="text" id="inCiudad" placeholder="Guadalajara, Jalisco">
-      </div>
-
-      <div class="fg">
-        <label for="inCP">Código Postal *</label>
-        <input type="text" id="inCP" placeholder="44100">
-      </div>
-
-      <div class="err" id="infoErr"></div>
-      
-      <div class="btn-group">
-        <button class="btn btn-back" id="btnBackInfo">← Atrás</button>
-        <button class="btn btn-morado" id="btnToSummary">Continuar →</button>
-      </div>
-    </div>
+    <button class="cart-btn" onclick="go(4)">Revisar →</button>
   </div>
 </div>
 
-<!-- SCREEN: STEP 5 - RESUMEN -->
-<div class="screen" id="screen5">
-  <div class="container">
-    <div class="card">
-      <h2>📄 Resumen del Pedido</h2>
-
-      <div class="info-row">📧 <span id="sumEmail"></span></div>
-      
-      <div class="sum-grid" id="sumGrid"></div>
-
-      <div class="cupon-section">
-        <label class="cupon-label">Código de cupón (opcional)</label>
-        <div class="cupon-input-group">
-          <input type="text" class="cupon-input" id="cuponInput" placeholder="Ingresa tu cupón">
-          <button class="cupon-btn" id="btnAplicarCupon">Aplicar</button>
-        </div>
-        <div class="cupon-success" id="cuponSuccess" style="display:none"></div>
+<!-- DATOS -->
+<div class="scr" id="sc-4">
+  <div class="ctn">
+    <div class="crd">
+      <h2>📋 Datos de Envío</h2>
+      <div class="fg">
+        <label>Nombre *</label>
+        <input type="text" id="nom" placeholder="Juan">
       </div>
+      <div class="fg">
+        <label>Apellido *</label>
+        <input type="text" id="ape" placeholder="Pérez">
+      </div>
+      <div class="fg">
+        <label>Teléfono *</label>
+        <input type="tel" id="tel" placeholder="+52 331 234 5678">
+      </div>
+      <div class="fg">
+        <label>Calle *</label>
+        <input type="text" id="cal" placeholder="Calle Morelos">
+      </div>
+      <div class="fg">
+        <label>Número *</label>
+        <input type="text" id="num" placeholder="456">
+      </div>
+      <div class="fg">
+        <label>Colonia *</label>
+        <input type="text" id="col" placeholder="Centro">
+      </div>
+      <div class="fg">
+        <label>Municipio *</label>
+        <input type="text" id="mun" placeholder="Guadalajara">
+      </div>
+      <div class="fg">
+        <label>Estado *</label>
+        <input type="text" id="est" placeholder="Jalisco">
+      </div>
+      <div class="fg">
+        <label>Código Postal *</label>
+        <input type="text" id="cp" placeholder="44100">
+      </div>
+      <div class="err" id="e4"></div>
+      <div class="btn-grp">
+        <button class="btn btn-sec" onclick="go(3)">← Atrás</button>
+        <button class="btn btn-pry" onclick="go(5)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <table class="sum-table">
-        <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Total</th></tr></thead>
-        <tbody id="sumItems"></tbody>
-        <tfoot><tr><td colspan="3" style="text-align:right">TOTAL</td><td id="sumTotal"></td></tr></tfoot>
+<!-- RESUMEN -->
+<div class="scr" id="sc-5">
+  <div class="ctn">
+    <div class="crd">
+      <h2>📄 Resumen</h2>
+      
+      <table class="sum-tbl">
+        <thead>
+          <tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Total</th></tr>
+        </thead>
+        <tbody id="sum-items"></tbody>
+        <tfoot>
+          <tr><td colspan="3" style="text-align:right">TOTAL</td><td id="sum-tot">$0</td></tr>
+        </tfoot>
       </table>
 
-      <div class="err" id="submitErr"></div>
+      <div class="cupon-sec">
+        <label style="display:block;margin-bottom:6px">Cupón (opcional)</label>
+        <div class="cupon-grp">
+          <input type="text" class="cupon-inp" id="cupon" placeholder="Código">
+          <button class="cupon-btn" onclick="aplyc()">Aplicar</button>
+        </div>
+        <div class="cupon-ok" id="cupon-ok"></div>
+      </div>
+
+      <div style="margin-bottom:10px;padding:10px;background:var(--v9);border-radius:6px;border-left:3px solid var(--v0)">
+        <label style="display:block;font-size:11px;font-weight:700;margin-bottom:6px">Método de Pago *</label>
+        <select id="pay" style="width:100%;padding:8px;border:1px solid #DDD;border-radius:6px;font-size:12px">
+          <option value="">Seleccionar...</option>
+          <option value="MP">Mercado Pago</option>
+          <option value="TRANS">Transferencia</option>
+          <option value="CONTRA">Contra Entrega</option>
+        </select>
+      </div>
+
+      <div class="err" id="e5"></div>
       
-      <div class="btn-group">
-        <button class="btn btn-back" id="btnBackSum">← Atrás</button>
-        <button class="btn btn-morado" id="btnSubmit">✅ Confirmar Pedido</button>
+      <div class="btn-grp">
+        <button class="btn btn-sec" onclick="go(4)">← Atrás</button>
+        <button class="btn btn-pry" onclick="sbmt()">✅ Confirmar</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SCREEN: SENDING -->
-<div class="screen" id="screenSending">
-  <div class="loading">
-    <div class="spinner"></div>
-    <p style="color:#444;font-weight:600;font-size:15px">Procesando tu pedido…</p>
-    <p style="color:#888;font-size:13px">Generando PDF y enviando confirmación.</p>
+<!-- ENVIANDO -->
+<div class="scr" id="sc-env">
+  <div class="ld">
+    <div class="spin"></div>
+    <p style="color:var(--v0);font-weight:600;font-size:13px">Procesando…</p>
+    <p style="color:var(--gr);font-size:11px">Generando PDF y confirmación</p>
   </div>
 </div>
 
-<!-- SCREEN: SUCCESS -->
-<div class="screen" id="screenOk">
-  <div class="container">
-    <div class="card" style="text-align:center">
-      <div class="success-icon">✅</div>
-      <h2 style="font-size:24px;color:var(--verde);margin-bottom:8px">¡Pedido Confirmado!</h2>
-      <p style="color:#666;margin:12px 0 24px;line-height:1.5">Tu pedido <strong id="okNum">#0001</strong> fue enviado exitosamente.<br>Recibirás un correo de confirmación con el PDF adjunto.</p>
+<!-- ÉXITO -->
+<div class="scr" id="sc-ok">
+  <div class="ctn">
+    <div class="crd" style="text-align:center">
+      <div class="ok-ico">✅</div>
+      <h2 style="font-size:18px;color:var(--v0);margin-bottom:8px">¡Pedido Confirmado!</h2>
+      <p style="color:var(--gr);margin-bottom:14px;line-height:1.4;font-size:12px">
+        Pedido <strong id="ok-num">#0001</strong> procesado.<br>
+        Recibirás confirmación por email.
+      </p>
 
-      <button class="btn btn-morado" id="btnPDF" style="margin-bottom:12px">📄 Descargar PDF</button>
-
-      <div id="mpSection" style="display:none">
-        <p style="margin:14px 0 10px;font-size:13px;color:#555;font-weight:600">¿Deseas proceder al pago?</p>
-        <button class="btn btn-mp" id="btnPay">💳 Pagar con MercadoPago</button>
+      <button class="btn btn-pry" id="btn-pdf" style="margin-bottom:8px">📄 Descargar PDF</button>
+      
+      <div id="mp-sec" style="display:none">
+        <button class="btn btn-pry" id="btn-mp" style="background:linear-gradient(135deg,#009EE3,#0077B6)">💳 Pagar</button>
       </div>
 
-      <p style="margin-top:20px;font-size:12px;color:#999">¿Dudas? Contáctanos al <strong id="okPhone"></strong></p>
+      <p style="margin-top:12px;font-size:10px;color:var(--gr)">
+        Dudas: <strong>3311333440</strong>
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-// ═════════════════════════════════════════════════════════════════
-//  CONFIGURACIÓN — REEMPLAZA CON TU URL DE GOOGLE APPS SCRIPT
-// ═════════════════════════════════════════════════════════════════
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHgohmk7JFfFqTQdmyuSVLuO4-s2cqoELar6OT2WnlJx88Psod8ZfnMNV7YbmEhSc2/exec';
+const API='https://script.google.com/macros/s/AKfycbz4bBVLzlgqmbfOx3wRfWt1jBPn_By2VgUrWc5aBazWH4X8bHhZXUiBL_jL6QtkcZ2z/exec';
 
-// ─────────────────────────────────────────────────────────────────
-//  API CALL
-// ─────────────────────────────────────────────────────────────────
-async function apiCall(action, data = {}) {
-  try {
-    const params = new URLSearchParams();
-    params.append('action', action);
-    params.append('data', JSON.stringify(data));
-    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, { method: 'POST', body: params });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error('apiCall error:', error);
-    showToast('❌ Error de conexión', 'error');
-    throw error;
+const S={em:'',cat:'',pd:[],cr:{},ref:'',cup:'',dcup:0,nom:'',ape:'',tel:'',cal:'',num:'',col:'',mun:'',est:'',cp:'',stp:0,ordn:0,pdfb64:null,mplink:null};
+const CATS=[{id:'Base',nm:'Base',ico:'🏷️',min:0,pct:0},{id:'25%',nm:'25%',ico:'⭐',min:1333,pct:25},{id:'Plata',nm:'Plata',ico:'🥈',min:4500,pct:45},{id:'Oro',nm:'Oro',ico:'🥇',min:12000,pct:52},{id:'Diamante',nm:'Diamante',ico:'💎',min:20000,pct:57}];
+
+async function api(act,d={}){
+  try{
+    const p=new URLSearchParams();p.append('action',act);p.append('data',JSON.stringify(d));
+    const r=await fetch(API,{method:'POST',body:p});
+    return await r.json();
+  }catch(e){
+    toast('Error conexión','err');throw e;
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-//  TOAST
-// ─────────────────────────────────────────────────────────────────
-const TOAST_ICONS = { success: '✅', error: '❌', warn: '⚠️', info: 'ℹ️' };
-let _toastTimer = null;
+function toast(m,t='info'){const el=document.getElementById('tst');el.textContent=m;el.className='tst show';setTimeout(()=>el.classList.remove('show'),3000);}
 
-function showToast(message, type = 'info', duration = 3500) {
-  const el = document.getElementById('toast');
-  const icon = document.getElementById('toastIcon');
-  const msg = document.getElementById('toastMsg');
-  icon.textContent = TOAST_ICONS[type] || TOAST_ICONS.info;
-  msg.textContent = message;
-  el.className = 'toast show ' + type;
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+async function init(){
+  try{
+    const d=await api('getInitialData',{});
+    if(!d.success){toast('Error cargando','err');return;}
+    S.pd=d.products||[];
+    if(d.logoB64){document.getElementById('logo').src=d.logoB64;document.getElementById('logo').style.display='block';}
+    buildcats();
+    go(1);
+  }catch(e){console.error(e);toast('Error init','err');}
 }
 
-// ─────────────────────────────────────────────────────────────────
-//  ESTADO GLOBAL
-// ─────────────────────────────────────────────────────────────────
-const S = {
-  step: 0, email: '', categoria: '', nombre: '', telefono: '',
-  calle: '', colonia: '', ciudad: '', cp: '',
-  isVip: false, products: [], discounts: {}, cart: {},
-  orderNum: null, pdfB64: null, payLink: null,
-  cupon: null, descuentoCupon: 0
-};
-
-const CATS = [
-  { id:'Minorista', emoji:'🛒', desc:'Inversión mínima $1,333' },
-  { id:'Plata', emoji:'🥈', desc:'Inversión inicial desde $4,500' },
-  { id:'Oro', emoji:'🥇', desc:'Inversión inicial desde $12,000' },
-  { id:'Diamante', emoji:'💎', desc:'Inversión inicial desde $20,000' },
-];
-
-const MÍNIMOS = { Minorista: 1333, Plata: 4500, Oro: 12000, Diamante: 20000 };
-
-// ─────────────────────────────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────────────────────────────
-window.addEventListener('load', async () => {
-  try {
-    const d = await apiCall('getInitialData');
-    if (!d.success) {
-      showToast('Error al cargar datos: ' + d.error, 'error', 5000);
-      return;
-    }
-    S.products = d.products;
-    S.discounts = d.discounts;
-    
-    if (d.logoB64) {
-      const img = document.getElementById('logoImg');
-      img.src = d.logoB64;
-      img.style.display = 'block';
-    }
-    
-    if (d.business) {
-      document.getElementById('bizName').textContent = d.business.name;
-      document.getElementById('bizPhone').textContent = d.business.phone;
-      document.getElementById('okPhone').textContent = d.business.phone;
-    }
-    
-    buildCats();
-    goStep(1);
-  } catch (error) {
-    console.error('Init error:', error);
-    showToast('Error de conexión: ' + error.message, 'error', 5000);
-  }
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  NAVEGACIÓN
-// ─────────────────────────────────────────────────────────────────
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
-}
-
-function goStep(n) {
-  S.step = n;
-  const bar = document.getElementById('stepsBar');
-  bar.style.display = (n >= 1 && n <= 5) ? 'flex' : 'none';
-
-  for (let i = 1; i <= 5; i++) {
-    const dot = document.getElementById('dot' + i);
-    dot.className = i < n ? 'step-dot done' : i === n ? 'step-dot active' : 'step-dot';
-    dot.textContent = i < n ? '✓' : i;
-    if (i < 5) {
-      const line = document.getElementById('line' + i);
-      line.className = i < n ? 'step-line done' : 'step-line';
-    }
-  }
-  show('screen' + n);
-}
-
-function $(id) { return document.getElementById(id); }
-
-// ─────────────────────────────────────────────────────────────────
-//  STEP 1 - EMAIL
-// ─────────────────────────────────────────────────────────────────
-$('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('btnEmail').click(); });
-
-$('btnEmail').addEventListener('click', async function() {
-  const email = $('emailInput').value.trim();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    $('emailErr').classList.add('show');
-    $('emailErr').textContent = 'Por favor ingresa un correo válido.';
-    return;
-  }
-  $('emailErr').classList.remove('show');
-  S.email = email;
-  this.disabled = true;
-  this.textContent = 'Verificando…';
-  const btn = this;
-
-  try {
-    const d = await apiCall('checkClientEmail', { email });
-    if (d.found) {
-      S.isVip = true;
-      S.categoria = d.categoria;
-      $('inNombre').value = d.nombre || '';
-      $('inTel').value = d.telefono || '';
-      $('inCalle').value = d.calle || '';
-      $('inColonia').value = d.colonia || '';
-      $('inCiudad').value = d.ciudad || '';
-      $('inCP').value = d.cp || '';
-      showToast('¡Bienvenido de nuevo!', 'success');
-    } else {
-      S.isVip = false;
-      S.categoria = '';
-    }
-    updateCatUI();
-    goStep(2);
-  } catch (error) {
-    S.isVip = false;
-    goStep(2);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Continuar →';
-  }
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  STEP 2 - CATEGORÍA
-// ─────────────────────────────────────────────────────────────────
-function buildCats() {
-  const grid = $('catGrid');
-  grid.innerHTML = '';
-  CATS.forEach(cat => {
-    const disc = S.discounts[cat.id] || 0;
-    const pct = Math.round(disc * 100);
-    const div = document.createElement('div');
-    div.className = 'cat-card';
-    div.dataset.cat = cat.id;
-    div.innerHTML = `<div class="cat-emoji">${cat.emoji}</div>
-      <div class="cat-name">${cat.id}</div>
-      <div class="cat-desc">${cat.desc}</div>
-      <div class="cat-pct">${pct}% Desc.</div>`;
-    div.addEventListener('click', function() {
-      document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
-      this.classList.add('selected');
-      S.categoria = this.dataset.cat;
-    });
-    grid.appendChild(div);
+function go(n){
+  S.stp=n;
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('act'));
+  const scs=['sc-ld','sc-1','sc-2','sc-3','sc-4','sc-5','sc-env','sc-ok'];
+  document.getElementById(scs[n]).classList.add('act');
+  
+  document.querySelectorAll('.stp').forEach((s,i)=>{
+    s.className='stp'+(i<n-1?' done':i===n-2?' act':'');
+    s.textContent=i<n-1?'✓':(i+2);
   });
-}
-
-function updateCatUI() {
-  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
-  if (S.isVip && S.categoria) {
-    $('vipAlert').style.display = 'flex';
-    const card = document.querySelector(`.cat-card[data-cat="${S.categoria}"]`);
-    if (card) card.classList.add('selected');
-  } else {
-    $('vipAlert').style.display = 'none';
-  }
-}
-
-$('btnBackCat').addEventListener('click', () => goStep(1));
-$('btnCat').addEventListener('click', () => {
-  if (!S.categoria) {
-    showToast('Por favor selecciona una categoría.', 'warn');
-    return;
-  }
-  buildProds();
-  const disc = S.discounts[S.categoria] || 0;
-  $('catLabel').textContent = `Categoría: ${S.categoria} (${Math.round(disc * 100)}% de descuento)`;
-  goStep(3);
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  STEP 3 - PRODUCTOS
-// ─────────────────────────────────────────────────────────────────
-function precio(p) {
-  const base = parseFloat(p.precioBase) || 0;
-  const disc = S.discounts[S.categoria] || 0;
-  return base * (1 - disc);
-}
-
-function buildProds() {
-  const grid = $('prodGrid');
-  grid.innerHTML = '';
-  S.products.forEach(p => grid.appendChild(mkCard(p)));
-  updCart();
-}
-
-function mkCard(p) {
-  const card = document.createElement('div');
-  card.className = 'prod-card';
-  card.id = 'pc-' + p.id;
-  card.dataset.name = (p.nombre || '').toLowerCase();
-  const qty = S.cart[p.id] || 0;
-  if (qty > 0) card.classList.add('in-cart');
-  const pr = precio(p);
+  document.getElementById('stps').style.display=n>=2&&n<=5?'flex':'none';
   
-  const imgHTML = p.fotoUrl
-    ? `<img class="prod-img" src="${p.fotoUrl}" alt="${p.nombre}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-    : '';
+  if(n===3)buildprod();
+  if(n===5)buildsum();
+  if(n===6)goupd();
+  window.scrollTo(0,0);
+}
+
+async function login(){
+  const em=document.getElementById('email').value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){show('e1','Email inválido');return;}
+  show('e1','');S.em=em;
   
-  card.innerHTML = `
-    ${imgHTML}
-    <div class="prod-no-img" ${p.fotoUrl ? 'style="display:none"' : ''}>💊</div>
-    <div class="prod-info">
-      <div class="prod-name">${p.nombre || 'Producto'}</div>
-      <div class="prod-price">$${pr.toFixed(2)}</div>
-      ${p.precioBase != pr ? `<div class="prod-orig">Base: $${p.precioBase}</div>` : ''}
-    </div>
-    <div class="qty-ctrl">
-      <button class="qty-btn" onclick="chgQty(${p.id},-1)">−</button>
-      <span class="qty-val" id="qv-${p.id}">${qty}</span>
-      <button class="qty-btn" onclick="chgQty(${p.id},1)">+</button>
+  const p=new URL(window.location).searchParams;S.ref=p.get('ref')||'';
+  
+  try{
+    const d=await api('checkClientEmail',{email:em});
+    if(d.found){S.nom=d.nombre||'';S.ape=d.apellido||'';S.tel=d.telefono||'';S.cal=d.calle||'';S.num=d.numero||'';S.col=d.colonia||'';S.mun=d.municipio||'';S.est=d.estado||'';S.cp=d.cp||'';S.cat=d.categoria||'';toast('Bienvenido','ok');}
+    go(2);
+  }catch(e){go(2);}
+}
+
+function buildcats(){
+  const g=document.getElementById('cat-grid');
+  g.innerHTML=CATS.map(c=>`<div class="cat-card" data-cat="${c.id}" onclick="S.cat='${c.id}';updatecat()">
+    <div class="cat-ico">${c.ico}</div><div class="cat-nm">${c.nm}</div><div class="cat-ds">Min: $${c.min.toLocaleString()}</div><div class="cat-pct">${c.pct}% desc.</div></div>`).join('');
+}
+
+function updatecat(){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('sel'));
+  if(S.cat)document.querySelector(`[data-cat="${S.cat}"]`).classList.add('sel');
+}
+
+function nxtcat(){
+  if(!S.cat){toast('Selecciona categoría','warn');return;}
+  go(3);
+}
+
+function buildprod(){
+  const cat=CATS.find(c=>c.id===S.cat);
+  document.getElementById('cat-info').textContent=`${cat.nm} (${cat.pct}% descuento)`;
+  
+  const h=S.pd.map(p=>{
+    const b=parseFloat(p.precioBase)||0;
+    const d=cat.pct/100;const f=Math.round(b*(1-d)*100)/100;const q=S.cr[p.id]||0;
+    return `<div class="prod-card ${q>0?'in-cart':''}" data-nm="${(p.nombre||'').toLowerCase()}">
+      ${p.fotoUrl?`<img src="${p.fotoUrl}" alt="${p.nombre}" class="prod-img" loading="lazy">`:'<div class="prod-noimg">📦</div>'}
+      <div class="prod-info">
+        <div class="prod-nm">${p.nombre||'Producto'}</div>
+        <div class="prod-pc"><div class="prod-pr">$${f.toFixed(2)}</div>${b!==f?`<div class="prod-orig">Base: $${b.toFixed(2)}</div>`:''}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="chqty(${p.id},-1)">−</button>
+          <div class="qty-val" id="q${p.id}">${q}</div>
+          <button class="qty-btn" onclick="chqty(${p.id},1)">+</button>
+        </div>
+      </div>
     </div>`;
-  return card;
+  }).join('');
+  
+  document.getElementById('prod-grid').innerHTML=h;updcrt();
 }
 
-function chgQty(id, d) {
-  const cur = S.cart[id] || 0;
-  const nxt = Math.max(0, cur + d);
-  if (nxt === 0) delete S.cart[id]; else S.cart[id] = nxt;
-  const el = $('qv-' + id);
-  if (el) el.textContent = nxt;
-  const card = $('pc-' + id);
-  if (card) nxt > 0 ? card.classList.add('in-cart') : card.classList.remove('in-cart');
-  updCart();
+function chqty(id,d){
+  const c=S.cr[id]||0;const nx=Math.max(0,c+d);
+  if(nx===0)delete S.cr[id];else S.cr[id]=nx;
+  document.getElementById('q'+id).textContent=nx;
+  document.querySelectorAll('.prod-card').forEach((c,i)=>{if(S.pd[i]&&S.pd[i].id===id)nx>0?c.classList.add('in-cart'):c.classList.remove('in-cart');});
+  updcrt();
 }
 
-function cartQty() { return Object.values(S.cart).reduce((a, b) => a + b, 0); }
-function cartTotal() {
-  return Object.entries(S.cart).reduce((t, [id, q]) => {
-    const p = S.products.find(x => x.id == id);
-    return t + (p ? precio(p) * q : 0);
-  }, 0);
+function updcrt(){
+  const cat=CATS.find(c=>c.id===S.cat);const d=cat.pct/100;const q=Object.values(S.cr).reduce((a,b)=>a+b,0);
+  const tot=Object.entries(S.cr).reduce((t,[id,q])=>{const p=S.pd.find(x=>x.id==id);return t+(p?Math.round(parseFloat(p.precioBase||0)*(1-d)*q*100)/100:0);},0);
+  const pct=Math.min((tot/cat.min)*100,100);
+  document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('prog-fill').className='prog-fill'+(pct>=80?' high':'');
+  document.getElementById('prog-pct').textContent=Math.round(pct)+'%';document.getElementById('prog-amt').textContent='$'+tot.toFixed(2);
+  document.getElementById('prog-min').textContent='$'+cat.min.toLocaleString();
+  const b=document.getElementById('cart-bar');
+  if(q>0){b.classList.remove('hd');document.getElementById('cart-cnt').textContent=q+' producto'+(q!==1?'s':'');document.getElementById('cart-tot').textContent='$'+tot.toFixed(2);}
+  else b.classList.add('hd');
 }
 
-function updCart() {
-  const q = cartQty();
-  const tot = cartTotal();
-  const bar = $('cartBar');
-  const min = MÍNIMOS[S.categoria] || 0;
-  const pct = Math.min((tot / min) * 100, 100);
-  
-  if (q > 0) {
-    bar.classList.remove('hidden');
-    $('cartCount').textContent = q + ' producto' + (q !== 1 ? 's' : '');
-    $('cartTotal').textContent = '$' + tot.toFixed(2);
-  } else {
-    bar.classList.add('hidden');
-  }
-
-  // Actualizar progress bar
-  const fillEl = $('progressFill');
-  fillEl.style.width = pct + '%';
-  if (pct >= 80) fillEl.classList.add('alto'); else fillEl.classList.remove('alto');
-  
-  $('progressPercent').textContent = Math.round(pct) + '%';
-  $('progressMonto').textContent = '$' + tot.toFixed(2);
-  $('progressMin').textContent = '$' + min.toLocaleString('es-MX');
+function fsrch(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  document.querySelectorAll('.prod-card').forEach(c=>{c.style.display=(c.dataset.nm||'').includes(q)?'':'none';});
 }
 
-$('searchBar').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  document.querySelectorAll('.prod-card').forEach(c => {
-    c.style.display = (c.dataset.name || '').includes(q) ? '' : 'none';
-  });
-});
-
-$('btnToInfo').addEventListener('click', () => {
-  if (cartQty() === 0) {
-    showToast('Selecciona al menos un producto.', 'warn');
-    return;
-  }
-  goStep(4);
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  STEP 4 - DATOS PERSONALES
-// ─────────────────────────────────────────────────────────────────
-$('btnBackInfo').addEventListener('click', () => goStep(3));
-$('btnToSummary').addEventListener('click', () => {
-  const nombre = $('inNombre').value.trim();
-  const tel = $('inTel').value.trim();
-  const calle = $('inCalle').value.trim();
-  const colonia = $('inColonia').value.trim();
-  const ciudad = $('inCiudad').value.trim();
-  const cp = $('inCP').value.trim();
-
-  if (!nombre || !tel || !calle || !colonia || !ciudad || !cp) {
-    $('infoErr').classList.add('show');
-    $('infoErr').textContent = 'Por favor completa todos los campos.';
-    showToast('Completa todos los campos.', 'warn');
-    return;
-  }
-  $('infoErr').classList.remove('show');
-  
-  S.nombre = nombre;
-  S.telefono = tel;
-  S.calle = calle;
-  S.colonia = colonia;
-  S.ciudad = ciudad;
-  S.cp = cp;
-  
-  buildSummary();
-  goStep(5);
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  STEP 5 - RESUMEN
-// ─────────────────────────────────────────────────────────────────
-function buildSummary() {
-  $('sumEmail').textContent = S.email;
-  $('sumGrid').innerHTML = `
-    <div><strong>Nombre</strong>${S.nombre}</div>
-    <div><strong>Categoría</strong>${S.categoria}</div>
-    <div><strong>Teléfono</strong>${S.telefono}</div>
-    <div><strong>Ciudad</strong>${S.ciudad}</div>`;
-
-  const tbody = $('sumItems');
-  tbody.innerHTML = '';
-  let total = 0;
-  Object.entries(S.cart).forEach(([id, qty]) => {
-    const p = S.products.find(x => x.id == id);
-    if (!p) return;
-    const pr = precio(p);
-    const sub = pr * qty;
-    total += sub;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${p.nombre}</td><td style="text-align:center">${qty}</td>
-      <td style="text-align:right">$${pr.toFixed(2)}</td>
-      <td style="text-align:right">$${sub.toFixed(2)}</td>`;
-    tbody.appendChild(tr);
-  });
-  
-  let totalConDesc = total;
-  if (S.cupon && S.descuentoCupon > 0) {
-    const desc = total * S.descuentoCupon;
-    totalConDesc = total - desc;
-  }
-  
-  $('sumTotal').textContent = '$' + totalConDesc.toFixed(2) + ' MXN';
+function buildsum(){
+  const cat=CATS.find(c=>c.id===S.cat);const d=cat.pct/100;const tb=document.getElementById('sum-items');tb.innerHTML='';let tot=0;
+  Object.entries(S.cr).forEach(([id,q])=>{const p=S.pd.find(x=>x.id==id);if(!p)return;const pr=Math.round(parseFloat(p.precioBase||0)*(1-d)*100)/100;const sub=pr*q;tot+=sub;
+    tb.innerHTML+=`<tr><td>${p.nombre}</td><td style="text-align:center">${q}</td><td style="text-align:right">$${pr.toFixed(2)}</td><td style="text-align:right">$${sub.toFixed(2)}</td></tr>`;});
+  if(S.dcup>0)tot=tot*(1-S.dcup);document.getElementById('sum-tot').textContent='$'+tot.toFixed(2);
 }
 
-$('btnAplicarCupon').addEventListener('click', async () => {
-  const cupon = $('cuponInput').value.trim();
-  if (!cupon) {
-    showToast('Ingresa un cupón.', 'warn');
-    return;
-  }
-  try {
-    const res = await apiCall('validarCupon', { email: S.email, cupon });
-    if (res.success) {
-      S.cupon = res.nombre;
-      S.descuentoCupon = res.descuento;
-      $('cuponSuccess').style.display = 'block';
-      $('cuponSuccess').textContent = `✅ Cupón aplicado: -${(res.descuento * 100).toFixed(0)}%`;
-      buildSummary();
-      showToast(`Cupón ${res.nombre} aplicado!`, 'success');
-    } else {
-      showToast('❌ ' + res.error, 'error');
-    }
-  } catch (err) {
-    showToast('Error validando cupón', 'error');
-  }
-});
+async function aplyc(){
+  const c=document.getElementById('cupon').value.trim();if(!c){toast('Ingresa cupón','warn');return;}
+  try{
+    const d=await api('validarCupon',{email:S.em,cupon:c});
+    if(d.success){S.cup=d.nombre;S.dcup=d.descuento;document.getElementById('cupon-ok').textContent='✅ Cupón: -'+(d.descuento*100).toFixed(0)+'%';buildsum();toast('Cupón aplicado','ok');}
+    else toast('❌ '+d.error,'err');
+  }catch(e){toast('Error cupón','err');}
+}
 
-$('btnBackSum').addEventListener('click', () => goStep(4));
+function sbmt(){
+  const n=document.getElementById('nom').value.trim();const ap=document.getElementById('ape').value.trim();const t=document.getElementById('tel').value.trim();
+  const ca=document.getElementById('cal').value.trim();const nm=document.getElementById('num').value.trim();const co=document.getElementById('col').value.trim();
+  const mu=document.getElementById('mun').value.trim();const es=document.getElementById('est').value.trim();const c=document.getElementById('cp').value.trim();
+  if(!n||!ap||!t||!ca||!nm||!co||!mu||!es||!c){show('e5','Completa todos');return;}
+  show('e5','');
+  S.nom=n;S.ape=ap;S.tel=t;S.cal=ca;S.num=nm;S.col=co;S.mun=mu;S.est=es;S.cp=c;
+  buildsum();sndord();
+}
 
-$('btnSubmit').addEventListener('click', async function() {
-  const items = Object.entries(S.cart).map(([id, qty]) => {
-    const p = S.products.find(x => x.id == id);
-    const pr = precio(p);
-    return {
-      nombre: p.nombre,
-      cantidad: qty,
-      precioUnitario: pr,
-      subtotal: pr * qty
-    };
-  });
+async function sndord(){
+  const cat=CATS.find(c=>c.id===S.cat);const d=cat.pct/100;
+  const items=Object.entries(S.cr).map(([id,q])=>{const p=S.pd.find(x=>x.id==id);const pr=Math.round(parseFloat(p.precioBase||0)*(1-d)*100)/100;
+    return{nombre:p.nombre,cantidad:q,precioUnitario:pr,subtotal:pr*q};});
+  const ord={email:S.em,nombre:S.nom,apellido:S.ape,telefono:S.tel,direccion:S.cal+' '+S.num+', '+S.col+', '+S.mun+', '+S.est+', '+S.cp,
+    categoria:S.cat,items,cupon:S.cup,metodo:document.getElementById('pay').value,referido:S.ref};
+  document.getElementById('stps').style.display='none';go(6);
+  try{
+    const res=await api('submitOrder',{orderData:ord});
+    if(!res.success){toast('Error: '+res.error,'err');go(5);return;}
+    S.ordn=res.orderNumber;S.pdfb64=res.pdfBase64;S.mplink=res.paymentLink;
+    document.getElementById('ok-num').textContent='#'+String(res.orderNumber).padStart(4,'0');
+    document.getElementById('btn-pdf').onclick=()=>dlpdf();
+    if(S.mplink){document.getElementById('mp-sec').style.display='block';document.getElementById('btn-mp').onclick=()=>window.open(S.mplink,'_blank');}
+    go(7);toast('¡Pedido confirmado!','ok');
+  }catch(e){console.error(e);document.getElementById('stps').style.display='flex';go(5);show('e5','Error');toast('Error conexión','err');}
+}
 
-  const orderData = {
-    email: S.email,
-    nombre: S.nombre,
-    telefono: S.telefono,
-    direccion: `${S.calle}, ${S.colonia}, ${S.ciudad}, ${S.cp}`,
-    categoria: S.categoria,
-    items,
-    cupon: S.cupon
-  };
+function dlpdf(){
+  if(!S.pdfb64){toast('PDF no disp.','err');return;}
+  const bytes=atob(S.pdfb64);const arr=new Uint8Array(bytes.length);for(let i=0;i<bytes.length;i++)arr[i]=bytes.charCodeAt(i);
+  const blob=new Blob([arr],{type:'application/pdf'});const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download='Pedido_'+String(S.ordn).padStart(4,'0')+'.pdf';document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);toast('Descargando…','ok');
+}
 
-  $('stepsBar').style.display = 'none';
-  show('screenSending');
-
-  try {
-    const res = await apiCall('submitOrder', { orderData });
-    if (!res.success) {
-      $('stepsBar').style.display = 'flex';
-      goStep(5);
-      $('submitErr').classList.add('show');
-      $('submitErr').textContent = 'Error: ' + res.error;
-      showToast('Error procesando pedido.', 'error', 5000);
-      return;
-    }
-
-    S.orderNum = res.orderNumber;
-    S.pdfB64 = res.pdfBase64;
-    S.payLink = res.paymentLink;
-    $('okNum').textContent = '#' + String(res.orderNumber).padStart(4, '0');
-
-    if (res.paymentLink) {
-      $('mpSection').style.display = 'block';
-      $('btnPay').onclick = () => window.open(res.paymentLink, '_blank');
-    }
-
-    show('screenOk');
-    showToast('¡Pedido confirmado!', 'success');
-  } catch (error) {
-    console.error('submitOrder error:', error);
-    $('stepsBar').style.display = 'flex';
-    goStep(5);
-    $('submitErr').classList.add('show');
-    $('submitErr').textContent = 'Error de conexión.';
-    showToast('Error de conexión.', 'error', 5000);
-  }
-});
-
-// ─────────────────────────────────────────────────────────────────
-//  DESCARGAR PDF
-// ─────────────────────────────────────────────────────────────────
-$('btnPDF').addEventListener('click', () => {
-  if (!S.pdfB64) {
-    showToast('PDF no disponible.', 'error');
-    return;
-  }
-  const bytes = atob(S.pdfB64);
-  const arr = new Uint8Array(bytes.length);
-  for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
-  const blob = new Blob([arr], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'Pedido_' + String(S.orderNum).padStart(4, '0') + '_NSN.pdf';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Descargando PDF…', 'info', 2000);
-});
+function goupd(){}function show(id,msg){const el=document.getElementById(id);if(msg){el.textContent=msg;el.classList.add('show');}else el.classList.remove('show');}
+document.getElementById('email').addEventListener('keypress',e=>{if(e.key==='Enter')login();});
+window.addEventListener('load',init);
 </script>
+
 </body>
 </html>
