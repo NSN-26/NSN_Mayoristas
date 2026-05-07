@@ -9,84 +9,72 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--light);color:var(--tx)}
 
-/* HEADER */
 .header{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));padding:16px;box-shadow:var(--shadow);position:sticky;top:0;z-index:40}
 .header-content{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px;padding:8px 0}
 .logo{width:50px;height:50px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,.15));animation:float 3s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .header-text{text-align:center}
-.header h1{color:#fff;font-size:20px;font-weight:900;margin:0;letter-spacing:-.5px}
+.header h1{color:#fff;font-size:20px;font-weight:900;margin:0}
 .header p{color:rgba(255,255,255,.95);font-size:12px;margin:4px 0 0;font-weight:600}
 
-/* CONTENEDOR */
 .container{max-width:1000px;margin:0 auto;padding:16px}
-
-/* STEPS */
 .step{display:none}
 .step.act{display:block;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* HEADER SECCION CATEGORIAS */
 .cat-header{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));padding:24px;border-radius:14px;color:#fff;margin-bottom:28px;text-align:center;box-shadow:0 6px 24px rgba(88,207,79,.25);width:40%;margin-left:auto;margin-right:auto}
-.cat-header h2{font-size:28px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px}
-.cat-header p{margin:0;opacity:.95;font-size:14px;font-weight:600}
+.cat-header h2{font-size:28px;font-weight:900;margin:0 0 8px}
+.cat-header p{margin:0;opacity:.95;font-size:14px;font-weight:600;color:#D4EDD7}
 
-/* CONTENEDOR CATEGORIAS */
 .cats-wrapper{background:linear-gradient(135deg,var(--c4),rgba(212,237,215,.5));padding:28px;border-radius:14px;border:2px solid rgba(88,207,79,.2);margin-bottom:24px;box-shadow:inset 0 2px 8px rgba(88,207,79,.05),var(--shadow);animation:containerIn .5s ease-out}
 @keyframes containerIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px}
-.cat{border:2px solid transparent;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;background:#fff;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(88,207,79,.1)}
+.cat{border:2px solid transparent;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;background:#fff;box-shadow:0 2px 8px rgba(88,207,79,.1)}
 .cat:hover{transform:translateY(-6px);border-color:var(--c1);box-shadow:0 8px 24px rgba(88,207,79,.25)}
 .cat.sel{border-color:var(--c1);background:linear-gradient(135deg,rgba(88,207,79,.1),rgba(79,207,134,.1));box-shadow:0 0 0 3px rgba(88,207,79,.2)}
 .cat-ico{font-size:36px;margin:8px 0 12px}
-.cat-nm{font-size:14px;font-weight:800;color:var(--tx);margin-bottom:6px}
+.cat-nm{font-size:14px;font-weight:800;margin-bottom:6px}
 .cat-info{font-size:11px;color:var(--gr);line-height:1.4}
 
-/* LOADING */
 .loading{display:none;text-align:center;padding:40px}
 .loading.show{display:block}
 .spinner{width:50px;height:50px;border:5px solid #e0e0e0;border-top-color:var(--c1);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* BÚSQUEDA */
 .search-box{margin-bottom:18px;position:relative}
 .search-box input{width:100%;padding:14px 16px 14px 40px;border:2px solid #ddd;border-radius:10px;font-size:13px;transition:all .3s}
 .search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px}
 .search-box input:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 4px rgba(88,207,79,.1)}
 
-/* CATÁLOGO */
 .cat-title{font-size:20px;font-weight:900;color:var(--tx);margin:20px 0 8px}
 .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:32px}
-.prod{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;border:1px solid transparent;display:flex;flex-direction:column}
-.prod:hover{transform:translateY(-6px);border-color:var(--c1);box-shadow:0 10px 30px rgba(88,207,79,.2)}
-.prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:#f0f0f0;display:block;transition:transform .3s}
-.prod:hover .prod-img{transform:scale(1.08)}
+.prod{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;display:flex;flex-direction:column}
+.prod:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(88,207,79,.2)}
+.prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:#f0f0f0;display:block}
 .prod-info{padding:14px;flex:1;display:flex;flex-direction:column}
 .prod-nm{font-size:12px;font-weight:700;margin-bottom:8px;min-height:32px;line-height:1.3}
 .prod-prices{margin-bottom:10px}
 .prod-pr-orig{font-size:10px;color:#999;text-decoration:line-through;margin-bottom:4px}
 .prod-pr{font-size:18px;font-weight:900;color:var(--c1)}
 .prod-qty{display:flex;gap:6px;align-items:center;margin-top:auto}
-.qty-btn{width:30px;height:30px;border:2px solid var(--c1);background:#fff;color:var(--c1);border-radius:50%;cursor:pointer;font-weight:800;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qty-btn{width:30px;height:30px;border:2px solid var(--c1);background:#fff;color:var(--c1);border-radius:50%;cursor:pointer;font-weight:800;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:var(--c1);color:#fff;transform:scale(1.15)}
 .qty-val{flex:1;text-align:center;font-size:13px;font-weight:800;min-width:32px}
 
-/* TOP BAR */
 .top-bar{position:sticky;top:64px;background:#fff;padding:12px 16px;box-shadow:var(--shadow);z-index:35;display:none;border-bottom:2px solid var(--c1)}
 .top-bar.show{display:flex;align-items:center;gap:16px;justify-content:space-between;max-width:968px;margin:0 auto}
 .prog{flex:1}
 .prog-label{font-size:10px;color:var(--gr);font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between}
 .prog-bar-bg{height:7px;background:#e0e0e0;border-radius:10px;overflow:hidden}
-.prog-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));width:0%;transition:width .4s;border-radius:10px}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));width:0%;transition:width .4s}
 .cart-icon{font-size:28px;cursor:pointer;position:relative;animation:float 3s ease-in-out infinite}
 .cart-icon:hover{transform:scale(1.15)}
 .cart-badge{position:absolute;top:-10px;right:-10px;background:#FF6B6B;color:#fff;border-radius:50%;width:24px;height:24px;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
 
-/* POPUP CARRITO */
 .cart-popup{position:fixed;top:150px;right:16px;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.15);width:340px;max-height:480px;display:none;flex-direction:column;z-index:1000;border:1px solid #e0e0e0}
 .cart-popup.show{display:flex}
 .cart-h{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:16px;font-weight:800;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:space-between;font-size:14px}
-.cart-h-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;opacity:.7;transition:opacity .2s}
+.cart-h-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;opacity:.7}
 .cart-h-close:hover{opacity:1}
 .cart-list{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
 .cart-item{padding:12px;border:1px solid #e0e0e0;border-radius:10px;background:linear-gradient(135deg,rgba(88,207,79,.05),rgba(79,207,134,.05));display:flex;gap:12px;align-items:stretch}
@@ -98,20 +86,18 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .cart-item-btns{display:flex;gap:4px}
 .qty-mini{width:24px;height:24px;border:1px solid var(--c1);background:#fff;color:var(--c1);border-radius:5px;cursor:pointer;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .qty-mini:hover{background:var(--c1);color:#fff;transform:scale(1.1)}
-.trash-ico{margin-left:auto;background:none;border:none;cursor:pointer;color:#e74c3c;font-size:14px;opacity:.7;transition:opacity .2s;padding:4px}
+.trash-ico{margin-left:auto;background:none;border:none;cursor:pointer;color:#e74c3c;font-size:14px;opacity:.7;padding:4px}
 .trash-ico:hover{opacity:1}
 .cart-tot{padding:14px;border-top:2px solid #e0e0e0;background:linear-gradient(135deg,rgba(88,207,79,.08),rgba(79,207,134,.08));font-weight:800;text-align:right;color:var(--c1);border-radius:0 0 14px 14px}
 
-/* FORM */
 .form-sec{background:#fff;padding:20px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:20px;border:1px solid #e0e0e0}
 .form-sec h2{font-size:18px;font-weight:900;color:var(--c1);margin-bottom:18px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
 label{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:5px;text-transform:uppercase}
-input,select{padding:11px;border:2px solid #ddd;border-radius:8px;font-size:13px;transition:all .3s;font-weight:600}
+input,select{padding:11px;border:2px solid #ddd;border-radius:8px;font-size:13px;transition:all .3s;width:100%}
 input:focus,select:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(88,207,79,.1)}
 input.err{border-color:#e74c3c;background:#ffebee}
 
-/* BOTONES */
 .btn{padding:13px 22px;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;transition:all .3s;text-transform:uppercase;width:100%;letter-spacing:.4px;height:48px;display:flex;align-items:center;justify-content:center}
 .btn-main{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));color:#fff;box-shadow:0 4px 15px rgba(88,207,79,.2)}
 .btn-main:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(88,207,79,.3)}
@@ -119,22 +105,19 @@ input.err{border-color:#e74c3c;background:#ffebee}
 .btn-grp{display:flex;gap:10px;margin-top:20px}
 .btn-grp .btn{flex:1}
 
-/* RESUMEN ÚNICO CONTENEDOR */
 .info-container{background:linear-gradient(135deg,rgba(88,207,79,.08),rgba(79,207,134,.08));padding:20px;border-radius:12px;border:1px solid rgba(88,207,79,.2);margin-bottom:20px;font-size:13px;line-height:1.7}
 .info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(88,207,79,.1)}
 .info-row:last-child{border-bottom:none}
 .info-label{font-weight:800;color:var(--c1);min-width:120px}
 .info-value{color:var(--tx);font-weight:700}
 
-/* TABLA */
 .sum-tbl{width:100%;border-collapse:collapse;font-size:12px}
 .sum-tbl th{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:11px;text-align:left;font-weight:800}
 .sum-tbl td{padding:9px;border-bottom:1px solid #eee}
 .sum-tbl tbody tr:nth-child(even){background:#f9f9f9}
 .sum-tbl tfoot{background:linear-gradient(135deg,rgba(88,207,79,.1),rgba(79,207,134,.1));font-weight:800}
 
-/* CUPON */
-.cupon-sec{background:#fff;padding:16px;border-radius:10px;border-left:3px solid var(--c1);margin-bottom:16px;border:1px solid #e0e0e0;border-left:3px solid var(--c1)}
+.cupon-sec{background:#fff;padding:16px;border-radius:10px;border-left:3px solid var(--c1);margin-bottom:16px;border:1px solid #e0e0e0}
 .cupon-grp{display:flex;gap:10px;margin-top:10px}
 .cupon-inp{flex:1;padding:10px;border:2px solid #ddd;border-radius:8px;font-size:13px;transition:all .3s}
 .cupon-inp:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(88,207,79,.1)}
@@ -142,53 +125,44 @@ input.err{border-color:#e74c3c;background:#ffebee}
 .cupon-btn:hover{background:var(--c2);transform:translateY(-2px)}
 .cupon-ok{color:var(--c1);font-size:11px;margin-top:8px;font-weight:800}
 
-/* MODAL */
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000}
 .modal.show{display:flex}
 .modal-box{background:#fff;border-radius:15px;padding:36px;text-align:center;max-width:450px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.modal-ico{font-size:70px;margin-bottom:20px;animation:bounce .6s cubic-bezier(.34,.1,.68,.55)}
+.modal-ico{font-size:70px;margin-bottom:20px;animation:bounce .6s}
 @keyframes bounce{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 .modal h2{font-size:24px;font-weight:900;color:var(--c1);margin-bottom:12px}
 .modal p{color:var(--gr);margin-bottom:16px;line-height:1.7;font-weight:600}
 
-/* MODAL PROCESANDO */
 .modal-processing{text-align:center}
 .modal-spinner{width:60px;height:60px;border:6px solid #e0e0e0;border-top-color:var(--c1);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
-.modal-processing p{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:8px}
-.modal-processing small{color:var(--gr);font-size:12px}
 
-/* RESPONSIVE */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#fff;border-left:4px solid var(--c1);padding:13px 18px;border-radius:9px;box-shadow:var(--shadow);z-index:9999;opacity:0;transition:all .3s;font-size:12px;font-weight:700;pointer-events:none}
+.toast.show{opacity:1;pointer-events:auto}
+.toast.err{border-left-color:#e74c3c}
+
 @media(max-width:768px){
 .header-content{flex-direction:column;gap:8px}
 .logo{width:40px}
-.cat-header{width:100%;padding:16px}
-.cats{grid-template-columns:repeat(2,1fr);gap:12px}
-.prod-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.cat-header{width:100%}
+.cats{grid-template-columns:repeat(2,1fr)}
+.prod-grid{grid-template-columns:repeat(2,1fr)}
 .cart-popup{width:300px;right:8px}
-.btn{height:44px;font-size:12px}
 }
 
 @media(max-width:480px){
 .container{padding:12px}
-.form-sec{padding:14px}
 .header h1{font-size:14px}
 .header p{font-size:11px}
 .cats{grid-template-columns:1fr}
 .prod-grid{grid-template-columns:1fr}
 }
-
-/* TOAST */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#fff;border-left:4px solid var(--c1);padding:13px 18px;border-radius:9px;box-shadow:var(--shadow);z-index:9999;opacity:0;transition:all .3s;font-size:12px;font-weight:700;pointer-events:none}
-.toast.show{opacity:1;pointer-events:auto}
-.toast.err{border-left-color:#e74c3c}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-content">
-    <img id="logo" class="logo" style="display:none" alt="NSN">
+    <img id="logo" class="logo" alt="NSN">
     <div class="header-text">
       <h1>NSN Mayoristas</h1>
       <p>Catálogo Premium B2B</p>
@@ -196,10 +170,8 @@ input.err{border-color:#e74c3c;background:#ffebee}
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
-<!-- TOP BAR -->
 <div class="top-bar" id="topBar">
   <div class="prog">
     <div class="prog-label"><span>Inversión Mínima</span><span id="progPct">0%</span></div>
@@ -213,7 +185,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
   </div>
 </div>
 
-<!-- POPUP CARRITO -->
 <div class="cart-popup" id="cartPopup">
   <div class="cart-h">
     <span>🛒 Mi Carrito</span>
@@ -223,10 +194,8 @@ input.err{border-color:#e74c3c;background:#ffebee}
   <div class="cart-tot" id="cartTot">Total: $0.00</div>
 </div>
 
-<!-- MAIN -->
 <div class="container">
 
-  <!-- STEP 1: EMAIL -->
   <div id="s1" class="step act">
     <div class="form-sec" style="max-width:420px;margin:50px auto">
       <h2 style="text-align:center;margin-bottom:24px">Ingresa tu Email</h2>
@@ -238,7 +207,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
     </div>
   </div>
 
-  <!-- STEP 2: CATEGORÍAS -->
   <div id="s2" class="step">
     <div class="cat-header">
       <h2>Elige tu Categoría</h2>
@@ -255,7 +223,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
     </div>
   </div>
 
-  <!-- STEP 3: CATÁLOGO -->
   <div id="s3" class="step">
     <h2 class="cat-title" id="catTitle">Catálogo</h2>
     
@@ -276,7 +243,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
     </div>
   </div>
 
-  <!-- STEP 4: DATOS + RESUMEN -->
   <div id="s4" class="step">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
       <div class="form-sec">
@@ -317,7 +283,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
     </div>
   </div>
 
-  <!-- STEP 5: FINAL -->
   <div id="s5" class="step">
     <div class="form-sec">
       <h2>Verifica tu Información</h2>
@@ -349,7 +314,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
 
 </div>
 
-<!-- MODAL PROCESANDO -->
 <div class="modal" id="procesandoModal">
   <div class="modal-box modal-processing">
     <div class="modal-spinner"></div>
@@ -358,7 +322,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
   </div>
 </div>
 
-<!-- MODAL ÉXITO -->
 <div class="modal" id="okModal">
   <div class="modal-box">
     <div class="modal-ico">✅</div>
@@ -374,7 +337,54 @@ input.err{border-color:#e74c3c;background:#ffebee}
 </div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbyLxCzQwpV_LXc9uPQLQW91urqitMLb_dPIgmXOrUeecAmnt10mbyd6FlHv0uDfw0kM/exec';
+const API='https://script.google.com/macros/s/AKfycbxQkrLzUvtO2Ne4CcgYm6BrK2q1xP9gtfVAx9NSekj0kodPw5sWUzBufJibJnDbmu95/exec';
+
+const IMAGENES={
+  'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
+  'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w400',
+  'B - yeast':'https://drive.google.com/thumbnail?id=1_W7eG37p9iFkNQJMzseZ2X1mczObiyVy&sz=w400',
+  'BCAA\'s':'https://drive.google.com/thumbnail?id=1KkJz-3Ee54aV3W_lbuWpfkF9eg9KLduQ&sz=w400',
+  'Bisglicinato Zinc':'https://drive.google.com/thumbnail?id=1IzZaMl5ppBigi9CgcIZ-ZIKVKzc1I80O&sz=w400',
+  'Brilliant':'https://drive.google.com/thumbnail?id=1IYDkbVXnlwQwvazyd7m7DjC5d6yLoUmC&sz=w400',
+  'Calcio':'https://drive.google.com/thumbnail?id=1UMkkRQZbAP6uWl31jhfE5PxksFY8Izec&sz=w400',
+  'Circulation':'https://drive.google.com/thumbnail?id=1YtqC6UNI9mHlBNY7t9iDMXxofb3y6rES&sz=w400',
+  'Citrato Magnesio':'https://drive.google.com/thumbnail?id=1tD645HLs0pH0ODxRYrHhWzdMJnB0hV2F&sz=w400',
+  'Clear Viu':'https://drive.google.com/thumbnail?id=1yVy0Ayz8-_8QWkeNXdzpnX5HR_OC7At9&sz=w400',
+  'Creatina':'https://drive.google.com/thumbnail?id=1_i_B71sHqPVvtia-tp3pRUpJ86XrShK8&sz=w400',
+  'Dreams':'https://drive.google.com/thumbnail?id=1fkHK9Yr1JlkPijjhVqmjeMEZhC8ZI2BI&sz=w400',
+  'Iced Coffe protein':'https://drive.google.com/thumbnail?id=1uD7c3MmH8-0v0yooeORm6CPmVvCHt7Rc&sz=w400',
+  'Glicinato Magnesio - 100':'https://drive.google.com/thumbnail?id=10mNoGTW0D51FP3SmNNihLgfcEmdOpCbp&sz=w400',
+  'Glicinato Magnesio - 200':'https://drive.google.com/thumbnail?id=1QMcsqu0nGejG9E3DRZzDnPdpupkN2oWK&sz=w400',
+  'Magnesio Complex - 100':'https://drive.google.com/thumbnail?id=1UL0vejH5cduRd2uG3jHh9WtUXu7hKCyg&sz=w400',
+  'Magnesio Complex - 200':'https://drive.google.com/thumbnail?id=1e3Y4ngwrpRmoXCOYnHWTYyNWlpWEr9na&sz=w400',
+  'Magnesio Elemental COMPLEX':'https://drive.google.com/thumbnail?id=1VqzSB3UCaxK4drdbpaTxOmCxgaiywbZM&sz=w400',
+  'MCT`s':'https://drive.google.com/thumbnail?id=1RouwT54sfgxnVqufaFtFtRCNUOBx-fnK&sz=w400',
+  'Mg + K':'https://drive.google.com/thumbnail?id=16WcUJHLFrKMEArNAvte6R377TgpWbKER&sz=w400',
+  'Milk Thistle':'https://drive.google.com/thumbnail?id=1z3RltqCSZayO0SaqXrypDlmQ4nM-T66u&sz=w400',
+  'Performance':'https://drive.google.com/thumbnail?id=1ipRVt1n-ZpXvbhxtuI7mCLUvuJahyv00&sz=w400',
+  'Potasio':'https://drive.google.com/thumbnail?id=14Dj9lcBLaCRVg75UYwFr8QJ5jtE2b6KS&sz=w400',
+  'Probioticos Men':'https://drive.google.com/thumbnail?id=1lLj-5ZNnKtGrBBfK84zXw7NezJSqOrVb&sz=w400',
+  'Probiotics Women':'https://drive.google.com/thumbnail?id=13ISHZxcMEhlChCMFfTzTzSriBZ1GNz1x&sz=w400',
+  'Silver Men':'https://drive.google.com/thumbnail?id=1CVDoaanpO-evl5tB_rg1PngZAP0X9Whd&sz=w400',
+  'Treonato':'https://drive.google.com/thumbnail?id=11iQjXJtYdz6yjspn4Pcg4ElmqqvkYw7_&sz=w400',
+  'Ultra Magnesio':'https://drive.google.com/thumbnail?id=17tBapIsiareluaV_18iTNbuo-1LL_wwL&sz=w400',
+  'Ultra Probiotics':'https://drive.google.com/thumbnail?id=1BP31PVgKYtJgBDF8fzbKn-6_zmASsdOO&sz=w400',
+  'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w400',
+  'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w400',
+  'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w400',
+  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAUUk&sz=w400',
+  'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w400',
+  'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w400',
+  'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w400',
+  'vitamina B12 Liposomal':'https://drive.google.com/thumbnail?id=12WkL6b1EFLTUXxEXpo_pEuJA9F4U6CNW&sz=w400',
+  'vitamina C Liposomal':'https://drive.google.com/thumbnail?id=1rGAAYbW9sNWtME4TDkPU4FVZKpwhPFfT&sz=w400',
+  'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w400',
+  'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w400',
+  'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w400',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
+  'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w400'
+};
+
 const S={email:'',cat:'base',prod:[],carrito:{},total:0,min:0,cupon:'',descuentoCupon:0};
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.className='toast show'+(m.includes('❌')?' err':'');setTimeout(()=>t.classList.remove('show'),3200)}
@@ -387,7 +397,7 @@ function makeCats(){const cats=[{id:'base',nm:'Base',ico:'📦',min:0,desc:'Sin 
 
 function setCat(b){document.querySelectorAll('.cat').forEach(c=>c.classList.remove('sel'));b.classList.add('sel')}
 
-async function loadCat(){try{document.getElementById('loading').classList.add('show');const d=await api('getCatalog',{categoria:S.cat});if(!d.success)throw d.error;S.prod=d.productos;S.min=d.minimoInversion;const t={base:'Base',['25%']:'Plata Light',plata:'Plata',oro:'Oro',diamante:'Diamante'}[S.cat];document.getElementById('catTitle').innerHTML=`${t} - ${d.descuentoPct}% descuento`;setTimeout(()=>{const h=d.productos.map(p=>{const q=S.carrito[p.id]||0;return `<div class="prod" data-nm="${(p.nombre||'').toLowerCase()}"><img src="${p.fotoUrl||'data:image/svg+xml,%3Csvg%3E%3C/svg%3E'}" class="prod-img" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div style=\\'width:100%25;aspect-ratio:1;background:%23f0f0f0;display:flex;align-items:center;justify-content:center;font-size:48px\\'>📦</div>')"><div class="prod-info"><div class="prod-nm">${p.nombre}</div><div class="prod-prices"><div class="prod-pr-orig">$${p.precioBase.toFixed(2)}</div><div class="prod-pr">$${p.precioFinal}</div></div><div class="prod-qty"><button class="qty-btn" onclick="addQty(${p.id},-1)">−</button><input class="qty-val" id="q${p.id}" value="${q}" readonly><button class="qty-btn" onclick="addQty(${p.id},1)">+</button></div></div></div>`}).join('');document.getElementById('prodGrid').innerHTML=h;document.getElementById('loading').classList.remove('show');updProg()},200);}catch(e){toast('❌ '+e.message);document.getElementById('loading').classList.remove('show')}}
+async function loadCat(){try{document.getElementById('loading').classList.add('show');const d=await api('getCatalog',{categoria:S.cat});if(!d.success)throw d.error;S.prod=d.productos;S.min=d.minimoInversion;const t={base:'Base',['25%']:'Plata Light',plata:'Plata',oro:'Oro',diamante:'Diamante'}[S.cat];document.getElementById('catTitle').innerHTML=`${t} - ${d.descuentoPct}% descuento`;setTimeout(()=>{const h=d.productos.map(p=>{const q=S.carrito[p.id]||0;const img=IMAGENES[p.nombre.trim()]||'';return `<div class="prod" data-nm="${(p.nombre||'').toLowerCase()}"><img src="${img}" class="prod-img" loading="lazy" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div style=\\'width:100%25;aspect-ratio:1;background:%23f0f0f0;display:flex;align-items:center;justify-content:center;font-size:48px\\'>📦</div>')"><div class="prod-info"><div class="prod-nm">${p.nombre}</div><div class="prod-prices"><div class="prod-pr-orig">$${p.precioBase.toFixed(2)}</div><div class="prod-pr">$${p.precioFinal}</div></div><div class="prod-qty"><button class="qty-btn" onclick="addQty(${p.id},-1)">−</button><input class="qty-val" id="q${p.id}" value="${q}" readonly><button class="qty-btn" onclick="addQty(${p.id},1)">+</button></div></div></div>`}).join('');document.getElementById('prodGrid').innerHTML=h;document.getElementById('loading').classList.remove('show');updProg()},200);}catch(e){toast('❌ '+e.message);document.getElementById('loading').classList.remove('show')}}
 
 function addQty(id,d){const q=(S.carrito[id]||0)+d;if(q<=0)delete S.carrito[id];else S.carrito[id]=q;document.getElementById('q'+id).value=S.carrito[id]||0;updProg();updCart()}
 
@@ -395,7 +405,7 @@ function searchProds(){const q=document.getElementById('searchInp').value.toLowe
 
 function updProg(){let tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p)tot+=p.precioFinal*q});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);S.total=finalTot;const pct=S.min>0?Math.min((tot/S.min)*100,100):0;document.getElementById('progBar').style.width=pct+'%';document.getElementById('progPct').textContent=Math.round(pct)+'%';document.getElementById('cartTotal').textContent='$'+finalTot.toFixed(2);const cnt=Object.values(S.carrito).reduce((a,b)=>a+b,0);const b=document.getElementById('cartBadge');if(cnt>0){b.style.display='flex';b.textContent=cnt}else b.style.display='none'}
 
-function updCart(){let h='';let tot=0;const hasItems=Object.keys(S.carrito).length>0;if(!hasItems){document.getElementById('cartList').innerHTML='<div style="text-align:center;color:var(--gr);padding:30px;font-size:12px;font-weight:700">Tu carrito está vacío</div>';document.getElementById('cartTot').textContent='Total: $0.00';return}Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){tot+=p.precioFinal*q;h+=`<div class="cart-item"><img src="${p.fotoUrl||'data:image/svg+xml,%3Csvg%3E%3C/svg%3E'}" class="cart-item-img" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'width:60px;height:60px;background:%23f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px\\'>📦</div>')"><div class="cart-item-info"><div class="cart-item-nm">${p.nombre}</div><div class="cart-item-qty">$${p.precioFinal} ×${q}</div><div class="cart-item-btns"><button class="qty-mini" onclick="addQty(${id},-1)">−</button><button class="qty-mini" onclick="addQty(${id},1)">+</button></div></div><button class="trash-ico" onclick="addQty(${id},-${q})">🗑️</button></div>`}});document.getElementById('cartList').innerHTML=h;let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('cartTot').textContent='Total: $'+finalTot.toFixed(2)}
+function updCart(){let h='';let tot=0;const hasItems=Object.keys(S.carrito).length>0;if(!hasItems){document.getElementById('cartList').innerHTML='<div style="text-align:center;color:var(--gr);padding:30px;font-size:12px;font-weight:700">Tu carrito está vacío</div>';document.getElementById('cartTot').textContent='Total: $0.00';return}Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){tot+=p.precioFinal*q;const img=IMAGENES[p.nombre.trim()]||'';h+=`<div class="cart-item"><img src="${img}" class="cart-item-img" loading="lazy" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'width:60px;height:60px;background:%23f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px\\'>📦</div>')"><div class="cart-item-info"><div class="cart-item-nm">${p.nombre}</div><div class="cart-item-qty">$${p.precioFinal} ×${q}</div><div class="cart-item-btns"><button class="qty-mini" onclick="addQty(${id},-1)">−</button><button class="qty-mini" onclick="addQty(${id},1)">+</button></div></div><button class="trash-ico" onclick="addQty(${id},-${q})">🗑️</button></div>`}});document.getElementById('cartList').innerHTML=h;let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('cartTot').textContent='Total: $'+finalTot.toFixed(2)}
 
 function toggleCart(){document.getElementById('cartPopup').classList.add('show')}
 
@@ -413,7 +423,9 @@ function makeReview(){let h='',tot=0;Object.entries(S.carrito).forEach(([id,q])=
 
 async function enviar(){const campos=['nom','ape','tel','cal','num','col','mun','est','cp'];let falta=false;campos.forEach(c=>{const v=document.getElementById(c).value.trim();if(!v){document.getElementById(c).classList.add('err');falta=true}else document.getElementById(c).classList.remove('err')});if(falta){document.getElementById('formErr').style.display='block';toast('❌ Complete todos los campos');return}document.getElementById('formErr').style.display='none';const items=Object.entries(S.carrito).map(([id,q])=>{const p=S.prod.find(x=>x.id==id);return{nombre:p.nombre,cantidad:q}});if(items.length===0){toast('❌ Carrito vacío');return}document.getElementById('procesandoModal').classList.add('show');try{const d=await api('submitOrder',{email:S.email,nombre:document.getElementById('nom').value,apellido:document.getElementById('ape').value,telefono:document.getElementById('tel').value,calle:document.getElementById('cal').value,numero:document.getElementById('num').value,colonia:document.getElementById('col').value,municipio:document.getElementById('mun').value,estado:document.getElementById('est').value,cp:document.getElementById('cp').value,categoria:S.cat,items,cupon:S.cupon,descuentoCupon:S.descuentoCupon});if(!d.success){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+d.error);return}document.getElementById('procesandoModal').classList.remove('show');document.getElementById('okNum').textContent='#'+d.noPedido;if(d.mpLink){document.getElementById('mpSection').style.display='block';document.getElementById('mpBtn').onclick=()=>window.open(d.mpLink,'_blank')}document.getElementById('okModal').classList.add('show');toast('✅ ¡Pedido confirmado!')}catch(e){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+e.message)}}
 
-window.addEventListener('load',()=>{makeCats()});
+async function loadLogo(){try{const d=await api('getLogo',{});if(d.success&&d.logo)document.getElementById('logo').src=d.logo}catch(e){console.log('Logo error')}}
+
+window.addEventListener('load',()=>{makeCats();loadLogo()});
 </script>
 
 </body>
