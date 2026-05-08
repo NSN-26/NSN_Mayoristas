@@ -22,9 +22,9 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .step.act{display:block;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-.cat-header{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));padding:24px;border-radius:14px;color:#fff;margin-bottom:28px;text-align:center;box-shadow:0 6px 24px rgba(88,207,79,.25);width:40%;margin-left:auto;margin-right:auto}
-.cat-header h2{font-size:28px;font-weight:900;margin:0 0 8px}
-.cat-header p{margin:0;opacity:.95;font-size:14px;font-weight:600;color:#D4EDD7}
+.cat-header{background:linear-gradient(135deg,var(--c4),rgba(212,237,215,.7));padding:24px;border-radius:14px;color:#1a1a1a;margin-bottom:28px;text-align:center;box-shadow:0 6px 24px rgba(88,207,79,.15);width:40%;margin-left:auto;margin-right:auto;border:2px solid rgba(88,207,79,.2)}
+.cat-header h2{font-size:28px;font-weight:900;margin:0 0 8px;color:#58CF4F}
+.cat-header p{margin:0;opacity:.95;font-size:14px;font-weight:600;color:#4FCF86}
 
 .cats-wrapper{background:linear-gradient(135deg,var(--c4),rgba(212,237,215,.5));padding:28px;border-radius:14px;border:2px solid rgba(88,207,79,.2);margin-bottom:24px;box-shadow:inset 0 2px 8px rgba(88,207,79,.05),var(--shadow);animation:containerIn .5s ease-out}
 @keyframes containerIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -33,7 +33,9 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .cat:hover{transform:translateY(-6px);border-color:var(--c1);box-shadow:0 8px 24px rgba(88,207,79,.25)}
 .cat.sel{border-color:var(--c1);background:linear-gradient(135deg,rgba(88,207,79,.1),rgba(79,207,134,.1));box-shadow:0 0 0 3px rgba(88,207,79,.2)}
 .cat-ico{font-size:36px;margin:8px 0 12px}
-.cat-nm{font-size:14px;font-weight:800;margin-bottom:6px}
+.cat:hover .cat-ico{animation:heartbeat .5s infinite}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.cat-nm{font-size:14px;font-weight:800;margin-bottom:6px;color:var(--tx)}
 .cat-info{font-size:11px;color:var(--gr);line-height:1.4}
 
 .loading{display:none;text-align:center;padding:40px}
@@ -61,8 +63,8 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .qty-btn:hover{background:var(--c1);color:#fff;transform:scale(1.15)}
 .qty-val{flex:1;text-align:center;font-size:13px;font-weight:800;min-width:32px}
 
-.top-bar{position:sticky;top:64px;background:#fff;padding:12px 16px;box-shadow:var(--shadow);z-index:35;display:none;border-bottom:2px solid var(--c1)}
-.top-bar.show{display:flex;align-items:center;gap:16px;justify-content:space-between;max-width:968px;margin:0 auto}
+.top-bar{position:fixed;top:64px;left:0;right:0;background:#fff;padding:12px 16px;box-shadow:var(--shadow);z-index:35;display:none;border-bottom:2px solid var(--c1)}
+.top-bar.show{display:flex;align-items:center;gap:16px;justify-content:space-between;max-width:968px;margin:0 auto;width:100%}
 .prog{flex:1}
 .prog-label{font-size:10px;color:var(--gr);font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between}
 .prog-bar-bg{height:7px;background:#e0e0e0;border-radius:10px;overflow:hidden}
@@ -93,10 +95,12 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .form-sec{background:#fff;padding:20px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:20px;border:1px solid #e0e0e0}
 .form-sec h2{font-size:18px;font-weight:900;color:var(--c1);margin-bottom:18px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
-label{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:5px;text-transform:uppercase}
+label{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:12px;text-transform:uppercase;display:block}
 input,select{padding:11px;border:2px solid #ddd;border-radius:8px;font-size:13px;transition:all .3s;width:100%}
 input:focus,select:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(88,207,79,.1)}
 input.err{border-color:#e74c3c;background:#ffebee}
+.err-msg{color:#e74c3c;font-size:10px;margin-top:5px;font-weight:700;display:none}
+.err-msg.show{display:block}
 
 .btn{padding:13px 22px;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;transition:all .3s;text-transform:uppercase;width:100%;letter-spacing:.4px;height:48px;display:flex;align-items:center;justify-content:center}
 .btn-main{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));color:#fff;box-shadow:0 4px 15px rgba(88,207,79,.2)}
@@ -199,7 +203,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
   <div id="s1" class="step act">
     <div class="form-sec" style="max-width:420px;margin:50px auto">
       <h2 style="text-align:center;margin-bottom:24px">Ingresa tu Email</h2>
-      <div style="margin-bottom:18px">
+      <div style="margin-bottom:24px">
         <label>Correo Electrónico</label>
         <input type="email" id="emailInp" placeholder="tu@empresa.com" autofocus>
       </div>
@@ -248,23 +252,58 @@ input.err{border-color:#e74c3c;background:#ffebee}
       <div class="form-sec">
         <h2>Tus Datos</h2>
         <div class="form-grid">
-          <div><label>Nombre</label><input type="text" id="nom" placeholder="Juan"></div>
-          <div><label>Apellido</label><input type="text" id="ape" placeholder="Pérez"></div>
+          <div>
+            <label>Nombre</label>
+            <input type="text" id="nom" placeholder="Juan" onblur="validarCampo('nom')">
+            <div class="err-msg" data-field="nom">Campo requerido</div>
+          </div>
+          <div>
+            <label>Apellido</label>
+            <input type="text" id="ape" placeholder="Pérez" onblur="validarCampo('ape')">
+            <div class="err-msg" data-field="ape">Campo requerido</div>
+          </div>
         </div>
-        <div style="margin-bottom:12px"><label>Teléfono</label><input type="tel" id="tel" placeholder="+52 331 234 5678"></div>
+        <div style="margin-bottom:12px">
+          <label>Teléfono</label>
+          <input type="tel" id="tel" placeholder="+52 331 234 5678" onblur="validarCampo('tel')">
+          <div class="err-msg" data-field="tel">Campo requerido</div>
+        </div>
         <div class="form-grid">
-          <div><label>Calle</label><input type="text" id="cal" placeholder="Principal"></div>
-          <div><label>Número</label><input type="text" id="num" placeholder="123"></div>
+          <div>
+            <label>Calle</label>
+            <input type="text" id="cal" placeholder="Principal" onblur="validarCampo('cal')">
+            <div class="err-msg" data-field="cal">Campo requerido</div>
+          </div>
+          <div>
+            <label>Número</label>
+            <input type="text" id="num" placeholder="123" onblur="validarCampo('num')">
+            <div class="err-msg" data-field="num">Campo requerido</div>
+          </div>
         </div>
         <div class="form-grid">
-          <div><label>Colonia</label><input type="text" id="col" placeholder="Centro"></div>
-          <div><label>Municipio</label><input type="text" id="mun" placeholder="Guadalajara"></div>
+          <div>
+            <label>Colonia</label>
+            <input type="text" id="col" placeholder="Centro" onblur="validarCampo('col')">
+            <div class="err-msg" data-field="col">Campo requerido</div>
+          </div>
+          <div>
+            <label>Municipio</label>
+            <input type="text" id="mun" placeholder="Guadalajara" onblur="validarCampo('mun')">
+            <div class="err-msg" data-field="mun">Campo requerido</div>
+          </div>
         </div>
         <div class="form-grid">
-          <div><label>Estado</label><input type="text" id="est" placeholder="Jalisco"></div>
-          <div><label>Código Postal</label><input type="text" id="cp" placeholder="44100"></div>
+          <div>
+            <label>Estado</label>
+            <input type="text" id="est" placeholder="Jalisco" onblur="validarCampo('est')">
+            <div class="err-msg" data-field="est">Campo requerido</div>
+          </div>
+          <div>
+            <label>Código Postal</label>
+            <input type="text" id="cp" placeholder="44100" onblur="validarCampo('cp')">
+            <div class="err-msg" data-field="cp">Campo requerido</div>
+          </div>
         </div>
-        <div style="color:#e74c3c;font-size:11px;margin-top:8px;font-weight:700;display:none" id="formErr">Complete todos los campos</div>
       </div>
 
       <div class="form-sec">
@@ -332,12 +371,12 @@ input.err{border-color:#e74c3c;background:#ffebee}
       <p style="font-size:12px;color:var(--gr);margin-bottom:10px">Haz clic para pagar con Mercado Pago:</p>
       <button class="btn" id="mpBtn" style="background:linear-gradient(135deg,#00A5E8,#0077B6);color:#fff;margin:0">💳 Pagar Ahora</button>
     </div>
-    <button class="btn btn-main" onclick="location.reload()">Realizar otro pedido</button>
+    <button class="btn btn-main" onclick="descargarPDF()" style="margin:0">📥 Descargar PDF</button>
   </div>
 </div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbzhpekS4lDVjLvGHXJe_V3YQUg9bjJIcT_EsdOCLJG0mhJwjRlDIGFRQEhJJQJwDZU3/exec';
+const API='https://script.google.com/macros/s/AKfycbyqn2BM3vYHk5N0TZc0PuvluCOq0-88kqjewxbYD35SQLPSO_CW_QyweorCbBxe_VfM/exec';
 
 const IMAGENES={
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
@@ -385,7 +424,7 @@ const IMAGENES={
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w400'
 };
 
-const S={email:'',cat:'base',prod:[],carrito:{},total:0,min:0,cupon:'',descuentoCupon:0};
+const S={email:'',cat:'base',prod:[],carrito:{},total:0,min:0,cupon:'',descuentoCupon:0,pdfB64:''};
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.className='toast show'+(m.includes('❌')?' err':'');setTimeout(()=>t.classList.remove('show'),3200)}
 
@@ -415,13 +454,17 @@ document.addEventListener('click',e=>{if(!e.target.closest('.cart-popup')&&!e.ta
 
 async function login(){const e=document.getElementById('emailInp').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){toast('❌ Email inválido');return}S.email=e;go(2)}
 
+function validarCampo(c){const v=document.getElementById(c).value.trim();const input=document.getElementById(c);const msg=document.querySelector(`.err-msg[data-field="${c}"]`);if(!v){input.classList.add('err');msg.classList.add('show')}else{input.classList.remove('err');msg.classList.remove('show')}}
+
 function makeSummary(){let h='',tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){const sub=p.precioFinal*q;tot+=sub;h+=`<tr><td>${p.nombre}</td><td>${q}</td><td>$${p.precioFinal}</td><td>$${sub.toFixed(2)}</td></tr>`}});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('sumBody').innerHTML=h;document.getElementById('sumTot').textContent='$'+finalTot.toFixed(2);S.total=finalTot}
 
 async function aplicarCupon(){const c=document.getElementById('cuponInp').value.trim();if(!c){toast('⚠️ Ingresa cupón');return}try{const d=await api('validarCupon',{email:S.email,cupon:c});if(d.success){S.cupon=d.nombre;S.descuentoCupon=d.descuento;document.getElementById('cuponOk').textContent='✓ -'+(d.descuento*100).toFixed(0)+'%';updProg();toast('✓ Cupón aplicado')}else toast('✗ '+d.error)}catch(e){toast('❌ Error cupón')}}
 
 function makeReview(){let h='',tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){const sub=p.precioFinal*q;tot+=sub;h+=`<tr><td>${p.nombre}</td><td>${q}</td><td>$${p.precioFinal}</td><td>$${sub.toFixed(2)}</td></tr>`}});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('revBody').innerHTML=h;document.getElementById('revTot').textContent='$'+finalTot.toFixed(2);const info=`<div class="info-row"><div class="info-label">Nombre:</div><div class="info-value">${document.getElementById('nom').value}</div></div><div class="info-row"><div class="info-label">Apellido:</div><div class="info-value">${document.getElementById('ape').value}</div></div><div class="info-row"><div class="info-label">Email:</div><div class="info-value">${S.email}</div></div><div class="info-row"><div class="info-label">Teléfono:</div><div class="info-value">${document.getElementById('tel').value}</div></div><div class="info-row"><div class="info-label">Dirección:</div><div class="info-value">${document.getElementById('cal').value} ${document.getElementById('num').value}, ${document.getElementById('col').value}, ${document.getElementById('mun').value}, ${document.getElementById('est').value} ${document.getElementById('cp').value}</div></div>`;document.getElementById('infoContainer').innerHTML=info}
 
-async function enviar(){const campos=['nom','ape','tel','cal','num','col','mun','est','cp'];let falta=false;campos.forEach(c=>{const v=document.getElementById(c).value.trim();if(!v){document.getElementById(c).classList.add('err');falta=true}else document.getElementById(c).classList.remove('err')});if(falta){document.getElementById('formErr').style.display='block';toast('❌ Complete todos los campos');return}document.getElementById('formErr').style.display='none';const items=Object.entries(S.carrito).map(([id,q])=>{const p=S.prod.find(x=>x.id==id);return{nombre:p.nombre,cantidad:q}});if(items.length===0){toast('❌ Carrito vacío');return}document.getElementById('procesandoModal').classList.add('show');try{const d=await api('submitOrder',{email:S.email,nombre:document.getElementById('nom').value,apellido:document.getElementById('ape').value,telefono:document.getElementById('tel').value,calle:document.getElementById('cal').value,numero:document.getElementById('num').value,colonia:document.getElementById('col').value,municipio:document.getElementById('mun').value,estado:document.getElementById('est').value,cp:document.getElementById('cp').value,categoria:S.cat,items,cupon:S.cupon,descuentoCupon:S.descuentoCupon});if(!d.success){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+d.error);return}document.getElementById('procesandoModal').classList.remove('show');document.getElementById('okNum').textContent='#'+d.noPedido;if(d.mpLink){document.getElementById('mpSection').style.display='block';document.getElementById('mpBtn').onclick=()=>window.open(d.mpLink,'_blank')}document.getElementById('okModal').classList.add('show');toast('✅ ¡Pedido confirmado!')}catch(e){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+e.message)}}
+async function enviar(){const campos=['nom','ape','tel','cal','num','col','mun','est','cp'];let falta=false;campos.forEach(c=>{validarCampo(c);const v=document.getElementById(c).value.trim();if(!v)falta=true});if(falta){toast('❌ Complete todos los campos');return}const items=Object.entries(S.carrito).map(([id,q])=>{const p=S.prod.find(x=>x.id==id);return{nombre:p.nombre,cantidad:q}});if(items.length===0){toast('❌ Carrito vacío');return}document.getElementById('procesandoModal').classList.add('show');try{const d=await api('submitOrder',{email:S.email,nombre:document.getElementById('nom').value,apellido:document.getElementById('ape').value,telefono:document.getElementById('tel').value,calle:document.getElementById('cal').value,numero:document.getElementById('num').value,colonia:document.getElementById('col').value,municipio:document.getElementById('mun').value,estado:document.getElementById('est').value,cp:document.getElementById('cp').value,categoria:S.cat,items,cupon:S.cupon,descuentoCupon:S.descuentoCupon});if(!d.success){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+d.error);return}S.pdfB64=d.pdfB64;document.getElementById('procesandoModal').classList.remove('show');document.getElementById('okNum').textContent='#'+d.noPedido;if(d.mpLink){document.getElementById('mpSection').style.display='block';document.getElementById('mpBtn').onclick=()=>window.open(d.mpLink,'_blank')}document.getElementById('okModal').classList.add('show');toast('✅ ¡Pedido confirmado!')}catch(e){document.getElementById('procesandoModal').classList.remove('show');toast('❌ '+e.message)}}
+
+function descargarPDF(){if(!S.pdfB64||S.pdfB64.length<10){toast('❌ PDF no disponible');return}try{const link=document.createElement('a');const byteCharacters=atob(S.pdfB64);const byteNumbers=new Array(byteCharacters.length);for(let i=0;i<byteCharacters.length;i++){byteNumbers[i]=byteCharacters.charCodeAt(i)}const byteArray=new Uint8Array(byteNumbers);const blob=new Blob([byteArray],{type:'application/pdf'});link.href=URL.createObjectURL(blob);link.download='Pedido_NSN.pdf';document.body.appendChild(link);link.click();document.body.removeChild(link);toast('✓ PDF descargado')}catch(e){toast('❌ Error al descargar')}}
 
 async function loadLogo(){try{const d=await api('getLogo',{});if(d.success&&d.logo)document.getElementById('logo').src=d.logo}catch(e){console.log('Logo error')}}
 
