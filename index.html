@@ -11,11 +11,21 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 
 .header{background:linear-gradient(135deg,var(--c1),var(--c2),var(--c3));padding:16px;box-shadow:var(--shadow);position:sticky;top:0;z-index:40}
 .header-content{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px;padding:8px 0}
-.logo{width:50px;height:50px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,.15));animation:float 3s ease-in-out infinite}
+.logo{width:50px;height:50px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,.15));animation:float 3s ease-in-out infinite;background:#fff;border-radius:8px;padding:4px}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .header-text{text-align:center}
 .header h1{color:#fff;font-size:20px;font-weight:900;margin:0}
 .header p{color:rgba(255,255,255,.95);font-size:12px;margin:4px 0 0;font-weight:600}
+
+.top-bar{position:sticky;top:64px;background:#fff;padding:12px 16px;box-shadow:var(--shadow);z-index:35;display:none;border-bottom:2px solid var(--c1)}
+.top-bar.show{display:flex;align-items:center;gap:16px;justify-content:space-between;max-width:100%}
+.prog{flex:1;max-width:600px}
+.prog-label{font-size:10px;color:var(--gr);font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between}
+.prog-bar-bg{height:7px;background:#e0e0e0;border-radius:10px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));width:0%;transition:width .4s}
+.cart-icon{font-size:28px;cursor:pointer;position:relative;animation:float 3s ease-in-out infinite}
+.cart-icon:hover{transform:scale(1.15)}
+.cart-badge{position:absolute;top:-10px;right:-10px;background:#FF6B6B;color:#fff;border-radius:50%;width:24px;height:24px;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
 
 .container{max-width:1000px;margin:0 auto;padding:16px}
 .step{display:none}
@@ -52,7 +62,10 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:32px}
 .prod{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;display:flex;flex-direction:column}
 .prod:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(88,207,79,.2)}
-.prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:#f0f0f0;display:block}
+.prod-img{width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(45deg,#f0f0f0 25%,#e8e8e8 25%,#e8e8e8 50%,#f0f0f0 50%,#f0f0f0 75%,#e8e8e8 75%,#e8e8e8);background-size:20px 20px;display:block;position:relative}
+.prod-img.loading{animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
+.prod-img img{width:100%;height:100%;object-fit:cover}
 .prod-info{padding:14px;flex:1;display:flex;flex-direction:column}
 .prod-nm{font-size:12px;font-weight:700;margin-bottom:8px;min-height:32px;line-height:1.3}
 .prod-prices{margin-bottom:10px}
@@ -62,16 +75,6 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .qty-btn{width:30px;height:30px;border:2px solid var(--c1);background:#fff;color:var(--c1);border-radius:50%;cursor:pointer;font-weight:800;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:var(--c1);color:#fff;transform:scale(1.15)}
 .qty-val{flex:1;text-align:center;font-size:13px;font-weight:800;min-width:32px}
-
-.top-bar{position:fixed;top:64px;left:0;right:0;background:#fff;padding:12px 16px;box-shadow:var(--shadow);z-index:35;display:none;border-bottom:2px solid var(--c1)}
-.top-bar.show{display:flex;align-items:center;gap:16px;justify-content:space-between;max-width:968px;margin:0 auto;width:100%}
-.prog{flex:1}
-.prog-label{font-size:10px;color:var(--gr);font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between}
-.prog-bar-bg{height:7px;background:#e0e0e0;border-radius:10px;overflow:hidden}
-.prog-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));width:0%;transition:width .4s}
-.cart-icon{font-size:28px;cursor:pointer;position:relative;animation:float 3s ease-in-out infinite}
-.cart-icon:hover{transform:scale(1.15)}
-.cart-badge{position:absolute;top:-10px;right:-10px;background:#FF6B6B;color:#fff;border-radius:50%;width:24px;height:24px;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
 
 .cart-popup{position:fixed;top:150px;right:16px;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.15);width:340px;max-height:480px;display:none;flex-direction:column;z-index:1000;border:1px solid #e0e0e0}
 .cart-popup.show{display:flex}
@@ -93,7 +96,8 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .cart-tot{padding:14px;border-top:2px solid #e0e0e0;background:linear-gradient(135deg,rgba(88,207,79,.08),rgba(79,207,134,.08));font-weight:800;text-align:right;color:var(--c1);border-radius:0 0 14px 14px}
 
 .form-sec{background:#fff;padding:20px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:20px;border:1px solid #e0e0e0}
-.form-sec h2{font-size:18px;font-weight:900;color:var(--c1);margin-bottom:18px}
+.form-sec h2{font-size:18px;font-weight:900;color:var(--c1);margin-bottom:6px}
+.form-sec-subtitle{font-size:11px;color:var(--gr);font-weight:600;margin-bottom:18px;font-style:italic}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
 label{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:12px;text-transform:uppercase;display:block}
 input,select{padding:11px;border:2px solid #ddd;border-radius:8px;font-size:13px;transition:all .3s;width:100%}
@@ -151,6 +155,8 @@ input.err{border-color:#e74c3c;background:#ffebee}
 .cats{grid-template-columns:repeat(2,1fr)}
 .prod-grid{grid-template-columns:repeat(2,1fr)}
 .cart-popup{width:300px;right:8px}
+.top-bar{flex-direction:column;gap:8px}
+.prog{max-width:100%}
 }
 
 @media(max-width:480px){
@@ -174,8 +180,6 @@ input.err{border-color:#e74c3c;background:#ffebee}
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
-
 <div class="top-bar" id="topBar">
   <div class="prog">
     <div class="prog-label"><span>Inversión Mínima</span><span id="progPct">0%</span></div>
@@ -197,6 +201,8 @@ input.err{border-color:#e74c3c;background:#ffebee}
   <div class="cart-list" id="cartList"></div>
   <div class="cart-tot" id="cartTot">Total: $0.00</div>
 </div>
+
+<div id="toast" class="toast"></div>
 
 <div class="container">
 
@@ -251,6 +257,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
       <div class="form-sec">
         <h2>Tus Datos</h2>
+        <p class="form-sec-subtitle">Por favor llena todos los campos</p>
         <div class="form-grid">
           <div>
             <label>Nombre</label>
@@ -295,7 +302,41 @@ input.err{border-color:#e74c3c;background:#ffebee}
         <div class="form-grid">
           <div>
             <label>Estado</label>
-            <input type="text" id="est" placeholder="Jalisco" onblur="validarCampo('est')">
+            <select id="est" onblur="validarCampo('est')">
+              <option value="">Selecciona tu estado</option>
+              <option value="Aguascalientes">Aguascalientes</option>
+              <option value="Baja California">Baja California</option>
+              <option value="Baja California Sur">Baja California Sur</option>
+              <option value="Campeche">Campeche</option>
+              <option value="Chiapas">Chiapas</option>
+              <option value="Chihuahua">Chihuahua</option>
+              <option value="Ciudad de México">Ciudad de México</option>
+              <option value="Coahuila">Coahuila</option>
+              <option value="Colima">Colima</option>
+              <option value="Durango">Durango</option>
+              <option value="Estado de México">Estado de México</option>
+              <option value="Guanajuato">Guanajuato</option>
+              <option value="Guerrero">Guerrero</option>
+              <option value="Hidalgo">Hidalgo</option>
+              <option value="Jalisco">Jalisco</option>
+              <option value="Michoacán">Michoacán</option>
+              <option value="Morelos">Morelos</option>
+              <option value="Nayarit">Nayarit</option>
+              <option value="Nuevo León">Nuevo León</option>
+              <option value="Oaxaca">Oaxaca</option>
+              <option value="Puebla">Puebla</option>
+              <option value="Querétaro">Querétaro</option>
+              <option value="Quintana Roo">Quintana Roo</option>
+              <option value="San Luis Potosí">San Luis Potosí</option>
+              <option value="Sinaloa">Sinaloa</option>
+              <option value="Sonora">Sonora</option>
+              <option value="Tabasco">Tabasco</option>
+              <option value="Tamaulipas">Tamaulipas</option>
+              <option value="Tlaxcala">Tlaxcala</option>
+              <option value="Veracruz">Veracruz</option>
+              <option value="Yucatán">Yucatán</option>
+              <option value="Zacatecas">Zacatecas</option>
+            </select>
             <div class="err-msg" data-field="est">Campo requerido</div>
           </div>
           <div>
@@ -376,7 +417,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
 </div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbyqn2BM3vYHk5N0TZc0PuvluCOq0-88kqjewxbYD35SQLPSO_CW_QyweorCbBxe_VfM/exec';
+const API='https://script.google.com/macros/s/AKfycby34HmR7Me9CC74enyJlXzLP8p8lpnUrkJ3BAHwQ091D0TYWTv_RoGUk9ev--X75Olr/exec';
 
 const IMAGENES={
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
@@ -436,7 +477,7 @@ function makeCats(){const cats=[{id:'base',nm:'Base',ico:'📦',min:0,desc:'Sin 
 
 function setCat(b){document.querySelectorAll('.cat').forEach(c=>c.classList.remove('sel'));b.classList.add('sel')}
 
-async function loadCat(){try{document.getElementById('loading').classList.add('show');const d=await api('getCatalog',{categoria:S.cat});if(!d.success)throw d.error;S.prod=d.productos;S.min=d.minimoInversion;const t={base:'Base',['25%']:'Plata Light',plata:'Plata',oro:'Oro',diamante:'Diamante'}[S.cat];document.getElementById('catTitle').innerHTML=`${t} - ${d.descuentoPct}% descuento`;setTimeout(()=>{const h=d.productos.map(p=>{const q=S.carrito[p.id]||0;const img=IMAGENES[p.nombre.trim()]||'';return `<div class="prod" data-nm="${(p.nombre||'').toLowerCase()}"><img src="${img}" class="prod-img" loading="lazy" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div style=\\'width:100%25;aspect-ratio:1;background:%23f0f0f0;display:flex;align-items:center;justify-content:center;font-size:48px\\'>📦</div>')"><div class="prod-info"><div class="prod-nm">${p.nombre}</div><div class="prod-prices"><div class="prod-pr-orig">$${p.precioBase.toFixed(2)}</div><div class="prod-pr">$${p.precioFinal}</div></div><div class="prod-qty"><button class="qty-btn" onclick="addQty(${p.id},-1)">−</button><input class="qty-val" id="q${p.id}" value="${q}" readonly><button class="qty-btn" onclick="addQty(${p.id},1)">+</button></div></div></div>`}).join('');document.getElementById('prodGrid').innerHTML=h;document.getElementById('loading').classList.remove('show');updProg()},200);}catch(e){toast('❌ '+e.message);document.getElementById('loading').classList.remove('show')}}
+async function loadCat(){try{document.getElementById('loading').classList.add('show');const d=await api('getCatalog',{categoria:S.cat});if(!d.success)throw d.error;S.prod=d.productos;S.min=d.minimoInversion;const t={base:'Base',['25%']:'Plata Light',plata:'Plata',oro:'Oro',diamante:'Diamante'}[S.cat];document.getElementById('catTitle').innerHTML=`${t} - ${d.descuentoPct}% descuento`;setTimeout(()=>{const h=d.productos.map(p=>{const q=S.carrito[p.id]||0;const img=IMAGENES[p.nombre.trim()]||'';return `<div class="prod" data-nm="${(p.nombre||'').toLowerCase()}"><div class="prod-img loading"><img src="${img}" class="prod-img-img" loading="lazy" onload="this.parentElement.classList.remove('loading')" onerror="this.parentElement.classList.remove('loading');this.style.display='none'"></div><div class="prod-info"><div class="prod-nm">${p.nombre}</div><div class="prod-prices"><div class="prod-pr-orig">$${p.precioBase.toFixed(2)}</div><div class="prod-pr">$${p.precioFinal}</div></div><div class="prod-qty"><button class="qty-btn" onclick="addQty(${p.id},-1)">−</button><input class="qty-val" id="q${p.id}" value="${q}" readonly><button class="qty-btn" onclick="addQty(${p.id},1)">+</button></div></div></div>`}).join('');document.getElementById('prodGrid').innerHTML=h;document.getElementById('loading').classList.remove('show');updProg()},200);}catch(e){toast('❌ '+e.message);document.getElementById('loading').classList.remove('show')}}
 
 function addQty(id,d){const q=(S.carrito[id]||0)+d;if(q<=0)delete S.carrito[id];else S.carrito[id]=q;document.getElementById('q'+id).value=S.carrito[id]||0;updProg();updCart()}
 
@@ -444,7 +485,7 @@ function searchProds(){const q=document.getElementById('searchInp').value.toLowe
 
 function updProg(){let tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p)tot+=p.precioFinal*q});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);S.total=finalTot;const pct=S.min>0?Math.min((tot/S.min)*100,100):0;document.getElementById('progBar').style.width=pct+'%';document.getElementById('progPct').textContent=Math.round(pct)+'%';document.getElementById('cartTotal').textContent='$'+finalTot.toFixed(2);const cnt=Object.values(S.carrito).reduce((a,b)=>a+b,0);const b=document.getElementById('cartBadge');if(cnt>0){b.style.display='flex';b.textContent=cnt}else b.style.display='none'}
 
-function updCart(){let h='';let tot=0;const hasItems=Object.keys(S.carrito).length>0;if(!hasItems){document.getElementById('cartList').innerHTML='<div style="text-align:center;color:var(--gr);padding:30px;font-size:12px;font-weight:700">Tu carrito está vacío</div>';document.getElementById('cartTot').textContent='Total: $0.00';return}Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){tot+=p.precioFinal*q;const img=IMAGENES[p.nombre.trim()]||'';h+=`<div class="cart-item"><img src="${img}" class="cart-item-img" loading="lazy" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'width:60px;height:60px;background:%23f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px\\'>📦</div>')"><div class="cart-item-info"><div class="cart-item-nm">${p.nombre}</div><div class="cart-item-qty">$${p.precioFinal} ×${q}</div><div class="cart-item-btns"><button class="qty-mini" onclick="addQty(${id},-1)">−</button><button class="qty-mini" onclick="addQty(${id},1)">+</button></div></div><button class="trash-ico" onclick="addQty(${id},-${q})">🗑️</button></div>`}});document.getElementById('cartList').innerHTML=h;let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('cartTot').textContent='Total: $'+finalTot.toFixed(2)}
+function updCart(){let h='';let tot=0;const hasItems=Object.keys(S.carrito).length>0;if(!hasItems){document.getElementById('cartList').innerHTML='<div style="text-align:center;color:var(--gr);padding:30px;font-size:12px;font-weight:700">Tu carrito está vacío</div>';document.getElementById('cartTot').textContent='Total: $0.00';return}Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){tot+=p.precioFinal*q;const img=IMAGENES[p.nombre.trim()]||'';h+=`<div class="cart-item"><div class="cart-item-img"><img src="${img}" loading="lazy" onload="this.style.opacity='1'" onerror="this.style.display='none'" style="opacity:0;transition:opacity .3s"></div><div class="cart-item-info"><div class="cart-item-nm">${p.nombre}</div><div class="cart-item-qty">$${p.precioFinal} ×${q}</div><div class="cart-item-btns"><button class="qty-mini" onclick="addQty(${id},-1)">−</button><button class="qty-mini" onclick="addQty(${id},1)">+</button></div></div><button class="trash-ico" onclick="addQty(${id},-${q})">🗑️</button></div>`}});document.getElementById('cartList').innerHTML=h;let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('cartTot').textContent='Total: $'+finalTot.toFixed(2)}
 
 function toggleCart(){document.getElementById('cartPopup').classList.add('show')}
 
@@ -466,7 +507,7 @@ async function enviar(){const campos=['nom','ape','tel','cal','num','col','mun',
 
 function descargarPDF(){if(!S.pdfB64||S.pdfB64.length<10){toast('❌ PDF no disponible');return}try{const link=document.createElement('a');const byteCharacters=atob(S.pdfB64);const byteNumbers=new Array(byteCharacters.length);for(let i=0;i<byteCharacters.length;i++){byteNumbers[i]=byteCharacters.charCodeAt(i)}const byteArray=new Uint8Array(byteNumbers);const blob=new Blob([byteArray],{type:'application/pdf'});link.href=URL.createObjectURL(blob);link.download='Pedido_NSN.pdf';document.body.appendChild(link);link.click();document.body.removeChild(link);toast('✓ PDF descargado')}catch(e){toast('❌ Error al descargar')}}
 
-async function loadLogo(){try{const d=await api('getLogo',{});if(d.success&&d.logo)document.getElementById('logo').src=d.logo}catch(e){console.log('Logo error')}}
+async function loadLogo(){try{const d=await api('getLogo',{});if(d.success&&d.logo){const img=new Image();img.onload=()=>{document.getElementById('logo').src=d.logo};img.src=d.logo}}catch(e){console.log('Logo error')}}
 
 window.addEventListener('load',()=>{makeCats();loadLogo()});
 </script>
