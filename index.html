@@ -17,7 +17,7 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;bac
 .header h1{color:#fff;font-size:20px;font-weight:900;margin:0}
 .header p{color:rgba(255,255,255,.95);font-size:12px;margin:4px 0 0;font-weight:600}
 
-.top-bar{background:#fff;padding:14px 16px;box-shadow:var(--shadow);border-bottom:3px solid var(--c1);position:sticky;top:64px;z-index:99;width:100%;display:none;align-items:center;gap:16px;justify-content:space-between;flex-wrap:nowrap}
+.top-bar{background:#fff;padding:14px 16px;box-shadow:var(--shadow);border-bottom:3px solid var(--c1);position:fixed;top:64px;z-index:99;width:100%;display:none;align-items:center;gap:16px;justify-content:space-between;flex-wrap:nowrap;left:0;right:0}
 .top-bar.show{display:flex}
 .prog{flex:1;min-width:180px}
 .prog-label{font-size:10px;color:var(--gr);font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
@@ -158,7 +158,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
 .cats{grid-template-columns:repeat(2,1fr)}
 .prod-grid{grid-template-columns:repeat(2,1fr)}
 .cart-popup{width:90%;right:5%;left:5%;top:auto;bottom:80px}
-.top-bar{gap:10px;padding:10px 12px;position:sticky;top:64px;z-index:99;width:100%}
+.top-bar{gap:10px;padding:10px 12px}
 .prog{min-width:140px}
 .cart-info{gap:10px}
 .cart-icon{font-size:24px}
@@ -175,7 +175,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
 .cats{grid-template-columns:1fr}
 .prod-grid{grid-template-columns:1fr}
 .form-sec{padding:16px}
-.top-bar{padding:10px;position:sticky;top:64px;z-index:99;width:100%}
+.top-bar{padding:10px}
 .prog{min-width:120px}
 .prog-label{font-size:8px}
 .prog-info{font-size:7px;flex-direction:column}
@@ -442,7 +442,7 @@ input.err{border-color:#e74c3c;background:#ffebee}
 </div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbzlKrWkszQ8-uETh-91UtRsx7v4J08hTryOEEiNfHAgUMLEidcxfezQuXOBjgy8bx_K/exec';
+const API='https://script.google.com/macros/s/AKfycbwwX0oisUGspwUuJjUzPf1ePLEzXhz_ZKrvXQIXIzYKhR8Dq4S26A6sUXSGpZx_1U2D/exec';
 
 const IMAGENES={
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
@@ -508,7 +508,7 @@ function addQty(id,d){const q=(S.carrito[id]||0)+d;if(q<=0)delete S.carrito[id];
 
 function searchProds(){const q=document.getElementById('searchInp').value.toLowerCase();document.querySelectorAll('.prod').forEach(p=>{p.style.display=(p.dataset.nm||'').includes(q)?'':'none'})}
 
-function updProg(){let tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p)tot+=p.precioFinal*q});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);S.total=finalTot;const pct=S.min>0?Math.min((tot/S.min)*100,100):0;document.getElementById('progBar').style.width=pct+'%';document.getElementById('progPct').textContent=Math.round(pct)+'%';document.getElementById('cartTotal').textContent='$'+finalTot.toFixed(2);document.getElementById('cartActual').textContent='$'+Math.round(tot);document.getElementById('cartMinimo').textContent='$'+S.min;const cnt=Object.values(S.carrito).reduce((a,b)=>a+b,0);const b=document.getElementById('cartBadge');if(cnt>0){b.style.display='flex';b.textContent=cnt}else b.style.display='none'}
+function updProg(){let tot=0;Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p)tot+=p.precioFinal*q});let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);S.total=finalTot;const pct=S.min>0?(tot/S.min)*100:0;document.getElementById('progBar').style.width=Math.min(pct,100)+'%';document.getElementById('progPct').textContent=Math.round(pct)+'%';document.getElementById('cartTotal').textContent='$'+finalTot.toFixed(2);document.getElementById('cartActual').textContent='$'+Math.round(tot);document.getElementById('cartMinimo').textContent='$'+S.min;const cnt=Object.values(S.carrito).reduce((a,b)=>a+b,0);const b=document.getElementById('cartBadge');if(cnt>0){b.style.display='flex';b.textContent=cnt}else b.style.display='none'}
 
 function updCart(){let h='';let tot=0;const hasItems=Object.keys(S.carrito).length>0;if(!hasItems){document.getElementById('cartList').innerHTML='<div style="text-align:center;color:var(--gr);padding:30px;font-size:12px;font-weight:700">Tu carrito está vacío</div>';document.getElementById('cartTot').textContent='Total: $0.00';return}Object.entries(S.carrito).forEach(([id,q])=>{const p=S.prod.find(x=>x.id==id);if(p){tot+=p.precioFinal*q;const img=IMAGENES[p.nombre.trim()]||'';h+=`<div class="cart-item"><div class="cart-item-img"><img src="${img}" loading="lazy" onload="this.style.opacity='1'" onerror="this.style.display='none'" style="opacity:0;transition:opacity .3s"></div><div class="cart-item-info"><div class="cart-item-nm">${p.nombre}</div><div class="cart-item-qty">$${p.precioFinal.toFixed(2)} ×${q}</div><div class="cart-item-btns"><button class="qty-mini" onclick="addQty(${id},-1)">−</button><button class="qty-mini" onclick="addQty(${id},1)">+</button></div></div><button class="trash-ico" onclick="addQty(${id},-${q})">🗑️</button></div>`}});document.getElementById('cartList').innerHTML=h;let finalTot=tot;if(S.descuentoCupon>0)finalTot=tot*(1-S.descuentoCupon);document.getElementById('cartTot').textContent='Total: $'+finalTot.toFixed(2)}
 
