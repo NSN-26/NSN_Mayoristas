@@ -7,23 +7,21 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
-    --green-light: #F0FDF4;
-    --green-soft: #DCFCE7;
-    --green-brand: #059669; /* Verde Esmeralda */
-    --green-dark: #064E3B;  /* Verde Bosque */
-    --mint-gradient: linear-gradient(135deg, #059669 0%, #064E3B 100%);
-    --header-gradient: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    --green-light: #F4FFF0;
+    --green-soft: #E6FFF0;
+    --green-brand: #84CC16;
+    --green-dark: #5BA313;
+    --mint-gradient: linear-gradient(135deg, #84CC16 0%, #5BA313 100%);
+    --header-gradient: linear-gradient(135deg, #F4FFF0 0%, #D4F4DD 100%);
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
 
-/* ANIMACIÓN BLINK (PARPADEO) */
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.1); }
 }
 .plant-loader { animation: plantBlink 1.5s infinite ease-in-out; }
 
-/* ANIMACIÓN HEARTBEAT RÁPIDA */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
     15% { transform: scale(1.25); }
@@ -33,27 +31,23 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 }
 .animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
 
-/* HEADER */
-.header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid #10B981}
+.header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-/* BARRA PROGRESO STICKY */
 .sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:sticky;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
 .prog-bar-fill{height:100%;background: var(--mint-gradient);width:0%;transition:width 0.4s ease-out}
 
-/* SISTEMA DE PASOS */
 .step{display:none; min-height: 60vh;}
 .step.act{display:block; animation: fadeUp 0.4s forwards;}
 @keyframes fadeUp{ from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
 
-/* CARDS */
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
 .prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(5,150,105,0.08)}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
 
 .img-container{background:#fff; width:100%; height:220px; display:flex; align-items:center; justify-content:center; padding:15px; overflow:hidden}
 .prod-img{max-width:100%; max-height:100%; object-fit:contain}
@@ -61,12 +55,10 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
-/* BOTON STICKY INFERIOR */
 .sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none}
-.sticky-btn{pointer-events:auto; max-width:500px; margin:0 auto; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(6,78,59,0.3); width:100%; transition:all 0.3s}
+.sticky-btn{pointer-events:auto; max-width:500px; margin:0 auto; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(91,163,19,0.3); width:100%; transition:all 0.3s}
 .sticky-btn:active{transform:scale(0.95)}
 
-/* SIDEBAR CARRITO */
 #cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
 .cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
 @keyframes slideLeft { from{transform:translateX(100%)} to{transform:translateX(0)} }
@@ -86,28 +78,28 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <div id="plantLoader">
     <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-emerald-800 uppercase tracking-widest text-xs text-center">Sincronizando Lista de Precios...</p>
+    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Lista de Precios...</p>
 </div>
 
 <header class="header">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
-            <h1 class="text-emerald-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-emerald-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Portal Oficial</p>
+            <h1 class="text-lime-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
+            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Portal Oficial</p>
         </div>
     </div>
 </header>
 
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
-        <div class="flex justify-between text-[10px] font-black text-emerald-900 mb-1 uppercase tracking-widest">
+        <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
             <span>Inversión</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
     </div>
-    <div class="bg-emerald-50 text-emerald-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-emerald-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
+    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
             <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Total</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
@@ -122,11 +114,11 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="container max-w-6xl mx-auto p-4">
     <!-- PASO 1: LOGIN -->
     <div id="s1" class="step act">
-        <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-emerald-500">
+        <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-lime-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
             <p class="text-slate-400 text-sm mb-10 font-medium">Accede a tu cuenta de socio</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-emerald-500 outline-none text-center font-bold mb-6 transition-all">
-            <button onclick="login()" id="btnLogin" class="w-full bg-emerald-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-lime-500 outline-none text-center font-bold mb-6 transition-all">
+            <button onclick="login()" id="btnLogin" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
 
@@ -134,25 +126,25 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR</div>
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-black text-emerald-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-emerald-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los descuentos se ajustarán automáticamente</p>
+            <h2 class="text-3xl font-black text-lime-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
+            <p class="text-lime-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los descuentos se ajustarán automáticamente</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
-            <button onclick="go(3)" id="btnContinueCat" disabled class="bg-slate-200 text-slate-400 px-12 py-5 rounded-3xl font-black transition-all uppercase tracking-widest">Ver Catálogo →</button>
+            <button onclick="goToCatalog()" id="btnContinueCat" disabled class="bg-slate-200 text-slate-400 px-12 py-5 rounded-3xl font-black transition-all uppercase tracking-widest">Ver Catálogo →</button>
         </div>
     </div>
 
     <!-- PASO 3: CATALOGO -->
     <div id="s3" class="step">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-emerald-50">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-lime-50">
             <div>
-                <h2 id="catTitle" class="text-xl font-black text-emerald-900 uppercase">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block">Nivel Base (-0%)</div>
+                <h2 id="catTitle" class="text-xl font-black text-lime-900 uppercase">Catálogo</h2>
+                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block">Nivel Base (-0%)</div>
             </div>
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-sm">
+                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-lime-500 font-medium text-sm">
             </div>
         </div>
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
@@ -166,7 +158,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     <div id="s4" class="step">
         <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
-            <h2 class="text-2xl font-black mb-8 text-emerald-950 uppercase text-center tracking-tighter">Información de Envío</h2>
+            <h2 class="text-2xl font-black mb-8 text-lime-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
@@ -177,7 +169,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
                 <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
-            <button onclick="enviarPedido()" class="w-full bg-emerald-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase">Finalizar Orden</button>
+            <button onclick="enviarPedido()" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase">Finalizar Orden</button>
         </div>
     </div>
 </div>
@@ -186,25 +178,23 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-emerald-950 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-lime-950 uppercase tracking-widest">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
-        <div class="border-t-4 border-emerald-50 pt-8 mt-6">
+        <div class="border-t-4 border-lime-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-xs font-black text-slate-400 uppercase">Subtotal</span>
-                <span id="cartFinal" class="text-3xl font-black text-emerald-950">$0.00</span>
+                <span id="cartFinal" class="text-3xl font-black text-lime-950">$0.00</span>
             </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-emerald-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
         </div>
     </div>
 </div>
 
 <script>
-// --- URL DE TU PROYECTO ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbxlNLTyr-WwwuogQIqhPAZd2J0eAkEdxy6YHPe_SMBfdNNC5XoY8gq8Jksgi2z_qdVF/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxzCnh6JJSweRjeHn7E8UYGkblIzBiGG8lzshuuYJoivJChRGmOA8f9cn1dblBjipGC/exec';
 
-// MAPEO DE IMAGENES FIJO (PARA ASEGURAR VISIBILIDAD 100%)
 const IMAGENES = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
   'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w400',
@@ -251,7 +241,7 @@ const IMAGENES = {
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w400'
 };
 
-let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, pct:0, rawData: null, appliedPct: 0 };
+let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, appliedPct: 0, rawData: null };
 
 async function api(action, data) {
     const resp = await fetch(`${API_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(data))}`, { method: 'POST' });
@@ -263,6 +253,11 @@ function go(n){
     document.getElementById('s'+n).classList.add('act');
     document.getElementById('topBar').classList.toggle('show', n>=3);
     window.scrollTo(0,0);
+}
+
+function goToCatalog(){
+    go(3);
+    renderCatalog();
 }
 
 function logout(){ window.location.reload(); }
@@ -278,20 +273,21 @@ function initCats(){
     document.getElementById('cats').innerHTML = cats.map(c=>`
         <div class="cat-card animate-beat" onclick="selCat(this, '${c.id}')">
             <span class="emoji text-5xl mb-4 block">${c.ico}</span>
-            <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
-            <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
-            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
+            <h3 class="font-black text-lg text-lime-900">${c.nm}</h3>
+            <p class="text-[10px] text-lime-600 font-black uppercase mt-1">${c.info}</p>
+            <div class="mt-4 text-[9px] bg-lime-50 text-lime-600 px-3 py-1 rounded-full font-black inline-block border border-lime-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
         </div>`).join('');
 }
 
 function selCat(el, id){
     S.cat = id;
     S.min = S.rawData.mins[id] || 0;
+    S.appliedPct = S.rawData.discounts[id] || 0;
     document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('sel'));
     el.classList.add('sel');
     const btn = document.getElementById('btnContinueCat');
     btn.disabled = false;
-    btn.className = "bg-emerald-600 text-white px-12 py-5 rounded-3xl font-black shadow-xl hover:bg-black cursor-pointer transition-all uppercase tracking-widest scale-105";
+    btn.className = "bg-lime-600 text-white px-12 py-5 rounded-3xl font-black shadow-xl hover:bg-black cursor-pointer transition-all uppercase tracking-widest scale-105";
 }
 
 function renderCatalog(){
@@ -299,7 +295,6 @@ function renderCatalog(){
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
         const finalPrice = p.precioBase * (1 - S.appliedPct);
-        // COMENTARIO: Los precios se calculan con el descuento que el cliente REALMENTE ha alcanzado en su subtotal.
         return `
         <div class="prod-card shadow-sm">
             <div class="img-container">
@@ -311,20 +306,20 @@ function renderCatalog(){
                     ${S.appliedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
                     <div class="price-final">$${finalPrice.toFixed(2)}</div>
                 </div>
-                <div class="mt-auto flex items-center justify-between bg-emerald-50 rounded-2xl p-1 border border-emerald-100">
+                <div class="mt-auto flex items-center justify-between bg-lime-50 rounded-2xl p-1 border border-lime-100">
                     <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300 transition-colors active:text-red-500">-</button>
                     <span class="font-black text-slate-700 text-lg">${S.carrito[p.id]||0}</span>
-                    <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-emerald-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
+                    <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-lime-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
                 </div>
             </div>
         </div>`}).join('');
+    updProg();
 }
 
 function addQty(id,d){
     S.carrito[id] = (S.carrito[id]||0)+d;
     if(S.carrito[id]<=0) delete S.carrito[id];
     updProg();
-    renderCatalog(); 
 }
 
 function updProg(){
@@ -334,7 +329,6 @@ function updProg(){
         if(p) subtotalBase += p.precioBase * q; 
     });
 
-    // LÓGICA BULLETPROOF: AJUSTE AUTOMÁTICO DE CATEGORÍA SEGÚN SUBTOTAL
     let currentTier = 'Lista Base';
     if(subtotalBase >= 20000) currentTier = 'Diamante';
     else if(subtotalBase >= 12000) currentTier = 'Oro';
@@ -344,15 +338,12 @@ function updProg(){
     S.appliedPct = S.rawData.discounts[currentTier] || 0;
     const finalTotal = subtotalBase * (1 - S.appliedPct);
 
-    // Actualizar UI
     const pctBar = S.min > 0 ? Math.min((finalTotal/S.min)*100, 100) : 100;
     const bar = document.getElementById('progBar');
     if(bar) bar.style.width = pctBar + '%';
     
     document.getElementById('progPct').textContent = Math.round(pctBar) + '%';
     document.getElementById('cartTotal').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    document.getElementById('cartActual').textContent = '$' + Math.round(finalTotal).toLocaleString();
-    document.getElementById('cartMinimo').textContent = '$' + (S.min || 0).toLocaleString();
     document.getElementById('cartFinal').textContent = '$' + finalTotal.toFixed(2);
     document.getElementById('appliedDiscountBadge').textContent = `Nivel ${currentTier} (-${Math.round(S.appliedPct*100)}%)`;
 
@@ -375,7 +366,7 @@ function updCartUI(){
                 <img src="${IMAGENES[p.nombre] || p.foto}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-emerald-700 text-sm">$${(finalP*q).toFixed(2)}</p>
+                    <p class="font-black text-lime-700 text-sm">$${(finalP*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -413,6 +404,11 @@ function searchProds(){
         c.style.display = nm.includes(q) ? 'flex' : 'none';
     });
 }
+
+function enviarPedido(){
+    alert('Pedido enviado (demo)');
+}
+
 window.onload = () => {};
 </script>
 </body>
