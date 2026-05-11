@@ -3,57 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NSN | Mayoristas Premium</title>
+<title>NSN Mayoristas | Premium Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
     --green-light: #F0FFF4;
+    --green-soft: #DCFCE7;
     --green-brand: #58CF4F;
     --green-dark: #1B4332;
     --mint: #D1FAE5;
-    --gradient: linear-gradient(135deg, #58CF4F, #4FCF86, #4FCFC6);
+    --gradient-light: linear-gradient(135deg, #dcfce7 0%, #f0fff4 100%);
+    --gradient-header: linear-gradient(135deg, #58CF4F 0%, #4FCF86 100%);
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1a202c;overflow-x:hidden}
 
 /* ANIMACIONES */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
-    10% { transform: scale(1.2); }
-    20% { transform: scale(1); }
-    30% { transform: scale(1.2); }
-    50% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    70% { transform: scale(1); }
 }
-.animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; }
+.animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
 
-/* HEADER GRADIENT */
-.header{background: var(--gradient);padding:12px 20px;position:sticky;top:0;z-index:1000;box-shadow:0 4px 20px rgba(79,207,134,0.2)}
-.logo-img{height:50px;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));transition: transform 0.3s}
-.logo-img:hover{transform:rotate(-5deg) scale(1.05)}
+/* HEADER STICKY */
+.header{background: var(--gradient-header);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 20px rgba(79,207,134,0.2)}
 
 /* BARRA PROGRESO STICKY */
-.sticky-bar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:10px 20px;position:sticky;top:74px;z-index:900;border-bottom:2px solid var(--green-brand);display:none}
+.sticky-bar{background:rgba(255,255,255,0.98);backdrop-filter:blur(10px);padding:12px 20px;position:sticky;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;box-shadow:0 10px 15px -3px rgba(0,0,0,0.05)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#e2e8f0;border-radius:20px;flex:1;overflow:hidden;border:1px solid #cbd5e0}
-.prog-bar-fill{height:100%;background: var(--gradient);width:0%;transition:width 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67)}
+.prog-bar-fill{height:100%;background: linear-gradient(90deg, #58CF4F, #4FCFC6);width:0%;transition:width 0.6s ease}
 
-/* CARRITO POPUP */
-#cartModal{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;justify-content:flex-end}
-.cart-card{width:100%;max-width:400px;background:#fff;height:100%;box-shadow:-10px 0 30px rgba(0,0,0,0.1);display:flex;flex-direction:column;animation:slideIn 0.3s ease-out}
+/* CARRITO SIDEBAR */
+#cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2000;justify-content:flex-end}
+.cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;animation:slideIn 0.3s ease-out}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
 
-/* STEP NAVEGACION */
-.step{display:none;animation:fadeIn 0.4s ease}
-.step.act{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* TARJETAS */
+.cat-card{background:#fff;border-radius:24px;padding:30px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow:0 10px 25px rgba(0,0,0,0.03)}
+.cat-card:hover{border-color:var(--green-brand);transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,0.1)}
+.cat-card.sel{background: var(--gradient-light);border-color:var(--green-brand)}
 
-/* PRODUCT CARDS */
-.prod-card{background:#fff;border-radius:24px;border:1px solid #e2e8f0;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden}
-.prod-card:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(88,207,79,0.15);border-color:var(--green-brand)}
-.price-base{text-decoration:line-through;color:#a0aec0;font-size:11px}
-.price-final{color:var(--green-dark);font-weight:900;font-size:18px}
+.prod-card{background:#fff;border-radius:24px;border:1px solid #f0f0f0;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden}
+.prod-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(88,207,79,0.15)}
 
-.btn-back{color:var(--green-dark);font-weight:700;display:flex;align-items:center;gap:5px;cursor:pointer;margin-bottom:15px;font-size:13px}
+.btn-back{color:var(--green-dark);font-weight:800;display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:15px;font-size:12px;text-transform:uppercase;letter-spacing:1px}
 
 @media(max-width:768px){
     .sticky-bar{top:74px}
@@ -65,114 +62,119 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <header class="header">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <img id="mainLogo" src="" class="logo-img" alt="NSN">
-        <div class="text-right">
-            <h1 class="text-white font-black text-sm md:text-lg uppercase">Portal B2B</h1>
+        <img id="mainLogo" src="" class="h-[55px] drop-shadow-md" alt="NSN">
+        <div class="text-right hidden sm:block">
+            <h1 class="text-white font-black text-lg uppercase tracking-tighter">Mayoristas Premium</h1>
             <p class="text-green-100 text-[10px] font-bold">NSN SMART NUTRITION</p>
         </div>
     </div>
 </header>
 
-<div class="sticky-bar shadow-xl" id="topBar">
+<div class="sticky-bar" id="topBar">
     <div class="flex-1">
-        <div class="flex justify-between text-[10px] font-black text-green-800 mb-1 uppercase tracking-tighter">
-            <span>Avance de Inversión</span>
+        <div class="flex justify-between text-[10px] font-black text-green-800 mb-1 uppercase">
+            <span>Inversión</span>
             <span id="progPct">0%</span>
         </div>
-        <div class="prog-bar-bg"><div class="prog-bar-fill shadow-inner" id="progBar"></div></div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBar"></div></div>
+        <div class="text-[9px] font-bold mt-1 text-slate-400">
+            <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
+        </div>
     </div>
-    <div class="bg-green-800 text-white px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer" onclick="openCart()">
+    <div class="bg-green-900 text-white px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer shadow-lg active:scale-95 transition-transform" onclick="toggleCart(true)">
         <div class="text-right leading-none">
-            <p class="text-[8px] opacity-70 font-bold">MI PEDIDO</p>
+            <p class="text-[8px] opacity-70 font-bold">MI ORDEN</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
         </div>
         <div class="relative">
-            <span class="text-xl">🛒</span>
+            <span class="text-2xl">🛒</span>
             <div id="cartBadge" class="absolute -top-2 -right-2 bg-red-500 text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-bold hidden">0</div>
         </div>
     </div>
 </div>
 
 <div class="container max-w-6xl mx-auto p-4">
-    <!-- PASO 1: LOGIN -->
+    <!-- P1: LOGIN -->
     <div id="s1" class="step act">
-        <div class="max-w-md mx-auto bg-white p-8 rounded-[2.5rem] shadow-2xl text-center mt-10 border-t-8 border-green-500">
-            <h2 class="text-2xl font-black text-slate-800 mb-2">Bienvenido</h2>
-            <p class="text-slate-400 text-sm mb-6">Accede a tu cuenta de mayorista</p>
-            <input type="email" id="emailInp" placeholder="correo@empresa.com" class="w-full p-4 rounded-2xl border-2 border-slate-100 focus:border-green-400 outline-none text-center font-bold mb-4">
-            <button onclick="login()" class="w-full bg-green-500 text-white p-4 rounded-2xl font-black shadow-lg hover:bg-green-600 transition-all uppercase">Entrar</button>
+        <div class="max-w-md mx-auto bg-white p-10 rounded-[3rem] shadow-2xl text-center mt-12 border-b-8 border-green-400">
+            <h2 class="text-3xl font-black text-slate-800 mb-2">Bienvenido</h2>
+            <p class="text-slate-400 text-sm mb-8 font-medium">Ingresa para sincronizar tu lista</p>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-4 rounded-2xl border-2 border-slate-100 focus:border-green-400 outline-none text-center font-bold mb-6 transition-all">
+            <button onclick="login()" class="w-full bg-green-500 text-white p-5 rounded-2xl font-black shadow-xl hover:bg-green-600 transition-all uppercase tracking-widest">Entrar</button>
         </div>
     </div>
 
-    <!-- PASO 2: CATEGORIAS -->
+    <!-- P2: CATEGORIAS -->
     <div id="s2" class="step">
-        <div class="btn-back" onclick="go(1)">← VOLVER</div>
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-black text-green-900">Nivel de Descuento</h2>
-            <p class="text-green-600">Selecciona tu categoría según tu inversión</p>
+        <div class="btn-back" onclick="go(1)">← Cerrar Sesión</div>
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-black text-green-900 tracking-tighter">¿Qué nivel surtimos hoy?</h2>
+            <p class="text-green-600 font-medium">Elige una categoría para ajustar tus precios</p>
         </div>
-        <div id="cats" class="grid grid-cols-2 lg:grid-cols-5 gap-3">
-            <!-- Cargado por JS con Heartbeat Fast -->
+        <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-center">
+            <!-- Cargado por JS -->
         </div>
     </div>
 
-    <!-- PASO 3: CATALOGO -->
+    <!-- P3: CATALOGO -->
     <div id="s3" class="step">
-        <div class="btn-back" onclick="go(2)">← CAMBIAR LISTA</div>
-        <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-3xl shadow-sm">
-            <h2 id="catTitle" class="font-black text-green-800 uppercase tracking-tighter">Catálogo</h2>
-            <div class="relative"><input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-2 pl-8 border rounded-xl text-sm outline-none focus:border-green-400"></div>
+        <div class="btn-back" onclick="go(2)">← Cambiar de Lista</div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white/50 p-6 rounded-[2rem] border border-white">
+            <div>
+                <h2 id="catTitle" class="text-2xl font-black text-green-900 uppercase tracking-tighter">Catálogo</h2>
+                <p id="catMinLabel" class="text-xs text-green-600 font-bold uppercase"></p>
+            </div>
+            <div class="relative"><input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-3 pl-10 rounded-2xl border-0 shadow-sm w-full md:w-64 outline-none focus:ring-2 focus:ring-green-400"></div>
         </div>
-        <div class="prod-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="prodGrid"></div>
+        <div class="prod-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
         <div class="h-32"></div>
-        <div class="fixed bottom-6 left-0 right-0 px-6 z-50">
-            <button onclick="go(4)" class="max-w-md mx-auto block w-full bg-green-700 text-white p-5 rounded-[2rem] font-black shadow-2xl hover:bg-green-800 transform active:scale-95 transition-all">REVISAR PEDIDO →</button>
+        <div class="fixed bottom-6 left-0 right-0 px-6 z-[1200]">
+            <button onclick="go(4)" class="max-w-md mx-auto block w-full bg-green-900 text-white p-5 rounded-[2.5rem] font-black shadow-2xl hover:scale-[1.02] transition-all uppercase tracking-widest">Revisar mi pedido</button>
         </div>
     </div>
 
-    <!-- PASO 4: FORMULARIO -->
+    <!-- P4: ENVIO -->
     <div id="s4" class="step">
-        <div class="btn-back" onclick="go(3)">← EDITAR CARRITO</div>
-        <div class="bg-white p-8 rounded-[3rem] shadow-xl">
-            <h2 class="text-2xl font-black mb-6 text-green-900 uppercase">Datos de Envío</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="nom" placeholder="Nombre" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="num" placeholder="Número" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
+        <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
+        <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
+            <h2 class="text-3xl font-black mb-8 text-green-900 uppercase tracking-tighter">Información de Envío</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
+                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
+                <input type="text" id="cp" placeholder="Código Postal" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-400">
             </div>
-            <button onclick="enviarPedido()" class="w-full bg-green-500 text-white p-5 rounded-2xl font-black mt-8 shadow-xl hover:bg-green-600 transition-all uppercase">Finalizar Pedido</button>
+            <button onclick="enviarPedido()" class="w-full bg-green-500 text-white p-5 rounded-2xl font-black mt-10 shadow-xl hover:bg-green-600 transition-all uppercase tracking-widest">Finalizar Pedido</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL CARRITO -->
-<div id="cartModal" onclick="closeCart(event)">
-    <div class="cart-card p-6" onclick="event.stopPropagation()">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-black text-green-900">Tu Carrito</h2>
-            <button onclick="closeCart()" class="text-2xl opacity-30 hover:opacity-100">✕</button>
+<!-- MODAL CARRITO (SIDEBAR) -->
+<div id="cartSidebar" onclick="toggleCart(false)">
+    <div class="cart-content p-6" onclick="event.stopPropagation()">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-black text-green-900 tracking-tighter">TU CARRITO</h2>
+            <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500">✕</button>
         </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto space-y-4">
-            <!-- Items del carrito -->
+        <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2">
+            <!-- Items -->
         </div>
-        <div class="border-t pt-6 mt-4">
-            <div class="flex justify-between text-2xl font-black text-green-800 mb-4">
-                <span>Total:</span>
+        <div class="border-t-2 border-dashed pt-6 mt-6">
+            <div class="flex justify-between items-center text-3xl font-black text-green-900 mb-6">
+                <span class="text-sm uppercase text-slate-400">Total</span>
                 <span id="cartFinal">$0.00</span>
             </div>
-            <button onclick="closeCart(); go(4)" class="w-full bg-green-700 text-white p-4 rounded-2xl font-black uppercase shadow-lg">Confirmar Dirección</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-900 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-xl">Confirmar Pedido</button>
         </div>
     </div>
 </div>
 
 <script>
-
-const API_URL = 'https://script.google.com/macros/s/AKfycby-Gvq2rZASpJvgblhPjGOa-Cw5Cva0D67Sot87yTl7h6m7ARutNS-WFEJVSjHERhce/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzDEbMh-eK_jQu4XvKJU93wB-YZUEK6XwLVnYL8LW5gXYueziBROtpY6Dms_YE6WfGm/exec';
 
 const S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, pct:0 };
 
@@ -185,51 +187,57 @@ function go(n){
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
     document.getElementById('s'+n).classList.add('act');
     document.getElementById('topBar').classList.toggle('show', n>=3);
-    if(n===3) renderCatalog();
     window.scrollTo(0,0);
 }
 
 function initCats(){
     const cats=[
-        {id:'base',nm:'Base',ico:'📦', info:'0% desc'},
-        {id:'25%',nm:'Iniciador',ico:'💡', info:'25% desc'},
-        {id:'plata',nm:'Plata',ico:'🥈', info:'47% desc'},
-        {id:'oro',nm:'Oro',ico:'🥇', info:'52% desc'},
-        {id:'diamante',nm:'Diamante',ico:'💎', info:'57% desc'}
+        {id:'base',nm:'Base',ico:'📦', info:'0% desc', min: 'Sin mínimo'},
+        {id:'25%',nm:'Iniciador',ico:'💡', info:'25% desc', min: '$1,333'},
+        {id:'plata',nm:'Plata',ico:'🥈', info:'47% desc', min: '$4,500'},
+        {id:'oro',nm:'Oro',ico:'🥇', info:'52% desc', min: '$12,000'},
+        {id:'diamante',nm:'Diamante',ico:'💎', info:'57% desc', min: '$20,000'}
     ];
     document.getElementById('cats').innerHTML = cats.map(c=>`
-        <div class="cat-card animate-beat cursor-pointer" onclick="selCat('${c.id}')">
-            <span class="emoji text-5xl mb-4 block">${c.ico}</span>
-            <h3 class="font-black text-green-900">${c.nm}</h3>
-            <p class="text-[10px] text-green-600 font-bold uppercase mt-1">${c.info}</p>
+        <div class="cat-card animate-beat" onclick="selCat('${c.id}')">
+            <span class="emoji text-6xl mb-4 block">${c.ico}</span>
+            <h3 class="font-black text-xl text-green-900">${c.nm}</h3>
+            <p class="text-[10px] text-green-600 font-bold uppercase mt-2">${c.info}</p>
+            <div class="mt-4 text-[9px] bg-green-100 text-green-800 px-3 py-1 rounded-full font-black inline-block">${c.min}</div>
         </div>`).join('');
 }
 
 async function selCat(id){
     S.cat = id;
-    const d = await api('getCatalog', {categoria: S.cat});
+    document.body.style.opacity = "0.5";
+    const d = await api('getInitialData', {categoria: S.cat});
+    document.body.style.opacity = "1";
     if(d.success){
         S.prod = d.productos; S.min = d.min; S.pct = d.pct;
+        document.getElementById('mainLogo').src = d.logoUrl;
+        renderCatalog();
         go(3);
     }
 }
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat} (-${S.pct}%)`;
+    document.getElementById('catMinLabel').textContent = `Meta: $${S.min.toLocaleString()}`;
     document.getElementById('cartMinimo').textContent = '$'+S.min.toLocaleString();
+    
     document.getElementById('prodGrid').innerHTML = S.prod.map(p=>`
         <div class="prod-card">
-            <img src="${p.foto}" class="prod-img h-48 w-full object-contain p-4" onerror="this.src='https://via.placeholder.com/150?text=NSN'">
-            <div class="p-4 flex-1 flex flex-col">
-                <h4 class="text-[11px] font-bold text-slate-500 uppercase h-8 overflow-hidden">${p.nombre}</h4>
-                <div class="mt-2">
-                    <div class="price-base">$${p.precioBase.toFixed(2)}</div>
-                    <div class="price-final">$${p.precioFinal.toFixed(2)}</div>
+            <img src="${p.foto}" class="h-48 w-full object-contain p-5 bg-white" onerror="this.src='https://via.placeholder.com/150?text=NSN'">
+            <div class="p-5 flex-1 flex flex-col">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
+                <div class="mb-4">
+                    <div class="text-[10px] text-slate-300 line-through font-bold">$${p.precioBase.toFixed(2)}</div>
+                    <div class="text-xl font-black text-green-900">$${p.precioFinal.toFixed(2)}</div>
                 </div>
-                <div class="mt-4 flex items-center justify-between bg-green-50 rounded-xl p-1">
-                    <button onclick="addQty(${p.id},-1)" class="w-8 h-8 bg-white rounded-lg font-bold text-green-800 shadow-sm">-</button>
-                    <span class="font-black text-green-900">${S.carrito[p.id]||0}</span>
-                    <button onclick="addQty(${p.id},1)" class="w-8 h-8 bg-green-500 text-white rounded-lg font-bold shadow-sm">+</button>
+                <div class="mt-auto flex items-center justify-between bg-slate-50 rounded-2xl p-1 border border-slate-100">
+                    <button onclick="addQty(${p.id},-1)" class="w-9 h-9 bg-white rounded-xl font-black text-slate-400 shadow-sm">-</button>
+                    <span class="font-black text-slate-800">${S.carrito[p.id]||0}</span>
+                    <button onclick="addQty(${p.id},1)" class="w-9 h-9 bg-green-500 text-white rounded-xl font-black shadow-sm">+</button>
                 </div>
             </div>
         </div>`).join('');
@@ -257,40 +265,44 @@ function updProg(){
     badge.style.display = count>0?'flex':'none'; badge.textContent=count;
 }
 
-function openCart(){ document.getElementById('cartModal').style.display='flex'; updCartUI(); }
-function closeCart(e){ if(!e || e.target.id === 'cartModal') document.getElementById('cartModal').style.display='none'; }
+function toggleCart(show){ document.getElementById('cartSidebar').style.display=show?'flex':'none'; if(show) updCartUI(); }
 
 function updCartUI(){
-    let h=''; let tot=0;
+    let h='';
     Object.entries(S.carrito).forEach(([id,q])=>{
         const p=S.prod.find(x=>x.id==id);
         if(p){
-            tot += p.precioFinal*q;
             h += `
-            <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                <img src="${p.foto}" class="w-12 h-12 object-contain bg-white rounded-lg">
+            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-[1.5rem] border border-slate-100">
+                <img src="${p.foto}" class="w-14 h-14 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
-                    <p class="text-[10px] font-bold uppercase text-slate-600 leading-tight">${p.nombre}</p>
+                    <p class="text-[10px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
                     <p class="font-black text-green-700 text-sm">$${(p.precioFinal*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="addQty(${id},-1)" class="w-6 h-6 bg-white rounded-full border text-xs">-</button>
-                    <span class="font-bold text-xs">${q}</span>
-                    <button onclick="addQty(${id},1)" class="w-6 h-6 bg-white rounded-full border text-xs">+</button>
-                    <button onclick="addQty(${id},-${q})" class="ml-2 text-red-400">🗑️</button>
+                    <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-bold">-</button>
+                    <span class="font-bold text-xs w-4 text-center">${q}</span>
+                    <button onclick="addQty(${id},1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-bold">+</button>
+                    <button onclick="addQty(${id},-${q})" class="ml-2 text-slate-300 hover:text-red-500 transition-colors">🗑️</button>
                 </div>
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<p class="text-center py-10 opacity-30">Carrito vacío</p>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20"><p class="text-4xl mb-4">🛒</p><p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Tu carrito está vacío</p></div>';
 }
 
-async function login(){
+function searchProds(){
+    const q = document.getElementById('searchInp').value.toLowerCase();
+    document.querySelectorAll('.prod-card').forEach(c => {
+        const nm = c.querySelector('h4').textContent.toLowerCase();
+        c.style.display = nm.includes(q) ? 'flex' : 'none';
+    });
+}
+
+function login(){
     const e = document.getElementById('emailInp').value;
-    if(!e.includes('@')) return alert('Ingresa un correo válido');
+    if(!e.includes('@')) return alert('Email inválido');
     S.email = e;
-    const l = await api('getLogo', {});
-    if(l.success) document.getElementById('mainLogo').src = l.url;
     go(2);
 }
 
