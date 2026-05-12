@@ -326,7 +326,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyjwiA_UFzMSLccDLVwNUT9egwJ8HQN52ApCqOzDKeOZ6Uab0ckWZsuswWAj9RDZwrr/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxLuMT3GGadVbT9zZTZwDIxf1QwjQQ-Lz_hvvxnje0ck50aYKxgr2gHy0lt0qXd9e0/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -872,20 +872,41 @@ async function confirmOrder(){
     }
 }
 
-function descargarPDF(){
+async function descargarPDF(){
     if(!S.pedidoInfo) return alert('Información de pedido no disponible');
     
-    const dataParaPDF = {
-        noPedido: S.pedidoInfo.noPedido,
-        nombre: S.pedidoInfo.nombre.split(' ')[0],
-        apellido: S.pedidoInfo.nombre.split(' ').slice(1).join(' '),
-        email: S.pedidoInfo.email,
-        total: S.pedidoInfo.total,
-        metodoPago: S.pedidoInfo.metodoPago,
-        productos: S.pedidoInfo.productos
-    };
-    
-    window.open(`${API_URL}?action=generatePDF&data=${encodeURIComponent(JSON.stringify(dataParaPDF))}`, '_blank');
+    try {
+        const dataParaPDF = {
+            noPedido: S.pedidoInfo.noPedido,
+            nombre: S.pedidoInfo.nombre.split(' ')[0],
+            apellido: S.pedidoInfo.nombre.split(' ').slice(1).join(' '),
+            email: S.pedidoInfo.email,
+            total: S.pedidoInfo.total,
+            metodoPago: S.pedidoInfo.metodoPago,
+            productos: S.pedidoInfo.productos
+        };
+        
+        document.getElementById('plantLoader').style.display = 'flex';
+        const resp = await api('generarYEnviarPDF', dataParaPDF);
+        document.getElementById('plantLoader').style.display = 'none';
+        
+        if(resp.success) {
+            // Descargar automáticamente
+            const link = document.createElement('a');
+            link.href = resp.downloadUrl;
+            link.download = resp.fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('✅ PDF descargado y enviado a tu correo!');
+        } else {
+            alert('Error al generar PDF: ' + (resp.error || 'Error desconocido'));
+        }
+    } catch(err) {
+        document.getElementById('plantLoader').style.display = 'none';
+        alert('Error: ' + err.message);
+    }
 }
 
 async function irAMercadoPago(){
