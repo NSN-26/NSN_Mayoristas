@@ -7,16 +7,16 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
-    --green-light: #F4FFF0;
-    --green-soft: #E6FFF0;
-    --green-brand: #65A30D; /* Verde un poco más oscuro y serio */
-    --green-dark: #14532D;  /* Verde bosque corporativo */
-    --mint-gradient: linear-gradient(135deg, #65A30D 0%, #14532D 100%);
+    --green-light: #F0FDF4;
+    --green-soft: #DCFCE7;
+    --green-brand: #16A34A; /* Verde más profundo y profesional */
+    --green-dark: #14532D; 
+    --mint-gradient: linear-gradient(135deg, #16A34A 0%, #14532D 100%);
     --header-gradient: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
 
-/* ANIMACIÓN BLINK (PARPADEO) */
+/* ANIMACIÓN BLINK */
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.05); }
@@ -26,9 +26,9 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 /* ANIMACIÓN HEARTBEAT RÁPIDA */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
-    15% { transform: scale(1.15); }
+    15% { transform: scale(1.1); }
     30% { transform: scale(1); }
-    45% { transform: scale(1.15); }
+    45% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
 .animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
@@ -45,23 +45,24 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .step.act{display:block; animation: fadeUp 0.4s forwards;}
 @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
+/* DISEÑO DE CARDS E IMAGEN AL 100% */
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
-/* PRODUCT CARDS - IMÁGENES AL 100% PROFESIONALES */
-.prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(101,163,13,0.1)}
+.prod-card{background:#fff;border-radius:28px;border:1px solid #E5E7EB;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(22,101,52,0.1)}
 
-.img-container{background:#fff; width:100%; height:250px; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden}
-.prod-img{width:100%; height:100%; object-fit:contain; padding:10px}
+.img-container{width:100%; height:280px; overflow:hidden; background:#fff}
+.prod-img{width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease}
+.prod-card:hover .prod-img{transform: scale(1.05)}
 
 .price-base{text-decoration:line-through;color:#94A3B8;font-size:12px;font-weight:700}
-.price-final{color:var(--green-dark);font-weight:900;font-size:22px}
+.price-final{color:var(--green-dark);font-weight:900;font-size:24px}
 
-/* BOTÓN STICKY CENTRADO */
-.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
-.sticky-btn{pointer-events:auto; width:100%; max-width:400px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.3); transition:all 0.3s}
-.sticky-btn:active{transform:scale(0.95)}
+/* BOTÓN STICKY CENTRADO CORREGIDO */
+.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 20px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
+.sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
+.sticky-btn:active{transform:scale(0.96)}
 
 #cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
 .cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
@@ -73,8 +74,8 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 @media(max-width:768px){
     .sticky-bar{top:78px}
-    .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    .img-container{height:180px}
+    .prod-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .img-container{height:200px}
 }
 </style>
 </head>
@@ -82,7 +83,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <div id="plantLoader">
     <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
+    <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios y Stock...</p>
 </div>
 
 <header class="header">
@@ -90,25 +91,25 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
             <h1 class="text-green-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
+            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Venta B2B Oficial</p>
         </div>
     </div>
 </header>
 
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
-        <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
-            <span>Inversión Real Acumulada</span>
+        <div class="flex justify-between text-[10px] font-black text-green-900 mb-1 uppercase tracking-widest">
+            <span>Inversión Real Alcanzada</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
-        <div class="text-[9px] font-bold mt-1 text-slate-400 uppercase">
+        <div class="text-[9px] font-bold mt-1 text-slate-400 uppercase tracking-tighter">
             <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
         </div>
     </div>
-    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
+    <div class="bg-green-50 text-green-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border-2 border-green-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
-            <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Total</p>
+            <p class="text-[8px] font-black opacity-50 uppercase">Carrito</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
         </div>
         <div class="relative">
@@ -118,16 +119,18 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
 </div>
 
-<div class="container max-w-6xl mx-auto p-4">
+<div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
+    <!-- PASO 1 -->
     <div id="s1" class="step act">
         <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-green-500">
-            <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Hola</h2>
-            <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Accede para ver tus precios de socio</p>
+            <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
+            <p class="text-slate-400 text-sm mb-10 font-medium">Accede para ver tus precios de socio</p>
             <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-600 outline-none text-center font-bold mb-6 transition-all">
-            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
+            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR AL PORTAL</button>
         </div>
     </div>
 
+    <!-- PASO 2 -->
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
@@ -140,24 +143,26 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
+    <!-- PASO 3 -->
     <div id="s3" class="step">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-emerald-50">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-50">
             <div>
                 <h2 id="catTitle" class="text-xl font-black text-green-900 uppercase">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Calculando...</div>
+                <div id="appliedDiscountBadge" class="bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Calculando...</div>
             </div>
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm">
+                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm">
             </div>
         </div>
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
         <div class="h-40"></div>
         <div class="sticky-btn-container">
-            <button onclick="go(4)" class="sticky-btn shadow-2xl">Revisar mi pedido →</button>
+            <button onclick="go(4)" class="sticky-btn">Revisar mi pedido →</button>
         </div>
     </div>
 
+    <!-- PASO 4 -->
     <div id="s4" class="step">
         <div class="btn-back" onclick="go(3)">← EDITAR MI ORDEN</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
@@ -181,14 +186,14 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-emerald-950 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-green-900 uppercase tracking-widest">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
-        <div class="border-t-4 border-emerald-50 pt-8 mt-6">
+        <div class="border-t-4 border-green-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal Estimado</span>
-                <span id="cartFinal" class="text-3xl font-black text-emerald-900">$0.00</span>
+                <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
             </div>
             <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
         </div>
@@ -197,7 +202,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <script>
 // --- URL DE TU PROYECTO API ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbzuTqKeQtS9y-ZCLEjs04jRIoGxBGIWPzbriXIFCOcJaA-sFICAPY2pRE5VRbEyCJc/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyiHRcWMnOIfOCxQv7xx4dgLYVpEDacHMdwbaWJsM2cphVrHlzPM3xfVFdfUoTfg8bO/exec';
 
 // MAPEO DE IMAGENES FIJO (SOLUCIÓN TOTAL VISIBILIDAD)
 const IMAGENES_FIJAS = {
@@ -275,7 +280,7 @@ function initCats(){
             <span class="emoji text-5xl mb-4 block">${c.ico}</span>
             <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
             <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
-            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
+            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
         </div>`).join('');
 }
 
@@ -291,7 +296,7 @@ function selCat(el, id){
 
 function goToCatalog(){
     go(3);
-    updProg(); // Forzamos cálculo inicial
+    updProg();
     renderCatalog();
 }
 
@@ -325,7 +330,7 @@ function addQty(id,d){
     S.carrito[id] = (S.carrito[id]||0)+d;
     if(S.carrito[id]<=0) delete S.carrito[id];
     updProg();
-    renderCatalog(); // Recalcula precios en cards en tiempo real
+    renderCatalog(); // Recalcula precios en tiempo real para el efecto BULLETPROOF
 }
 
 function updProg(){
@@ -335,7 +340,7 @@ function updProg(){
         if(p) subtotalBase += p.precioBase * q; 
     });
 
-    // LÓGICA BULLETPROOF: REAJUSTE AUTOMÁTICO SEGÚN SUBTOTAL REAL
+    // LÓGICA BULLETPROOF: AJUSTE AUTOMÁTICO SEGÚN SUBTOTAL REAL
     let currentTier = 'Lista Base';
     if(subtotalBase >= 20000) currentTier = 'Diamante';
     else if(subtotalBase >= 12000) currentTier = 'Oro';
@@ -387,7 +392,7 @@ function updCartUI(){
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Carrito Vacío</div>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacío</div>';
 }
 
 async function login(){
