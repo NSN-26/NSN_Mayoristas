@@ -7,35 +7,33 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
-    --green-light: #F0FDF4;
-    --green-soft: #DCFCE7;
-    --green-brand: #16A34A;
+    --green-light: #F4FFF0;
+    --green-soft: #E6FFF0;
+    --green-brand: #84CC16;
     --green-dark: #14532D; 
-    --mint-gradient: linear-gradient(135deg, #16A34A 0%, #14532D 100%);
-    --header-gradient: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+    --mint-gradient: linear-gradient(135deg, #84CC16 0%, #5BA313 100%);
+    --header-gradient: linear-gradient(135deg, #F4FFF0 0%, #D4F4DD 100%);
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
 
-/* ANIMACIÓN BLINK */
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.05); }
 }
-.plant-loader { animation: plantBlink 1.2s infinite ease-in-out; }
+.plant-loader { animation: plantBlink 1.5s infinite ease-in-out; }
 
-/* ANIMACIÓN HEARTBEAT */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
-    15% { transform: scale(1.1); }
+    15% { transform: scale(1.2); }
     30% { transform: scale(1); }
-    45% { transform: scale(1.1); }
+    45% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
 .animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-.sticky-bar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
@@ -45,22 +43,21 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .step.act{display:block; animation: fadeUp 0.4s forwards;}
 @keyframes fadeUp{ from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
 
-/* DISEÑO DE CARDS E IMÁGENES PROFESIONALES 100% */
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
-.prod-card{background:#fff;border-radius:28px;border:1px solid #E5E7EB;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(22,101,52,0.1)}
+/* PRODUCT CARDS CON IMAGEN AL 100% */
+.prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
 
-.img-container{width:100%; height:260px; overflow:hidden; background:#fff; display:flex; align-items:center; justify-content:center}
-.prod-img{width:100%; height:100%; object-fit:contain; padding:10px; transition: transform 0.4s ease;}
-.prod-card:hover .prod-img{transform: scale(1.03)}
+.img-container{background:#fff; width:100%; height:260px; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden}
+.prod-img{width:100%; height:100%; object-fit:contain; padding:15px}
 
-.price-base{text-decoration:line-through;color:#94A3B8;font-size:12px;font-weight:700}
+.price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
 /* BOTÓN STICKY CENTRADO */
-.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 20px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
+.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
 .sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
 .sticky-btn:active{transform:scale(0.96)}
 
@@ -72,12 +69,9 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .btn-back{color:var(--green-brand);font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
-/* AJUSTE DE CONTENEDOR PARA EVITAR TRASLAPE */
-.catalog-container{margin-top:25px;}
-
 @media(max-width:768px){
     .sticky-bar{top:78px}
-    .prod-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
     .img-container{height:180px}
 }
 </style>
@@ -85,24 +79,24 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <body>
 
 <div id="plantLoader">
-    <div class="text-7xl plant-blink mb-6">🌱</div>
-    <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
+    <div class="text-7xl plant-loader mb-6">🌱</div>
+    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
 </div>
 
 <header class="header">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
-            <h1 class="text-green-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Wholesaler Center</p>
+            <h1 class="text-lime-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
+            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
         </div>
     </div>
 </header>
 
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
-        <div class="flex justify-between text-[10px] font-black text-green-900 mb-1 uppercase tracking-widest">
-            <span>Avance Inversión Elegida</span>
+        <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
+            <span>Inversión Real Alcanzada</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
@@ -110,7 +104,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
             <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
         </div>
     </div>
-    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border-2 border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
+    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
             <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Total</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
@@ -125,10 +119,10 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
     <!-- PASO 1 -->
     <div id="s1" class="step act">
-        <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-green-500">
+        <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-lime-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
-            <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Portal exclusivo NSN para mayoristas</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-500 outline-none text-center font-bold mb-6 transition-all">
+            <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Accede para sincronizar tu cuenta de socio</p>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-500 outline-none text-center font-bold mb-6 transition-all shadow-inner">
             <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
@@ -138,7 +132,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se fijarán según el descuento elegido</p>
+            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -147,12 +141,12 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
 
     <!-- PASO 3 -->
-    <div id="s3" class="step catalog-container">
+    <div id="s3" class="step">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-50">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-100">
             <div>
-                <h2 id="catTitle" class="text-xl font-black text-green-900 uppercase">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Precios Fijos</div>
+                <h2 id="catTitle" class="text-xl font-black text-green-950 uppercase tracking-tighter">Catálogo</h2>
+                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter">Fijo: -0%</div>
             </div>
             <div class="relative w-full md:w-64">
                 <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
@@ -171,43 +165,33 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
             <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
-                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="num" placeholder="Número" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
-                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="tel" id="tel" placeholder="WhatsApp / Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
+                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
+                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
             <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
         </div>
     </div>
 
-    <!-- PASO 5: RESUMEN FINAL AUDITADO -->
+    <!-- PASO 5: RESUMEN FINAL AUDITADO (BULLETPROOF) -->
     <div id="s5" class="step">
         <div class="btn-back" onclick="go(4)">← Editar Datos</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
             <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Confirmación de Orden</h2>
-            
-            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200">
-                <!-- Datos cliente JS -->
-            </div>
-
-            <div id="finalItemsList" class="space-y-4 mb-8">
-                <!-- Items dinámicos JS -->
-            </div>
-
-            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8">
-                <!-- Auditoría Bulletproof JS -->
-            </div>
-
+            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200"></div>
+            <div id="finalItemsList" class="space-y-4 mb-8"></div>
+            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8"></div>
             <div class="flex flex-col sm:flex-row justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl gap-6">
                 <div class="text-center sm:text-left">
-                    <p class="text-xs opacity-70 uppercase font-black tracking-widest">Monto Final a Liquidar</p>
+                    <p class="text-xs opacity-70 uppercase font-black tracking-widest">Total Final a Liquidar</p>
                     <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
                 </div>
-                <button onclick="alert('Pedido confirmado para validación de stock')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Compra</button>
+                <button onclick="alert('Pedido confirmado')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto">Finalizar Todo</button>
             </div>
         </div>
     </div>
@@ -217,23 +201,22 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest text-center flex-1">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
         <div class="border-t-4 border-green-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
-                <span id="cartFinal" class="text-3xl font-black text-green-950">$0.00</span>
+                <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
             </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase shadow-2xl hover:bg-black transition-all">Confirmar Orden →</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
         </div>
     </div>
 </div>
 
 <script>
-// --- CONFIGURACIÓN ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbz0C5ebn9JTjuV9U_h3oMKHKh-JyLsXJhLNlTD0X3qn-jRBXUIUwGjhIpaz5xAcV1Sf/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyUwUG5MfmCbdU2R9VZIe6xJvrkxVEbJXEc2djV9ygF1D72TMtxs6P-oaEjMW2n6A/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -277,7 +260,7 @@ const IMAGENES_FIJAS = {
   'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w500',
   'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w500',
   'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w500',
-  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w500',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
 };
 
@@ -291,7 +274,6 @@ async function api(action, data) {
 function go(n){
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
     document.getElementById('s'+n).classList.add('act');
-    // Progress bar solo en catálogo
     document.getElementById('topBar').classList.toggle('show', n===3);
     window.scrollTo(0,0);
 }
@@ -333,10 +315,10 @@ function goToCatalog(){
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
+    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
-        // PRECIO FIJO SEGÚN CATEGORÍA SELECCIONADA
-        const fixedPrice = p.precioBase * (1 - S.selectedPct);
+        const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
         const imgUrl = IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN';
         return `
         <div class="prod-card shadow-sm">
@@ -347,11 +329,11 @@ function renderCatalog(){
                 <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
                 <div class="mb-4">
                     ${S.selectedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
-                    <div class="price-final">$${fixedPrice.toFixed(2)}</div>
+                    <div class="price-final">$${finalPriceFixed.toFixed(2)}</div>
                 </div>
                 <div class="mt-auto flex items-center justify-between bg-emerald-50 rounded-2xl p-1 border border-emerald-100 shadow-sm">
                     <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300">-</button>
-                    <span class="font-black text-slate-700 text-lg">${S.carrito[p.id]||0}</span>
+                    <span id="qty-${p.id}" class="font-black text-slate-700 text-lg">${S.carrito[p.id]||0}</span>
                     <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-emerald-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
                 </div>
             </div>
@@ -359,9 +341,12 @@ function renderCatalog(){
     updProg();
 }
 
-function addQty(id,d){
-    S.carrito[id] = (S.carrito[id]||0)+d;
-    if(S.carrito[id]<=0) delete S.carrito[id];
+function addQty(id, d){
+    S.carrito[id] = (S.carrito[id] || 0) + d;
+    if (S.carrito[id] <= 0) delete S.carrito[id];
+    // Actualización directa del DOM para performance
+    const qtySpan = document.getElementById(`qty-${id}`);
+    if (qtySpan) qtySpan.innerText = S.carrito[id] || 0;
     updProg();
 }
 
@@ -395,13 +380,13 @@ function updCartUI(){
     Object.entries(S.carrito).forEach(([id,q])=>{
         const p=S.rawData.products.find(x=>x.id==id);
         if(p){
-            const finalP = p.precioBase * (1 - S.selectedPct);
+            const price = p.precioBase * (1 - S.selectedPct);
             h += `
-            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100">
+            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100 shadow-sm">
                 <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/60'}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-emerald-700 text-sm">$${(finalP*q).toFixed(2)}</p>
+                    <p class="font-black text-emerald-700 text-sm">$${(price*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -416,11 +401,10 @@ function updCartUI(){
 }
 
 function processFinalSummary(){
-    // PASO 5: Lógica Bulletproof Final
     const nom = document.getElementById('nom').value;
     const ape = document.getElementById('ape').value;
     const tel = document.getElementById('tel').value;
-    if(!nom || !ape || !tel) return alert('Datos de contacto incompletos');
+    if(!nom || !ape || !tel) return alert('Por favor llena los datos obligatorios');
 
     let subtotalBase = 0;
     let htmlItems = '';
@@ -437,7 +421,7 @@ function processFinalSummary(){
         }
     });
 
-    // Auditoría de Nivel Real basado en Inversión Base
+    // AUDITORÍA BULLETPROOF
     let realTier = 'Lista Base';
     if(subtotalBase >= 20000) realTier = 'Diamante';
     else if(subtotalBase >= 12000) realTier = 'Oro';
@@ -447,12 +431,11 @@ function processFinalSummary(){
     const realPct = S.rawData.discounts[realTier];
     const finalTotalCalculated = subtotalBase * (1 - realPct);
 
-    // Render Pasos 5
     document.getElementById('clientSummary').innerHTML = `
         <div class="grid grid-cols-2 gap-4">
-            <div><p class="text-slate-400 text-[10px] uppercase font-black">Cliente</p><p class="font-bold">${nom} ${ape}</p></div>
-            <div><p class="text-slate-400 text-[10px] uppercase font-black">WhatsApp</p><p class="font-bold">${tel}</p></div>
-            <div class="col-span-2 mt-2"><p class="text-slate-400 text-[10px] uppercase font-black">Categoría Seleccionada</p><p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p></div>
+            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Cliente</p><p class="font-bold">${nom} ${ape}</p></div>
+            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">WhatsApp</p><p class="font-bold">${tel}</p></div>
+            <div class="col-span-2 mt-2 border-t pt-2"><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Categoría Deseada</p><p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p></div>
         </div>
     `;
 
@@ -460,12 +443,12 @@ function processFinalSummary(){
 
     let auditMsg = '';
     if(realTier === S.cat) {
-        auditMsg = `<div class="text-emerald-700 font-bold flex items-center gap-2">✅ Inversión correcta para nivel ${S.cat}.</div>`;
+        auditMsg = `<div class="text-emerald-700 font-black flex items-center gap-2">✅ ¡Felicidades! Inversión correcta para nivel ${S.cat}.</div>`;
     } else {
         auditMsg = `
             <div class="text-amber-800">
-                <p class="font-black flex items-center gap-2">⚠️ Inversión insuficiente para ${S.cat}</p>
-                <p class="text-xs mt-1">Tu subtotal base es de <b>$${subtotalBase.toLocaleString()}</b>. Se ha aplicado automáticamente el descuento de <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
+                <p class="font-black flex items-center gap-2 uppercase text-xs">⚠️ Inversión insuficiente para ${S.cat}</p>
+                <p class="text-[11px] mt-1">Tu subtotal base es de <b>$${subtotalBase.toLocaleString()}</b>. El sistema ha ajustado automáticamente tu descuento al nivel <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
             </div>
         `;
     }
