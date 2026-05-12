@@ -326,7 +326,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxgIWy3x0wyY6qmsr_-RrLhQvqD5CgcG0ArIOZDtbUsGoSsQM0QdC0lPBEL-LYUUjRd/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyjwiA_UFzMSLccDLVwNUT9egwJ8HQN52ApCqOzDKeOZ6Uab0ckWZsuswWAj9RDZwrr/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -888,30 +888,27 @@ function descargarPDF(){
     window.open(`${API_URL}?action=generatePDF&data=${encodeURIComponent(JSON.stringify(dataParaPDF))}`, '_blank');
 }
 
-function irAMercadoPago(){
+async function irAMercadoPago(){
     if(!S.pedidoInfo) return alert('Información de pedido no disponible');
     
-    // Crear preference en Mercado Pago y redirigir
-    const preferenceData = {
-        items: S.pedidoInfo.productos.map(p => ({
-            title: p.nombre,
-            quantity: p.cantidad,
-            unit_price: p.precioFinal
-        })),
-        payer: {
-            email: S.pedidoInfo.email
-        },
-        external_reference: `NSN-${S.pedidoInfo.noPedido}`,
-        back_urls: {
-            success: window.location.origin,
-            failure: window.location.origin,
-            pending: window.location.origin
+    try {
+        const mpData = {
+            noPedido: S.pedidoInfo.noPedido,
+            total: S.pedidoInfo.total,
+            email: S.pedidoInfo.email,
+            nombre: S.pedidoInfo.nombre
+        };
+        
+        const resp = await api('createMPPreference', mpData);
+        
+        if(resp.success && resp.mpUrl) {
+            window.open(resp.mpUrl, '_blank');
+        } else {
+            alert('Error al conectar con Mercado Pago. Intenta nuevamente.');
         }
-    };
-    
-    // TODO: Llamar a endpoint backend para crear preference
-    // Por ahora, redirigir a Mercado Pago test
-    window.open('https://www.mercadopago.com.mx/checkout/v1/redirect?pref_id=test', '_blank');
+    } catch(err) {
+        alert('Error: ' + err.message);
+    }
 }
 
 function searchProds(){
