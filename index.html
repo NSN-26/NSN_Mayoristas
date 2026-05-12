@@ -10,7 +10,7 @@
     --green-light: #F4FFF0;
     --green-soft: #E6FFF0;
     --green-brand: #84CC16;
-    --green-dark: #14532D; /* Oscurecido ligeramente según petición */
+    --green-dark: #5BA313;
     --mint-gradient: linear-gradient(135deg, #84CC16 0%, #5BA313 100%);
     --header-gradient: linear-gradient(135deg, #F4FFF0 0%, #D4F4DD 100%);
 }
@@ -18,7 +18,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(1.05); }
+    50% { opacity: 0.3; transform: scale(1.1); }
 }
 .plant-loader { animation: plantBlink 1.5s infinite ease-in-out; }
 
@@ -33,25 +33,24 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:sticky;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
 .prog-bar-fill{height:100%;background: var(--mint-gradient);width:0%;transition:width 0.4s ease-out}
 
 .step{display:none; min-height: 60vh;}
-.step.act{display:block; animation: fadeUp 0.5s ease forwards;}
-@keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.step.act{display:block; animation: fadeUp 0.4s forwards;}
+@keyframes fadeUp{ from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
 
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
-/* ESTILO PROFESIONAL DE CARDS E IMÁGENES AL 100% */
 .prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
 .prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
 
-.img-container{background:#fff; width:100%; height:230px; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden}
-.prod-img{width:100%; height:100%; object-fit:contain; padding:15px}
+.img-container{background:#fff; width:100%; height:240px; display:flex; align-items:center; justify-content:center; padding:8px; overflow:hidden; border-bottom:1px solid #f0f0f0}
+.prod-img{width:100%; height:100%; object-fit:contain; object-position:center}
 
 .price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
@@ -87,7 +86,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
             <h1 class="text-lime-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
+            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Portal Oficial</p>
         </div>
     </div>
 </header>
@@ -95,13 +94,10 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
         <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
-            <span>Avance de Inversión</span>
+            <span>Inversión</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
-        <div class="text-[9px] font-bold mt-1 text-slate-400">
-            <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
-        </div>
     </div>
     <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
@@ -131,7 +127,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="btn-back" onclick="logout()">← SALIR</div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-lime-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-lime-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
+            <p class="text-lime-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los descuentos se ajustarán automáticamente</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -145,7 +141,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-lime-50">
             <div>
                 <h2 id="catTitle" class="text-xl font-black text-lime-900 uppercase">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block">Sincronizando...</div>
+                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block">Nivel Base (-0%)</div>
             </div>
             <div class="relative w-full md:w-64">
                 <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-lime-500 font-medium text-sm">
@@ -154,27 +150,26 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
         <div class="h-40"></div>
         <div class="sticky-btn-container">
-            <button onclick="go(4)" class="sticky-btn shadow-2xl">Revisar mi pedido →</button>
+            <button onclick="go(4)" class="sticky-btn">Revisar mi pedido →</button>
         </div>
     </div>
 
     <!-- PASO 4: FORMULARIO -->
     <div id="s4" class="step">
-        <div class="btn-back" onclick="go(3)">← EDITAR MI ORDEN</div>
-        <!-- Formulario se mantiene igual -->
+        <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
             <h2 class="text-2xl font-black mb-8 text-lime-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
+                <input type="tel" id="tel" placeholder="WhatsApp / Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="num" placeholder="Número" class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
-            <button onclick="enviarPedido()" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase">Confirmar Orden</button>
+            <button onclick="enviarPedido()" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase">Finalizar Orden</button>
         </div>
     </div>
 </div>
@@ -183,25 +178,70 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-lime-900 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-lime-950 uppercase tracking-widest">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
         <div class="border-t-4 border-lime-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
-                <span class="text-xs font-black text-slate-300 uppercase tracking-widest">Subtotal</span>
-                <span id="cartFinal" class="text-3xl font-black text-lime-900">$0.00</span>
+                <span class="text-xs font-black text-slate-400 uppercase">Subtotal</span>
+                <span id="cartFinal" class="text-3xl font-black text-lime-950">$0.00</span>
             </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-lime-500 text-white p-5 rounded-3xl font-black uppercase shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
         </div>
     </div>
 </div>
 
 <script>
-// --- URL DE TU PROYECTO ---
 const API_URL = 'https://script.google.com/macros/s/AKfycbw9-YcWa3J4IM1cS18Yr8R_zbncpLT91m4qwiOkWmy9g9rzBiw09dFL4E0Pmxz3p1aI/exec';
 
-let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, pct:0, rawData: null, appliedPct: 0 };
+const IMAGENES = {
+  'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
+  'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w400',
+  'B - yeast':'https://drive.google.com/thumbnail?id=1_W7eG37p9iFkNQJMzseZ2X1mczObiyVy&sz=w400',
+  'BCAA\'s':'https://drive.google.com/thumbnail?id=1KkJz-3Ee54aV3W_lbuWpfkF9eg9KLduQ&sz=w400',
+  'Bisglicinato Zinc':'https://drive.google.com/thumbnail?id=1IzZaMl5ppBigi9CgcIZ-ZIKVKzc1I80O&sz=w400',
+  'Brilliant':'https://drive.google.com/thumbnail?id=1IYDkbVXnlwQwvazyd7m7DjC5d6yLoUmC&sz=w400',
+  'Calcio':'https://drive.google.com/thumbnail?id=1UMkkRQZbAP6uWl31jhfE5PxksFY8Izec&sz=w400',
+  'Circulation':'https://drive.google.com/thumbnail?id=1YtqC6UNI9mHlBNY7t9iDMXxofb3y6rES&sz=w400',
+  'Citrato Magnesio':'https://drive.google.com/thumbnail?id=1tD645HLs0pH0ODxRYrHhWzdMJnB0hV2F&sz=w400',
+  'Clear Viu':'https://drive.google.com/thumbnail?id=1yVy0Ayz8-_8QWkeNXdzpnX5HR_OC7At9&sz=w400',
+  'Creatina':'https://drive.google.com/thumbnail?id=1_i_B71sHqPVvtia-tp3pRUpJ86XrShK8&sz=w400',
+  'Dreams':'https://drive.google.com/thumbnail?id=1fkHK9Yr1JlkPijjhVqmjeMEZhC8ZI2BI&sz=w400',
+  'Iced Coffe protein':'https://drive.google.com/thumbnail?id=1uD7c3MmH8-0v0yooeORm6CPmVvCHt7Rc&sz=w400',
+  'Glicinato Magnesio - 100':'https://drive.google.com/thumbnail?id=10mNoGTW0D51FP3SmNNihLgfcEmdOpCbp&sz=w400',
+  'Glicinato Magnesio - 200':'https://drive.google.com/thumbnail?id=1QMcsqu0nGejG9E3DRZzDnPdpupkN2oWK&sz=w400',
+  'Magnesio Complex - 100':'https://drive.google.com/thumbnail?id=1UL0vejH5cduRd2uG3jHh9WtUXu7hKCyg&sz=w400',
+  'Magnesio Complex - 200':'https://drive.google.com/thumbnail?id=1e3Y4ngwrpRmoXCOYnHWTYyNWlpWEr9na&sz=w400',
+  'Magnesio Elemental COMPLEX':'https://drive.google.com/thumbnail?id=1VqzSB3UCaxK4drdbpaTxOmCxgaiywbZM&sz=w400',
+  'MCT`s':'https://drive.google.com/thumbnail?id=1RouwT54sfgxnVqufaFtFtRCNUOBx-fnK&sz=w400',
+  'Mg + K':'https://drive.google.com/thumbnail?id=16WcUJHLFrKMEArNAvte6R377TgpWbKER&sz=w400',
+  'Milk Thistle':'https://drive.google.com/thumbnail?id=1z3RltqCSZayO0SaqXrypDlmQ4nM-T66u&sz=w400',
+  'Performance':'https://drive.google.com/thumbnail?id=1ipRVt1n-ZpXvbhxtuI7mCLUvuJahyv00&sz=w400',
+  'Potasio':'https://drive.google.com/thumbnail?id=14Dj9lcBLaCRVg75UYwFr8QJ5jtE2b6KS&sz=w400',
+  'Probioticos Men':'https://drive.google.com/thumbnail?id=1lLj-5ZNnKtGrBBfK84zXw7NezJSqOrVb&sz=w400',
+  'Probiotics Women':'https://drive.google.com/thumbnail?id=13ISHZxcMEhlChCMFfTzTzSriBZ1GNz1x&sz=w400',
+  'Silver Men':'https://drive.google.com/thumbnail?id=1CVDoaanpO-evl5tB_rg1PngZAP0X9Whd&sz=w400',
+  'Treonato':'https://drive.google.com/thumbnail?id=11iQjXJtYdz6yjspn4Pcg4ElmqqvkYw7_&sz=w400',
+  'Ultra Magnesio':'https://drive.google.com/thumbnail?id=17tBapIsiareluaV_18iTNbuo-1LL_wwL&sz=w400',
+  'Ultra Probiotics':'https://drive.google.com/thumbnail?id=1BP31PVgKYtJgBDF8fzbKn-6_zmASsdOO&sz=w400',
+  'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w400',
+  'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w400',
+  'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w400',
+  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAUUk&sz=w400',
+  'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w400',
+  'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w400',
+  'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w400',
+  'vitamina B12 Liposomal':'https://drive.google.com/thumbnail?id=12WkL6b1EFLTUXxEXpo_pEuJA9F4U6CNW&sz=w400',
+  'vitamina C Liposomal':'https://drive.google.com/thumbnail?id=1rGAAYbW9sNWtME4TDkPU4FVZKpwhPFfT&sz=w400',
+  'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w400',
+  'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w400',
+  'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w400',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
+  'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w400'
+};
+
+let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, appliedPct: 0, rawData: null };
 
 async function api(action, data) {
     const resp = await fetch(`${API_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(data))}`, { method: 'POST' });
@@ -242,6 +282,7 @@ function initCats(){
 function selCat(el, id){
     S.cat = id;
     S.min = S.rawData.mins[id] || 0;
+    S.appliedPct = S.rawData.discounts[id] || 0;
     document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('sel'));
     el.classList.add('sel');
     const btn = document.getElementById('btnContinueCat');
@@ -257,7 +298,7 @@ function renderCatalog(){
         return `
         <div class="prod-card shadow-sm">
             <div class="img-container">
-                <img src="${p.foto}" class="prod-img" alt="${p.nombre}" onerror="this.src='https://via.placeholder.com/200?text=NSN'">
+                <img src="${IMAGENES[p.nombre] || p.foto}" class="prod-img" alt="${p.nombre}" onerror="this.src='https://via.placeholder.com/200?text=NSN'">
             </div>
             <div class="p-6 flex-1 flex flex-col">
                 <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
@@ -265,20 +306,20 @@ function renderCatalog(){
                     ${S.appliedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
                     <div class="price-final">$${finalPrice.toFixed(2)}</div>
                 </div>
-                <div class="mt-auto flex items-center justify-between bg-lime-50 rounded-2xl p-1 border border-emerald-100">
-                    <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300">-</button>
+                <div class="mt-auto flex items-center justify-between bg-lime-50 rounded-2xl p-1 border border-lime-100">
+                    <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300 transition-colors active:text-red-500">-</button>
                     <span class="font-black text-slate-700 text-lg">${S.carrito[p.id]||0}</span>
-                    <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-green-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
+                    <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-lime-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
                 </div>
             </div>
         </div>`}).join('');
+    updProg();
 }
 
 function addQty(id,d){
     S.carrito[id] = (S.carrito[id]||0)+d;
     if(S.carrito[id]<=0) delete S.carrito[id];
     updProg();
-    renderCatalog(); 
 }
 
 function updProg(){
@@ -288,7 +329,6 @@ function updProg(){
         if(p) subtotalBase += p.precioBase * q; 
     });
 
-    // LÓGICA BULLETPROOF: AJUSTE AUTOMÁTICO SEGÚN SUBTOTAL REAL
     let currentTier = 'Lista Base';
     if(subtotalBase >= 20000) currentTier = 'Diamante';
     else if(subtotalBase >= 12000) currentTier = 'Oro';
@@ -298,15 +338,12 @@ function updProg(){
     S.appliedPct = S.rawData.discounts[currentTier] || 0;
     const finalTotal = subtotalBase * (1 - S.appliedPct);
 
-    // Actualizar UI Progress Bar
     const pctBar = S.min > 0 ? Math.min((finalTotal/S.min)*100, 100) : 100;
     const bar = document.getElementById('progBar');
     if(bar) bar.style.width = pctBar + '%';
     
     document.getElementById('progPct').textContent = Math.round(pctBar) + '%';
     document.getElementById('cartTotal').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    document.getElementById('cartActual').textContent = '$' + Math.round(finalTotal).toLocaleString();
-    document.getElementById('cartMinimo').textContent = '$' + (S.min || 0).toLocaleString();
     document.getElementById('cartFinal').textContent = '$' + finalTotal.toFixed(2);
     document.getElementById('appliedDiscountBadge').textContent = `Nivel ${currentTier} (-${Math.round(S.appliedPct*100)}%)`;
 
@@ -326,10 +363,10 @@ function updCartUI(){
             const finalP = p.precioBase * (1 - S.appliedPct);
             h += `
             <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100">
-                <img src="${p.foto}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
+                <img src="${IMAGENES[p.nombre] || p.foto}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-green-700 text-sm">$${(finalP*q).toFixed(2)}</p>
+                    <p class="font-black text-lime-700 text-sm">$${(finalP*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -340,7 +377,7 @@ function updCartUI(){
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs">Vacío</div>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs">Carrito Vacío</div>';
 }
 
 async function login(){
@@ -367,7 +404,11 @@ function searchProds(){
         c.style.display = nm.includes(q) ? 'flex' : 'none';
     });
 }
-function enviarPedido(){ alert('Función de envío activada'); }
+
+function enviarPedido(){
+    alert('Pedido enviado (demo)');
+}
+
 window.onload = () => {};
 </script>
 </body>
