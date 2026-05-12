@@ -9,21 +9,19 @@
 :root{
     --green-light: #F0FDF4;
     --green-soft: #DCFCE7;
-    --green-brand: #16A34A; /* Verde más profundo y profesional */
+    --green-brand: #16A34A;
     --green-dark: #14532D; 
     --mint-gradient: linear-gradient(135deg, #16A34A 0%, #14532D 100%);
     --header-gradient: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
 
-/* ANIMACIÓN BLINK */
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.05); }
 }
 .plant-loader { animation: plantBlink 1.2s infinite ease-in-out; }
 
-/* ANIMACIÓN HEARTBEAT RÁPIDA */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
     15% { transform: scale(1.1); }
@@ -45,21 +43,20 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .step.act{display:block; animation: fadeUp 0.4s forwards;}
 @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-/* DISEÑO DE CARDS E IMAGEN AL 100% */
+/* CARDS E IMÁGENES PROFESIONALES */
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
 .prod-card{background:#fff;border-radius:28px;border:1px solid #E5E7EB;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
 .prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(22,101,52,0.1)}
 
-.img-container{width:100%; height:280px; overflow:hidden; background:#fff}
-.prod-img{width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease}
-.prod-card:hover .prod-img{transform: scale(1.05)}
+.img-container{width:100%; height:280px; overflow:hidden; background:#fff; display:flex; align-items:center; justify-content:center}
+.prod-img{width:100%; height:100%; object-fit:contain; padding:10px}
 
 .price-base{text-decoration:line-through;color:#94A3B8;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:24px}
 
-/* BOTÓN STICKY CENTRADO CORREGIDO */
+/* BOTÓN STICKY CENTRADO */
 .sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 20px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
 .sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
 .sticky-btn:active{transform:scale(0.96)}
@@ -83,7 +80,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <div id="plantLoader">
     <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios y Stock...</p>
+    <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
 </div>
 
 <header class="header">
@@ -91,7 +88,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
             <h1 class="text-green-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Venta B2B Oficial</p>
+            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
         </div>
     </div>
 </header>
@@ -99,7 +96,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
         <div class="flex justify-between text-[10px] font-black text-green-900 mb-1 uppercase tracking-widest">
-            <span>Inversión Real Alcanzada</span>
+            <span>Avance de Inversión</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
@@ -107,9 +104,9 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
             <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
         </div>
     </div>
-    <div class="bg-green-50 text-green-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border-2 border-green-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
+    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border-2 border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
-            <p class="text-[8px] font-black opacity-50 uppercase">Carrito</p>
+            <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Carrito</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
         </div>
         <div class="relative">
@@ -120,22 +117,22 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 </div>
 
 <div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
-    <!-- PASO 1 -->
+    <!-- PASO 1: LOGIN -->
     <div id="s1" class="step act">
         <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-green-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
-            <p class="text-slate-400 text-sm mb-10 font-medium">Accede para ver tus precios de socio</p>
+            <p class="text-slate-400 text-sm mb-10 font-medium">Accede para sincronizar tu cuenta de socio</p>
             <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-600 outline-none text-center font-bold mb-6 transition-all">
-            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR AL PORTAL</button>
+            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
 
-    <!-- PASO 2 -->
+    <!-- PASO 2: CATEGORIAS -->
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente según tu inversión</p>
+            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios en el catálogo se fijarán según tu elección</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -143,7 +140,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 3 -->
+    <!-- PASO 3: CATALOGO -->
     <div id="s3" class="step">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-50">
@@ -152,7 +149,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
                 <div id="appliedDiscountBadge" class="bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Calculando...</div>
             </div>
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm">
+                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
             </div>
         </div>
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
@@ -162,9 +159,9 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 4 -->
+    <!-- PASO 4: FORMULARIO -->
     <div id="s4" class="step">
-        <div class="btn-back" onclick="go(3)">← EDITAR MI ORDEN</div>
+        <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
             <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -177,7 +174,35 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
                 <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
-            <button onclick="alert('Pedido confirmado')" class="w-full bg-green-700 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Finalizar Orden</button>
+            <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
+        </div>
+    </div>
+
+    <!-- PASO 5: RESUMEN FINAL BULLETPROOF -->
+    <div id="s5" class="step">
+        <div class="btn-back" onclick="go(4)">← Editar Datos</div>
+        <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
+            <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Resumen de Orden</h2>
+            
+            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm">
+                <!-- Datos cliente JS -->
+            </div>
+
+            <div id="finalItemsList" class="space-y-4 mb-8">
+                <!-- Items JS -->
+            </div>
+
+            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8">
+                <!-- Auditoría Bulletproof JS -->
+            </div>
+
+            <div class="flex justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl">
+                <div>
+                    <p class="text-xs opacity-70 uppercase font-black">Total Final a Pagar</p>
+                    <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
+                </div>
+                <button onclick="enviarPedido()" class="bg-white text-green-900 px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100">Finalizar Todo</button>
+            </div>
         </div>
     </div>
 </div>
@@ -186,13 +211,13 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-green-900 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
         <div class="border-t-4 border-green-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
-                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal Estimado</span>
+                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
                 <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
             </div>
             <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
@@ -201,57 +226,55 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 </div>
 
 <script>
-// --- URL DE TU PROYECTO API ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbyiHRcWMnOIfOCxQv7xx4dgLYVpEDacHMdwbaWJsM2cphVrHlzPM3xfVFdfUoTfg8bO/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbweqY3xg93wqIz-EMNtQFwZfIzqjFGffEOdQ6w8fKyybgSiYp7QhQ06XpV-H3AlpX0D/exec';
 
-// MAPEO DE IMAGENES FIJO (SOLUCIÓN TOTAL VISIBILIDAD)
 const IMAGENES_FIJAS = {
-  'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w400',
-  'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w400',
-  'B - yeast':'https://drive.google.com/thumbnail?id=1_W7eG37p9iFkNQJMzseZ2X1mczObiyVy&sz=w400',
-  'BCAA\'s':'https://drive.google.com/thumbnail?id=1KkJz-3Ee54aV3W_lbuWpfkF9eg9KLduQ&sz=w400',
-  'Bisglicinato Zinc':'https://drive.google.com/thumbnail?id=1IzZaMl5ppBigi9CgcIZ-ZIKVKzc1I80O&sz=w400',
-  'Brilliant':'https://drive.google.com/thumbnail?id=1IYDkbVXnlwQwvazyd7m7DjC5d6yLoUmC&sz=w400',
-  'Calcio':'https://drive.google.com/thumbnail?id=1UMkkRQZbAP6uWl31jhfE5PxksFY8Izec&sz=w400',
-  'Circulation':'https://drive.google.com/thumbnail?id=1YtqC6UNI9mHlBNY7t9iDMXxofb3y6rES&sz=w400',
-  'Citrato Magnesio':'https://drive.google.com/thumbnail?id=1tD645HLs0pH0ODxRYrHhWzdMJnB0hV2F&sz=w400',
-  'Clear Viu':'https://drive.google.com/thumbnail?id=1yVy0Ayz8-_8QWkeNXdzpnX5HR_OC7At9&sz=w400',
-  'Creatina':'https://drive.google.com/thumbnail?id=1_i_B71sHqPVvtia-tp3pRUpJ86XrShK8&sz=w400',
-  'Dreams':'https://drive.google.com/thumbnail?id=1fkHK9Yr1JlkPijjhVqmjeMEZhC8ZI2BI&sz=w400',
-  'Iced Coffe protein':'https://drive.google.com/thumbnail?id=1uD7c3MmH8-0v0yooeORm6CPmVvCHt7Rc&sz=w400',
-  'Glicinato Magnesio - 100':'https://drive.google.com/thumbnail?id=10mNoGTW0D51FP3SmNNihLgfcEmdOpCbp&sz=w400',
-  'Glicinato Magnesio - 200':'https://drive.google.com/thumbnail?id=1QMcsqu0nGejG9E3DRZzDnPdpupkN2oWK&sz=w400',
-  'Magnesio Complex - 100':'https://drive.google.com/thumbnail?id=1UL0vejH5cduRd2uG3jHh9WtUXu7hKCyg&sz=w400',
-  'Magnesio Complex - 200':'https://drive.google.com/thumbnail?id=1e3Y4ngwrpRmoXCOYnHWTYyNWlpWEr9na&sz=w400',
-  'Magnesio Elemental COMPLEX':'https://drive.google.com/thumbnail?id=1VqzSB3UCaxK4drdbpaTxOmCxgaiywbZM&sz=w400',
-  'MCT`s':'https://drive.google.com/thumbnail?id=1RouwT54sfgxnVqufaFtFtRCNUOBx-fnK&sz=w400',
-  'Mg + K':'https://drive.google.com/thumbnail?id=16WcUJHLFrKMEArNAvte6R377TgpWbKER&sz=w400',
-  'Milk Thistle':'https://drive.google.com/thumbnail?id=1z3RltqCSZayO0SaqXrypDlmQ4nM-T66u&sz=w400',
-  'Performance':'https://drive.google.com/thumbnail?id=1ipRVt1n-ZpXvbhxtuI7mCLUvuJahyv00&sz=w400',
-  'Potasio':'https://drive.google.com/thumbnail?id=14Dj9lcBLaCRVg75UYwFr8QJ5jtE2b6KS&sz=w400',
-  'Probioticos Men':'https://drive.google.com/thumbnail?id=1lLj-5ZNnKtGrBBfK84zXw7NezJSqOrVb&sz=w400',
-  'Probiotics Women':'https://drive.google.com/thumbnail?id=13ISHZxcMEhlChCMFfTzTzSriBZ1GNz1x&sz=w400',
-  'Silver Men':'https://drive.google.com/thumbnail?id=1CVDoaanpO-evl5tB_rg1PngZAP0X9Whd&sz=w400',
-  'Treonato':'https://drive.google.com/thumbnail?id=11iQjXJtYdz6yjspn4Pcg4ElmqqvkYw7_&sz=w400',
-  'Ultra Magnesio':'https://drive.google.com/thumbnail?id=17tBapIsiareluaV_18iTNbuo-1LL_wwL&sz=w400',
-  'Ultra Probiotics':'https://drive.google.com/thumbnail?id=1BP31PVgKYtJgBDF8fzbKn-6_zmASsdOO&sz=w400',
-  'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w400',
-  'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w400',
-  'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w400',
-  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAUUk&sz=w400',
-  'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w400',
-  'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w400',
-  'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w400',
-  'vitamina B12 Liposomal':'https://drive.google.com/thumbnail?id=12WkL6b1EFLTUXxEXpo_pEuJA9F4U6CNW&sz=w400',
-  'vitamina C Liposomal':'https://drive.google.com/thumbnail?id=1rGAAYbW9sNWtME4TDkPU4FVZKpwhPFfT&sz=w400',
-  'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w400',
-  'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w400',
-  'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w400',
-  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
-  'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w400'
+  'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
+  'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w500',
+  'B - yeast':'https://drive.google.com/thumbnail?id=1_W7eG37p9iFkNQJMzseZ2X1mczObiyVy&sz=w500',
+  'BCAA\'s':'https://drive.google.com/thumbnail?id=1KkJz-3Ee54aV3W_lbuWpfkF9eg9KLduQ&sz=w500',
+  'Bisglicinato Zinc':'https://drive.google.com/thumbnail?id=1IzZaMl5ppBigi9CgcIZ-ZIKVKzc1I80O&sz=w500',
+  'Brilliant':'https://drive.google.com/thumbnail?id=1IYDkbVXnlwQwvazyd7m7DjC5d6yLoUmC&sz=w500',
+  'Calcio':'https://drive.google.com/thumbnail?id=1UMkkRQZbAP6uWl31jhfE5PxksFY8Izec&sz=w500',
+  'Circulation':'https://drive.google.com/thumbnail?id=1YtqC6UNI9mHlBNY7t9iDMXxofb3y6rES&sz=w500',
+  'Citrato Magnesio':'https://drive.google.com/thumbnail?id=1tD645HLs0pH0ODxRYrHhWzdMJnB0hV2F&sz=w500',
+  'Clear Viu':'https://drive.google.com/thumbnail?id=1yVy0Ayz8-_8QWkeNXdzpnX5HR_OC7At9&sz=w500',
+  'Creatina':'https://drive.google.com/thumbnail?id=1_i_B71sHqPVvtia-tp3pRUpJ86XrShK8&sz=w500',
+  'Dreams':'https://drive.google.com/thumbnail?id=1fkHK9Yr1JlkPijjhVqmjeMEZhC8ZI2BI&sz=w500',
+  'Iced Coffe protein':'https://drive.google.com/thumbnail?id=1uD7c3MmH8-0v0yooeORm6CPmVvCHt7Rc&sz=w500',
+  'Glicinato Magnesio - 100':'https://drive.google.com/thumbnail?id=10mNoGTW0D51FP3SmNNihLgfcEmdOpCbp&sz=w500',
+  'Glicinato Magnesio - 200':'https://drive.google.com/thumbnail?id=1QMcsqu0nGejG9E3DRZzDnPdpupkN2oWK&sz=w500',
+  'Magnesio Complex - 100':'https://drive.google.com/thumbnail?id=1UL0vejH5cduRd2uG3jHh9WtUXu7hKCyg&sz=w500',
+  'Magnesio Complex - 200':'https://drive.google.com/thumbnail?id=1e3Y4ngwrpRmoXCOYnHWTYyNWlpWEr9na&sz=w500',
+  'Magnesio Elemental COMPLEX':'https://drive.google.com/thumbnail?id=1VqzSB3UCaxK4drdbpaTxOmCxgaiywbZM&sz=w500',
+  'MCT`s':'https://drive.google.com/thumbnail?id=1RouwT54sfgxnVqufaFtFtRCNUOBx-fnK&sz=w500',
+  'Mg + K':'https://drive.google.com/thumbnail?id=16WcUJHLFrKMEArNAvte6R377TgpWbKER&sz=w500',
+  'Milk Thistle':'https://drive.google.com/thumbnail?id=1z3RltqCSZayO0SaqXrypDlmQ4nM-T66u&sz=w500',
+  'Performance':'https://drive.google.com/thumbnail?id=1ipRVt1n-ZpXvbhxtuI7mCLUvuJahyv00&sz=w500',
+  'Potasio':'https://drive.google.com/thumbnail?id=14Dj9lcBLaCRVg75UYwFr8QJ5jtE2b6KS&sz=w500',
+  'Probioticos Men':'https://drive.google.com/thumbnail?id=1lLj-5ZNnKtGrBBfK84zXw7NezJSqOrVb&sz=w500',
+  'Probiotics Women':'https://drive.google.com/thumbnail?id=13ISHZxcMEhlChCMFfTzTzSriBZ1GNz1x&sz=w500',
+  'Silver Men':'https://drive.google.com/thumbnail?id=1CVDoaanpO-evl5tB_rg1PngZAP0X9Whd&sz=w500',
+  'Treonato':'https://drive.google.com/thumbnail?id=11iQjXJtYdz6yjspn4Pcg4ElmqqvkYw7_&sz=w500',
+  'Ultra Magnesio':'https://drive.google.com/thumbnail?id=17tBapIsiareluaV_18iTNbuo-1LL_wwL&sz=w500',
+  'Ultra Probiotics':'https://drive.google.com/thumbnail?id=1BP31PVgKYtJgBDF8fzbKn-6_zmASsdOO&sz=w500',
+  'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w500',
+  'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w500',
+  'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w500',
+  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAU0Uk&sz=w500',
+  'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w500',
+  'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w500',
+  'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w500',
+  'vitamina B12 Liposomal':'https://drive.google.com/thumbnail?id=12WkL6b1EFLTUXxEXpo_pEuJA9F4U6CNW&sz=w500',
+  'vitamina C Liposomal':'https://drive.google.com/thumbnail?id=1rGAAYbW9sNWtME4TDkPU4FVZKpwhPFfT&sz=w500',
+  'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w500',
+  'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w500',
+  'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w500',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w500',
+  'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
 };
 
-let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, appliedPct: 0, rawData: null };
+let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, selectedPct: 0, rawData: null };
 
 async function api(action, data) {
     const resp = await fetch(`${API_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(data))}`, { method: 'POST' });
@@ -261,7 +284,8 @@ async function api(action, data) {
 function go(n){
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
     document.getElementById('s'+n).classList.add('act');
-    document.getElementById('topBar').classList.toggle('show', n>=3);
+    // LA PROGRESS BAR YA NO SE DEBE VER EN PASO 4 Y 5
+    document.getElementById('topBar').classList.toggle('show', (n===3));
     window.scrollTo(0,0);
 }
 
@@ -287,35 +311,35 @@ function initCats(){
 function selCat(el, id){
     S.cat = id;
     S.min = S.rawData.mins[id] || 0;
+    S.selectedPct = S.rawData.discounts[id] || 0;
     document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('sel'));
     el.classList.add('sel');
     const btn = document.getElementById('btnContinueCat');
     btn.disabled = false;
-    btn.className = "bg-emerald-600 text-white px-12 py-5 rounded-3xl font-black shadow-xl hover:bg-black cursor-pointer transition-all uppercase tracking-widest scale-105";
+    btn.className = "bg-green-600 text-white px-12 py-5 rounded-3xl font-black shadow-xl hover:bg-black cursor-pointer transition-all uppercase tracking-widest scale-105";
 }
 
 function goToCatalog(){
     go(3);
-    updProg();
     renderCatalog();
 }
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
+    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
-        const finalPrice = p.precioBase * (1 - S.appliedPct);
-        const imgUrl = IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN';
+        const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
         return `
         <div class="prod-card shadow-sm">
             <div class="img-container">
-                <img src="${imgUrl}" class="prod-img" alt="${p.nombre}">
+                <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN'}" class="prod-img" alt="${p.nombre}">
             </div>
             <div class="p-6 flex-1 flex flex-col">
                 <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
                 <div class="mb-4">
-                    ${S.appliedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
-                    <div class="price-final">$${finalPrice.toFixed(2)}</div>
+                    ${S.selectedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
+                    <div class="price-final">$${finalPriceFixed.toFixed(2)}</div>
                 </div>
                 <div class="mt-auto flex items-center justify-between bg-emerald-50 rounded-2xl p-1 border border-emerald-100 shadow-sm">
                     <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300">-</button>
@@ -324,43 +348,31 @@ function renderCatalog(){
                 </div>
             </div>
         </div>`}).join('');
+    updProg();
 }
 
 function addQty(id,d){
     S.carrito[id] = (S.carrito[id]||0)+d;
     if(S.carrito[id]<=0) delete S.carrito[id];
     updProg();
-    renderCatalog(); // Recalcula precios en tiempo real para el efecto BULLETPROOF
 }
 
 function updProg(){
-    let subtotalBase = 0;
+    let subtotalConDescuentoFijo = 0;
     Object.entries(S.carrito).forEach(([id,q])=>{ 
         const p=S.rawData.products.find(x=>x.id==id); 
-        if(p) subtotalBase += p.precioBase * q; 
+        if(p) subtotalConDescuentoFijo += (p.precioBase * (1 - S.selectedPct)) * q; 
     });
 
-    // LÓGICA BULLETPROOF: AJUSTE AUTOMÁTICO SEGÚN SUBTOTAL REAL
-    let currentTier = 'Lista Base';
-    if(subtotalBase >= 20000) currentTier = 'Diamante';
-    else if(subtotalBase >= 12000) currentTier = 'Oro';
-    else if(subtotalBase >= 4500) currentTier = 'Plata';
-    else if(subtotalBase >= 1333) currentTier = '25%';
-
-    S.appliedPct = S.rawData.discounts[currentTier] || 0;
-    const finalTotal = subtotalBase * (1 - S.appliedPct);
-
-    // Actualizar UI
-    const pctBar = S.min > 0 ? Math.min((finalTotal/S.min)*100, 100) : 100;
+    const pctBar = S.min > 0 ? Math.min((subtotalConDescuentoFijo/S.min)*100, 100) : 100;
     const bar = document.getElementById('progBar');
     if(bar) bar.style.width = pctBar + '%';
     
     document.getElementById('progPct').textContent = Math.round(pctBar) + '%';
-    document.getElementById('cartTotal').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    document.getElementById('cartActual').textContent = '$' + Math.round(finalTotal).toLocaleString();
+    document.getElementById('cartTotal').textContent = '$' + subtotalConDescuentoFijo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById('cartActual').textContent = '$' + Math.round(subtotalConDescuentoFijo).toLocaleString();
     document.getElementById('cartMinimo').textContent = '$' + (S.min || 0).toLocaleString();
-    document.getElementById('cartFinal').textContent = '$' + finalTotal.toFixed(2);
-    document.getElementById('appliedDiscountBadge').textContent = `Nivel ${currentTier} (-${Math.round(S.appliedPct*100)}%)`;
+    document.getElementById('cartFinal').textContent = '$' + subtotalConDescuentoFijo.toFixed(2);
 
     const count = Object.values(S.carrito).reduce((a,b)=>a+b,0);
     const badge = document.getElementById('cartBadge');
@@ -375,13 +387,13 @@ function updCartUI(){
     Object.entries(S.carrito).forEach(([id,q])=>{
         const p=S.rawData.products.find(x=>x.id==id);
         if(p){
-            const finalP = p.precioBase * (1 - S.appliedPct);
+            const price = p.precioBase * (1 - S.selectedPct);
             h += `
-            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100">
-                <img src="${IMAGENES_FIJAS[p.nombre] || p.foto}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
+            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100 shadow-sm">
+                <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/60'}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-emerald-700 text-sm">$${(finalP*q).toFixed(2)}</p>
+                    <p class="font-black text-green-700 text-sm">$${(price*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -392,7 +404,66 @@ function updCartUI(){
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacío</div>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs">Vacío</div>';
+}
+
+function processFinalSummary(){
+    // PASO 5: Lógica Bulletproof Final
+    const nom = document.getElementById('nom').value;
+    const ape = document.getElementById('ape').value;
+    const tel = document.getElementById('tel').value;
+    if(!nom || !ape || !tel) return alert('Por favor llena los datos de contacto');
+
+    let subtotalBase = 0;
+    let htmlItems = '';
+    
+    Object.entries(S.carrito).forEach(([id,q])=>{
+        const p=S.rawData.products.find(x=>x.id==id);
+        if(p) {
+            subtotalBase += p.precioBase * q;
+            htmlItems += `
+            <div class="flex justify-between items-center text-xs border-b pb-2">
+                <span>${q}x ${p.nombre}</span>
+                <span class="font-bold">$${(p.precioBase * q).toLocaleString()} (Base)</span>
+            </div>`;
+        }
+    });
+
+    // Auditoría Real
+    let realTier = 'Lista Base';
+    if(subtotalBase >= 20000) realTier = 'Diamante';
+    else if(subtotalBase >= 12000) realTier = 'Oro';
+    else if(subtotalBase >= 4500) realTier = 'Plata';
+    else if(subtotalBase >= 1333) realTier = '25%';
+
+    const realPct = S.rawData.discounts[realTier];
+    const finalTotal = subtotalBase * (1 - realPct);
+
+    // Llenar HTML Pasos 5
+    document.getElementById('clientSummary').innerHTML = `
+        <p class="font-black uppercase text-green-800 mb-2">Datos del Cliente</p>
+        <p><b>Nombre:</b> ${nom} ${ape}</p>
+        <p><b>WhatsApp:</b> ${tel}</p>
+        <p><b>Categoría Solicitada:</b> ${S.cat} (-${Math.round(S.selectedPct*100)}%)</p>
+    `;
+
+    document.getElementById('finalItemsList').innerHTML = htmlItems;
+
+    let auditHtml = `
+        <p class="text-xs font-black uppercase text-amber-700 mb-2">🔍 Verificación de Inversión</p>
+        <p class="text-sm">Inversión base alcanzada: <b>$${subtotalBase.toLocaleString()}</b></p>
+    `;
+
+    if(realTier !== S.cat){
+        auditHtml += `<p class="text-xs text-red-600 font-bold mt-2 mt-2 italic">⚠️ No se alcanzó el mínimo para ${S.cat}. Se aplicó el descuento de nivel ${realTier} (-${Math.round(realPct*100)}%).</p>`;
+    } else {
+        auditHtml += `<p class="text-xs text-green-700 font-bold mt-2 italic">✅ ¡Felicidades! Cumples con el mínimo de inversión para el nivel ${S.cat}.</p>`;
+    }
+
+    document.getElementById('auditSection').innerHTML = auditHtml;
+    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    go(5);
 }
 
 async function login(){
@@ -419,6 +490,7 @@ function searchProds(){
         c.style.display = nm.includes(q) ? 'flex' : 'none';
     });
 }
+function enviarPedido(){ alert('Pedido enviado correctamente. Revisaremos tu orden.'); }
 window.onload = () => {};
 </script>
 </body>
