@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NSN | Portal Mayoristas</title>
+<title>NSN | Wholesaler Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
@@ -16,12 +16,14 @@
 }
 body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
 
+/* ANIMACIÓN BLINK */
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.05); }
 }
 .plant-loader { animation: plantBlink 1.2s infinite ease-in-out; }
 
+/* ANIMACIÓN HEARTBEAT */
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
     15% { transform: scale(1.1); }
@@ -33,7 +35,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+.sticky-bar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
@@ -41,20 +43,21 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .step{display:none; min-height: 60vh;}
 .step.act{display:block; animation: fadeUp 0.4s forwards;}
-@keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp{ from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
 
-/* CARDS E IMÁGENES PROFESIONALES */
+/* DISEÑO DE CARDS E IMÁGENES PROFESIONALES 100% */
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
 .prod-card{background:#fff;border-radius:28px;border:1px solid #E5E7EB;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
 .prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(22,101,52,0.1)}
 
-.img-container{width:100%; height:280px; overflow:hidden; background:#fff; display:flex; align-items:center; justify-content:center}
-.prod-img{width:100%; height:100%; object-fit:contain; padding:10px}
+.img-container{width:100%; height:260px; overflow:hidden; background:#fff; display:flex; align-items:center; justify-content:center}
+.prod-img{width:100%; height:100%; object-fit:contain; padding:10px; transition: transform 0.4s ease;}
+.prod-card:hover .prod-img{transform: scale(1.03)}
 
 .price-base{text-decoration:line-through;color:#94A3B8;font-size:12px;font-weight:700}
-.price-final{color:var(--green-dark);font-weight:900;font-size:24px}
+.price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
 /* BOTÓN STICKY CENTRADO */
 .sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 20px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
@@ -69,17 +72,20 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .btn-back{color:var(--green-brand);font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
+/* AJUSTE DE CONTENEDOR PARA EVITAR TRASLAPE */
+.catalog-container{margin-top:25px;}
+
 @media(max-width:768px){
     .sticky-bar{top:78px}
     .prod-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-    .img-container{height:200px}
+    .img-container{height:180px}
 }
 </style>
 </head>
 <body>
 
 <div id="plantLoader">
-    <div class="text-7xl plant-loader mb-6">🌱</div>
+    <div class="text-7xl plant-blink mb-6">🌱</div>
     <p class="font-black text-green-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
 </div>
 
@@ -88,7 +94,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
             <h1 class="text-green-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
+            <p class="text-green-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Wholesaler Center</p>
         </div>
     </div>
 </header>
@@ -96,7 +102,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
         <div class="flex justify-between text-[10px] font-black text-green-900 mb-1 uppercase tracking-widest">
-            <span>Avance de Inversión</span>
+            <span>Avance Inversión Elegida</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
@@ -106,7 +112,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
     <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border-2 border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
         <div class="text-right leading-none">
-            <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Carrito</p>
+            <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Total</p>
             <span id="cartTotal" class="font-black text-xs">$0.00</span>
         </div>
         <div class="relative">
@@ -117,22 +123,22 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 </div>
 
 <div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
-    <!-- PASO 1: LOGIN -->
+    <!-- PASO 1 -->
     <div id="s1" class="step act">
         <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-green-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
-            <p class="text-slate-400 text-sm mb-10 font-medium">Accede para sincronizar tu cuenta de socio</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-600 outline-none text-center font-bold mb-6 transition-all">
+            <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Portal exclusivo NSN para mayoristas</p>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-500 outline-none text-center font-bold mb-6 transition-all">
             <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
 
-    <!-- PASO 2: CATEGORIAS -->
+    <!-- PASO 2 -->
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios en el catálogo se fijarán según tu elección</p>
+            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se fijarán según el descuento elegido</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -140,13 +146,13 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 3: CATALOGO -->
-    <div id="s3" class="step">
+    <!-- PASO 3 -->
+    <div id="s3" class="step catalog-container">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-50">
             <div>
                 <h2 id="catTitle" class="text-xl font-black text-green-900 uppercase">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Calculando...</div>
+                <div id="appliedDiscountBadge" class="bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Precios Fijos</div>
             </div>
             <div class="relative w-full md:w-64">
                 <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
@@ -155,53 +161,53 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
         <div class="h-40"></div>
         <div class="sticky-btn-container">
-            <button onclick="go(4)" class="sticky-btn">Revisar mi pedido →</button>
+            <button onclick="go(4)" class="sticky-btn shadow-2xl">Revisar mi pedido →</button>
         </div>
     </div>
 
-    <!-- PASO 4: FORMULARIO -->
+    <!-- PASO 4 -->
     <div id="s4" class="step">
         <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
             <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="WhatsApp / Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
+                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="num" placeholder="Número" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
+                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600">
             </div>
             <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
         </div>
     </div>
 
-    <!-- PASO 5: RESUMEN FINAL BULLETPROOF -->
+    <!-- PASO 5: RESUMEN FINAL AUDITADO -->
     <div id="s5" class="step">
         <div class="btn-back" onclick="go(4)">← Editar Datos</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
-            <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Resumen de Orden</h2>
+            <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Confirmación de Orden</h2>
             
-            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm">
+            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200">
                 <!-- Datos cliente JS -->
             </div>
 
             <div id="finalItemsList" class="space-y-4 mb-8">
-                <!-- Items JS -->
+                <!-- Items dinámicos JS -->
             </div>
 
             <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8">
                 <!-- Auditoría Bulletproof JS -->
             </div>
 
-            <div class="flex justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl">
-                <div>
-                    <p class="text-xs opacity-70 uppercase font-black">Total Final a Pagar</p>
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl gap-6">
+                <div class="text-center sm:text-left">
+                    <p class="text-xs opacity-70 uppercase font-black tracking-widest">Monto Final a Liquidar</p>
                     <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
                 </div>
-                <button onclick="enviarPedido()" class="bg-white text-green-900 px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100">Finalizar Todo</button>
+                <button onclick="alert('Pedido confirmado para validación de stock')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Compra</button>
             </div>
         </div>
     </div>
@@ -211,22 +217,23 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest text-center flex-1">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
         <div class="border-t-4 border-green-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
-                <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
+                <span id="cartFinal" class="text-3xl font-black text-green-950">$0.00</span>
             </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase shadow-2xl hover:bg-black transition-all">Confirmar Orden →</button>
         </div>
     </div>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbweqY3xg93wqIz-EMNtQFwZfIzqjFGffEOdQ6w8fKyybgSiYp7QhQ06XpV-H3AlpX0D/exec';
+// --- CONFIGURACIÓN ---
+const API_URL = 'https://script.google.com/macros/s/AKfycbz0C5ebn9JTjuV9U_h3oMKHKh-JyLsXJhLNlTD0X3qn-jRBXUIUwGjhIpaz5xAcV1Sf/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -261,7 +268,7 @@ const IMAGENES_FIJAS = {
   'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w500',
   'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w500',
   'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w500',
-  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAU0Uk&sz=w500',
+  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAUUk&sz=w500',
   'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w500',
   'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w500',
   'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w500',
@@ -284,8 +291,8 @@ async function api(action, data) {
 function go(n){
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
     document.getElementById('s'+n).classList.add('act');
-    // LA PROGRESS BAR YA NO SE DEBE VER EN PASO 4 Y 5
-    document.getElementById('topBar').classList.toggle('show', (n===3));
+    // Progress bar solo en catálogo
+    document.getElementById('topBar').classList.toggle('show', n===3);
     window.scrollTo(0,0);
 }
 
@@ -326,20 +333,21 @@ function goToCatalog(){
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
-    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
-        const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
+        // PRECIO FIJO SEGÚN CATEGORÍA SELECCIONADA
+        const fixedPrice = p.precioBase * (1 - S.selectedPct);
+        const imgUrl = IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN';
         return `
         <div class="prod-card shadow-sm">
             <div class="img-container">
-                <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN'}" class="prod-img" alt="${p.nombre}">
+                <img src="${imgUrl}" class="prod-img" alt="${p.nombre}">
             </div>
             <div class="p-6 flex-1 flex flex-col">
                 <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
                 <div class="mb-4">
                     ${S.selectedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
-                    <div class="price-final">$${finalPriceFixed.toFixed(2)}</div>
+                    <div class="price-final">$${fixedPrice.toFixed(2)}</div>
                 </div>
                 <div class="mt-auto flex items-center justify-between bg-emerald-50 rounded-2xl p-1 border border-emerald-100 shadow-sm">
                     <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300">-</button>
@@ -358,21 +366,21 @@ function addQty(id,d){
 }
 
 function updProg(){
-    let subtotalConDescuentoFijo = 0;
+    let subtotalFijo = 0;
     Object.entries(S.carrito).forEach(([id,q])=>{ 
         const p=S.rawData.products.find(x=>x.id==id); 
-        if(p) subtotalConDescuentoFijo += (p.precioBase * (1 - S.selectedPct)) * q; 
+        if(p) subtotalFijo += (p.precioBase * (1 - S.selectedPct)) * q; 
     });
 
-    const pctBar = S.min > 0 ? Math.min((subtotalConDescuentoFijo/S.min)*100, 100) : 100;
+    const pctBar = S.min > 0 ? Math.min((subtotalFijo/S.min)*100, 100) : 100;
     const bar = document.getElementById('progBar');
     if(bar) bar.style.width = pctBar + '%';
     
     document.getElementById('progPct').textContent = Math.round(pctBar) + '%';
-    document.getElementById('cartTotal').textContent = '$' + subtotalConDescuentoFijo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    document.getElementById('cartActual').textContent = '$' + Math.round(subtotalConDescuentoFijo).toLocaleString();
+    document.getElementById('cartTotal').textContent = '$' + subtotalFijo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById('cartActual').textContent = '$' + Math.round(subtotalFijo).toLocaleString();
     document.getElementById('cartMinimo').textContent = '$' + (S.min || 0).toLocaleString();
-    document.getElementById('cartFinal').textContent = '$' + subtotalConDescuentoFijo.toFixed(2);
+    document.getElementById('cartFinal').textContent = '$' + subtotalFijo.toFixed(2);
 
     const count = Object.values(S.carrito).reduce((a,b)=>a+b,0);
     const badge = document.getElementById('cartBadge');
@@ -387,13 +395,13 @@ function updCartUI(){
     Object.entries(S.carrito).forEach(([id,q])=>{
         const p=S.rawData.products.find(x=>x.id==id);
         if(p){
-            const price = p.precioBase * (1 - S.selectedPct);
+            const finalP = p.precioBase * (1 - S.selectedPct);
             h += `
-            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100 shadow-sm">
+            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100">
                 <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/60'}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-green-700 text-sm">$${(price*q).toFixed(2)}</p>
+                    <p class="font-black text-emerald-700 text-sm">$${(finalP*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -404,7 +412,7 @@ function updCartUI(){
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs">Vacío</div>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacio</div>';
 }
 
 function processFinalSummary(){
@@ -412,7 +420,7 @@ function processFinalSummary(){
     const nom = document.getElementById('nom').value;
     const ape = document.getElementById('ape').value;
     const tel = document.getElementById('tel').value;
-    if(!nom || !ape || !tel) return alert('Por favor llena los datos de contacto');
+    if(!nom || !ape || !tel) return alert('Datos de contacto incompletos');
 
     let subtotalBase = 0;
     let htmlItems = '';
@@ -422,14 +430,14 @@ function processFinalSummary(){
         if(p) {
             subtotalBase += p.precioBase * q;
             htmlItems += `
-            <div class="flex justify-between items-center text-xs border-b pb-2">
-                <span>${q}x ${p.nombre}</span>
-                <span class="font-bold">$${(p.precioBase * q).toLocaleString()} (Base)</span>
+            <div class="flex justify-between items-center text-xs border-b border-slate-100 pb-2">
+                <span class="flex-1">${q}x ${p.nombre}</span>
+                <span class="font-bold text-slate-400">$${(p.precioBase * q).toLocaleString()}</span>
             </div>`;
         }
     });
 
-    // Auditoría Real
+    // Auditoría de Nivel Real basado en Inversión Base
     let realTier = 'Lista Base';
     if(subtotalBase >= 20000) realTier = 'Diamante';
     else if(subtotalBase >= 12000) realTier = 'Oro';
@@ -437,31 +445,33 @@ function processFinalSummary(){
     else if(subtotalBase >= 1333) realTier = '25%';
 
     const realPct = S.rawData.discounts[realTier];
-    const finalTotal = subtotalBase * (1 - realPct);
+    const finalTotalCalculated = subtotalBase * (1 - realPct);
 
-    // Llenar HTML Pasos 5
+    // Render Pasos 5
     document.getElementById('clientSummary').innerHTML = `
-        <p class="font-black uppercase text-green-800 mb-2">Datos del Cliente</p>
-        <p><b>Nombre:</b> ${nom} ${ape}</p>
-        <p><b>WhatsApp:</b> ${tel}</p>
-        <p><b>Categoría Solicitada:</b> ${S.cat} (-${Math.round(S.selectedPct*100)}%)</p>
+        <div class="grid grid-cols-2 gap-4">
+            <div><p class="text-slate-400 text-[10px] uppercase font-black">Cliente</p><p class="font-bold">${nom} ${ape}</p></div>
+            <div><p class="text-slate-400 text-[10px] uppercase font-black">WhatsApp</p><p class="font-bold">${tel}</p></div>
+            <div class="col-span-2 mt-2"><p class="text-slate-400 text-[10px] uppercase font-black">Categoría Seleccionada</p><p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p></div>
+        </div>
     `;
 
-    document.getElementById('finalItemsList').innerHTML = htmlItems;
+    document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-4 rounded-2xl border border-slate-100">${htmlItems}</div>`;
 
-    let auditHtml = `
-        <p class="text-xs font-black uppercase text-amber-700 mb-2">🔍 Verificación de Inversión</p>
-        <p class="text-sm">Inversión base alcanzada: <b>$${subtotalBase.toLocaleString()}</b></p>
-    `;
-
-    if(realTier !== S.cat){
-        auditHtml += `<p class="text-xs text-red-600 font-bold mt-2 mt-2 italic">⚠️ No se alcanzó el mínimo para ${S.cat}. Se aplicó el descuento de nivel ${realTier} (-${Math.round(realPct*100)}%).</p>`;
+    let auditMsg = '';
+    if(realTier === S.cat) {
+        auditMsg = `<div class="text-emerald-700 font-bold flex items-center gap-2">✅ Inversión correcta para nivel ${S.cat}.</div>`;
     } else {
-        auditHtml += `<p class="text-xs text-green-700 font-bold mt-2 italic">✅ ¡Felicidades! Cumples con el mínimo de inversión para el nivel ${S.cat}.</p>`;
+        auditMsg = `
+            <div class="text-amber-800">
+                <p class="font-black flex items-center gap-2">⚠️ Inversión insuficiente para ${S.cat}</p>
+                <p class="text-xs mt-1">Tu subtotal base es de <b>$${subtotalBase.toLocaleString()}</b>. Se ha aplicado automáticamente el descuento de <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
+            </div>
+        `;
     }
 
-    document.getElementById('auditSection').innerHTML = auditHtml;
-    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById('auditSection').innerHTML = auditMsg;
+    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotalCalculated.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     go(5);
 }
@@ -490,7 +500,6 @@ function searchProds(){
         c.style.display = nm.includes(q) ? 'flex' : 'none';
     });
 }
-function enviarPedido(){ alert('Pedido enviado correctamente. Revisaremos tu orden.'); }
 window.onload = () => {};
 </script>
 </body>
