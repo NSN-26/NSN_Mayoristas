@@ -861,6 +861,9 @@ async function confirmOrder(){
             
             // MEJORADO: Agregar confetti animation
             launchConfetti();
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo procesar el pedido'));
+        }
     } catch(err) {
         alert('Error de conexión: ' + err.message);
     }
