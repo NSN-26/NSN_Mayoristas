@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NSN | Wholesaler Portal</title>
+<title>NSN | Portal Mayoristas</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
@@ -18,7 +18,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 @keyframes plantBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(1.05); }
+    50% { opacity: 0.3; transform: scale(1.1); }
 }
 .plant-loader { animation: plantBlink 1.5s infinite ease-in-out; }
 
@@ -33,7 +33,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
@@ -46,20 +46,17 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
-/* PRODUCT CARDS CON IMAGEN AL 100% */
+/* IMÁGENES PROFESIONALES AL 100% */
 .prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
-
-.img-container{background:#fff; width:100%; height:260px; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden}
-.prod-img{width:100%; height:100%; object-fit:contain; padding:15px}
+.img-container{width:100%; height:280px; overflow:hidden; background:#fff; position:relative}
+.prod-img{width:100%; height:100%; object-fit:cover; display:block}
 
 .price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
-/* BOTÓN STICKY CENTRADO */
 .sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
-.sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
-.sticky-btn:active{transform:scale(0.96)}
+.sticky-btn{pointer-events:auto; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.3); width:100%; transition:all 0.3s}
+.sticky-btn:active{transform:scale(0.95)}
 
 #cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
 .cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
@@ -72,7 +69,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 @media(max-width:768px){
     .sticky-bar{top:78px}
     .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    .img-container{height:180px}
+    .img-container{height:200px}
 }
 </style>
 </head>
@@ -80,7 +77,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 <div id="plantLoader">
     <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Precios...</p>
+    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Lista de Precios...</p>
 </div>
 
 <header class="header">
@@ -96,11 +93,11 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
         <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
-            <span>Inversión Real Alcanzada</span>
+            <span>Inversión Real</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
-        <div class="text-[9px] font-bold mt-1 text-slate-400 uppercase tracking-tighter">
+        <div class="text-[9px] font-bold mt-1 text-slate-400">
             <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
         </div>
     </div>
@@ -116,14 +113,14 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
 </div>
 
-<div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
+<div class="container max-w-6xl mx-auto p-4">
     <!-- PASO 1 -->
     <div id="s1" class="step act">
         <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-lime-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
             <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Accede para sincronizar tu cuenta de socio</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-500 outline-none text-center font-bold mb-6 transition-all shadow-inner">
-            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-lime-500 outline-none text-center font-bold mb-6 transition-all shadow-inner">
+            <button onclick="login()" id="btnLogin" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
 
@@ -131,8 +128,8 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
+            <h2 class="text-3xl font-black text-lime-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
+            <p class="text-lime-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios en el catálogo se fijarán según tu elección</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -141,15 +138,15 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
 
     <!-- PASO 3 -->
-    <div id="s3" class="step">
+    <div id="s3" class="step" style="margin-top: 40px;">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-100">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-lime-50">
             <div>
-                <h2 id="catTitle" class="text-xl font-black text-green-950 uppercase tracking-tighter">Catálogo</h2>
+                <h2 id="catTitle" class="text-xl font-black text-lime-900 uppercase tracking-tighter">Catálogo</h2>
                 <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter">Fijo: -0%</div>
             </div>
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
+                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-lime-500 font-medium text-sm text-center">
             </div>
         </div>
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
@@ -163,7 +160,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     <div id="s4" class="step">
         <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
-            <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
+            <h2 class="text-2xl font-black mb-8 text-lime-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
@@ -178,7 +175,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 5: RESUMEN FINAL AUDITADO (BULLETPROOF) -->
+    <!-- PASO 5: RESUMEN FINAL AUDITADO -->
     <div id="s5" class="step">
         <div class="btn-back" onclick="go(4)">← Editar Datos</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
@@ -205,7 +202,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
-        <div class="border-t-4 border-green-50 pt-8 mt-6">
+        <div class="border-t-4 border-lime-50 pt-8 mt-6">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
                 <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
@@ -216,7 +213,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyUwUG5MfmCbdU2R9VZIe6xJvrkxVEbJXEc2djV9ygF1D72TMtxs6P-oaEjMW2n6A/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyt8t33ljD7Oec1uOrIIU-lZuwgofVJUbaCCrBSerC_cEqlvsfteiR9V63FHJMeD6MZ/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -260,7 +257,7 @@ const IMAGENES_FIJAS = {
   'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w500',
   'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w500',
   'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w500',
-  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w500',
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
 };
 
@@ -293,7 +290,7 @@ function initCats(){
             <span class="emoji text-5xl mb-4 block">${c.ico}</span>
             <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
             <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
-            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
+            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
         </div>`).join('');
 }
 
@@ -344,7 +341,6 @@ function renderCatalog(){
 function addQty(id, d){
     S.carrito[id] = (S.carrito[id] || 0) + d;
     if (S.carrito[id] <= 0) delete S.carrito[id];
-    // Actualización directa del DOM para performance
     const qtySpan = document.getElementById(`qty-${id}`);
     if (qtySpan) qtySpan.innerText = S.carrito[id] || 0;
     updProg();
@@ -386,7 +382,7 @@ function updCartUI(){
                 <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/60'}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
                 <div class="flex-1">
                     <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-emerald-700 text-sm">$${(price*q).toFixed(2)}</p>
+                    <p class="font-black text-green-700 text-sm">$${(price*q).toFixed(2)}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
@@ -397,14 +393,20 @@ function updCartUI(){
             </div>`;
         }
     });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacio</div>';
+    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacío</div>';
 }
 
 function processFinalSummary(){
     const nom = document.getElementById('nom').value;
     const ape = document.getElementById('ape').value;
     const tel = document.getElementById('tel').value;
-    if(!nom || !ape || !tel) return alert('Por favor llena los datos obligatorios');
+    const cal = document.getElementById('cal').value;
+    const num = document.getElementById('num').value;
+    const col = document.getElementById('col').value;
+    const mun = document.getElementById('mun').value;
+    const cp = document.getElementById('cp').value;
+
+    if(!nom || !ape || !tel || !cal || !cp) return alert('Por favor llena los datos obligatorios');
 
     let subtotalBase = 0;
     let htmlItems = '';
@@ -414,14 +416,17 @@ function processFinalSummary(){
         if(p) {
             subtotalBase += p.precioBase * q;
             htmlItems += `
-            <div class="flex justify-between items-center text-xs border-b border-slate-100 pb-2">
-                <span class="flex-1">${q}x ${p.nombre}</span>
-                <span class="font-bold text-slate-400">$${(p.precioBase * q).toLocaleString()}</span>
+            <div class="flex items-center gap-4 border-b border-slate-100 pb-3">
+                <img src="${IMAGENES_FIJAS[p.nombre]}" class="w-10 h-10 object-contain rounded-lg border bg-white">
+                <div class="flex-1">
+                    <p class="text-[10px] font-bold uppercase">${p.nombre}</p>
+                    <p class="text-[9px] text-slate-400">${q} piezas x $${p.precioBase.toLocaleString()} (Base)</p>
+                </div>
+                <span class="font-black text-xs">$${(p.precioBase * q).toLocaleString()}</span>
             </div>`;
         }
     });
 
-    // AUDITORÍA BULLETPROOF
     let realTier = 'Lista Base';
     if(subtotalBase >= 20000) realTier = 'Diamante';
     else if(subtotalBase >= 12000) realTier = 'Oro';
@@ -432,23 +437,30 @@ function processFinalSummary(){
     const finalTotalCalculated = subtotalBase * (1 - realPct);
 
     document.getElementById('clientSummary').innerHTML = `
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Cliente</p><p class="font-bold">${nom} ${ape}</p></div>
-            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">WhatsApp</p><p class="font-bold">${tel}</p></div>
-            <div class="col-span-2 mt-2 border-t pt-2"><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Categoría Deseada</p><p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p></div>
+            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Contacto</p><p class="font-bold">${tel}</p></div>
+            <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
+                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Dirección de Envío</p>
+                <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}. C.P. ${cp}</p>
+            </div>
+            <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
+                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado Inicialmente</p>
+                <p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p>
+            </div>
         </div>
     `;
 
-    document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-4 rounded-2xl border border-slate-100">${htmlItems}</div>`;
+    document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">${htmlItems}</div>`;
 
     let auditMsg = '';
     if(realTier === S.cat) {
-        auditMsg = `<div class="text-emerald-700 font-black flex items-center gap-2">✅ ¡Felicidades! Inversión correcta para nivel ${S.cat}.</div>`;
+        auditMsg = `<div class="text-emerald-700 font-black flex items-center gap-2">✅ ¡Felicidades! Inversión base de $${subtotalBase.toLocaleString()} correcta para nivel ${S.cat}.</div>`;
     } else {
         auditMsg = `
             <div class="text-amber-800">
-                <p class="font-black flex items-center gap-2 uppercase text-xs">⚠️ Inversión insuficiente para ${S.cat}</p>
-                <p class="text-[11px] mt-1">Tu subtotal base es de <b>$${subtotalBase.toLocaleString()}</b>. El sistema ha ajustado automáticamente tu descuento al nivel <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
+                <p class="font-black flex items-center gap-2 uppercase text-xs">⚠️ Inversión insuficiente para nivel ${S.cat}</p>
+                <p class="text-[11px] mt-1">Tu inversión base es de <b>$${subtotalBase.toLocaleString()}</b>. El sistema aplicó el descuento de nivel <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
             </div>
         `;
     }
