@@ -326,7 +326,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwmhgPh-7Trsdmm_VqFyEIQ8TXX1rPPeavE2Avy0QskggIzGMjGKKiVZhhCNfqQyMOa/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwnz2NRYx9bCOg5kxVVPw3fZjfYiIYpUZhefaKkbxVTSYy9QJsD_bYXVmiJzVxWUX9I/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -378,7 +378,7 @@ let S = {
   email:'', cat:'', prod:[], carrito:{}, total:0, min:0, selectedPct: 0, rawData: null, 
   appliedCoupon: null, isFrequent: false, frecuenteCategoria: '', 
   clientData: null, direccionGuardada: false,
-  pedidoInfo: null // Para página confirmación
+  pedidoInfo: null
 };
 
 async function api(action, data) {
@@ -390,12 +390,20 @@ function go(n){
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
     document.getElementById('s'+n).classList.add('act');
     document.getElementById('topBar').classList.toggle('show', n===3);
+    
+    if(n === 4 && S.clientData && S.clientData.calle) {
+        document.getElementById('direccionGuardada').classList.remove('hidden');
+        const dirTexto = `${S.clientData.calle.trim()} #${S.clientData.numero.trim()}, Col. ${S.clientData.colonia.trim()}, ${S.clientData.municipio.trim()}, ${S.clientData.estado.trim()}. C.P. ${S.clientData.cp.trim()}`;
+        document.getElementById('dirGuardadaTexto').textContent = dirTexto;
+    } else if(n === 4) {
+        document.getElementById('direccionGuardada').classList.add('hidden');
+    }
+    
     window.scrollTo(0,0);
 }
 
 function logout(){ window.location.reload(); }
 
-// MEJORADO: Desbloquear todas las categorías
 function initCats(){
     const cats=[
         {id:'Lista Base',nm:'Base',ico:'📦', info:'0% desc'},
@@ -520,18 +528,39 @@ async function saveCart(){
     await api('saveCart', { email: S.email, carrito: S.carrito, categoria: S.cat });
 }
 
-// MEJORADO: Usar dirección guardada + auto-rellena estado
+// FIX 1: Usar dirección guardada + auto-rellena estado SIN DUPLICACIÓN
 function usarDireccionGuardada(){
     if(!S.clientData) return;
-    document.getElementById('nom').value = S.clientData.nombre;
-    document.getElementById('ape').value = S.clientData.apellido;
-    document.getElementById('tel').value = S.clientData.telefono;
-    document.getElementById('cal').value = S.clientData.calle;
-    document.getElementById('num').value = S.clientData.numero;
-    document.getElementById('col').value = S.clientData.colonia;
-    document.getElementById('mun').value = S.clientData.municipio;
-    document.getElementById('est').value = S.clientData.estado; // AUTO-RELLENA ESTADO
-    document.getElementById('cp').value = S.clientData.cp;
+    
+    // Limpiar primero
+    document.getElementById('nom').value = '';
+    document.getElementById('ape').value = '';
+    document.getElementById('tel').value = '';
+    document.getElementById('cal').value = '';
+    document.getElementById('num').value = '';
+    document.getElementById('col').value = '';
+    document.getElementById('mun').value = '';
+    document.getElementById('est').value = '';
+    document.getElementById('cp').value = '';
+    
+    // Rellenar con trim()
+    document.getElementById('nom').value = (S.clientData.nombre || '').trim();
+    document.getElementById('ape').value = (S.clientData.apellido || '').trim();
+    document.getElementById('tel').value = (S.clientData.telefono || '').trim();
+    document.getElementById('cal').value = (S.clientData.calle || '').trim();
+    document.getElementById('num').value = (S.clientData.numero || '').trim();
+    document.getElementById('col').value = (S.clientData.colonia || '').trim();
+    document.getElementById('mun').value = (S.clientData.municipio || '').trim();
+    document.getElementById('cp').value = (S.clientData.cp || '').trim();
+    
+    // FIX: Asegurar que el estado se rellena correctamente
+    const estadoValue = (S.clientData.estado || '').trim();
+    const estSelect = document.getElementById('est');
+    estSelect.value = estadoValue;
+    if(estSelect.value !== estadoValue) {
+        estSelect.value = '';
+    }
+    
     S.direccionGuardada = true;
 }
 
@@ -548,17 +577,17 @@ function cambiarDireccion(){
     document.getElementById('cp').value = '';
 }
 
-// MEJORADO: Auto-aplicar mínimo cumplido
+// FIX 2: Processar resumen SIN DUPLICACIÓN
 function processFinalSummary(){
-    const nom = document.getElementById('nom').value;
-    const ape = document.getElementById('ape').value;
-    const tel = document.getElementById('tel').value;
-    const cal = document.getElementById('cal').value;
-    const num = document.getElementById('num').value;
-    const col = document.getElementById('col').value;
-    const mun = document.getElementById('mun').value;
-    const est = document.getElementById('est').value;
-    const cp = document.getElementById('cp').value;
+    const nom = document.getElementById('nom').value.trim();
+    const ape = document.getElementById('ape').value.trim();
+    const tel = document.getElementById('tel').value.trim();
+    const cal = document.getElementById('cal').value.trim();
+    const num = document.getElementById('num').value.trim();
+    const col = document.getElementById('col').value.trim();
+    const mun = document.getElementById('mun').value.trim();
+    const est = document.getElementById('est').value.trim();
+    const cp = document.getElementById('cp').value.trim();
 
     if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Por favor llena los datos obligatorios');
 
@@ -584,7 +613,6 @@ function processFinalSummary(){
     let appliedTier = S.cat;
     let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
     
-    // MEJORADO: Cliente frecuente no necesita mínimo + Auto-aplicar mínimo cumplido
     if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
         if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
         if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
@@ -601,7 +629,7 @@ function processFinalSummary(){
             <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Contacto</p><p class="font-bold">${tel}</p></div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
                 <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Dirección de Envío</p>
-                <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}, ${est}. C.P. ${cp}</p>
+                <p class="text-xs">${cal} #${num}, Col. ${col}, ${mun}, ${est}. C.P. ${cp}</p>
             </div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
                 <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado</p>
@@ -692,15 +720,15 @@ function updCouponTotal(){
 }
 
 async function confirmOrder(){
-    const nom = document.getElementById('nom').value;
-    const ape = document.getElementById('ape').value;
-    const tel = document.getElementById('tel').value;
-    const cal = document.getElementById('cal').value;
-    const num = document.getElementById('num').value;
-    const col = document.getElementById('col').value;
-    const mun = document.getElementById('mun').value;
-    const est = document.getElementById('est').value;
-    const cp = document.getElementById('cp').value;
+    const nom = document.getElementById('nom').value.trim();
+    const ape = document.getElementById('ape').value.trim();
+    const tel = document.getElementById('tel').value.trim();
+    const cal = document.getElementById('cal').value.trim();
+    const num = document.getElementById('num').value.trim();
+    const col = document.getElementById('col').value.trim();
+    const mun = document.getElementById('mun').value.trim();
+    const est = document.getElementById('est').value.trim();
+    const cp = document.getElementById('cp').value.trim();
     const metodo_pago = document.querySelector('input[name="metodo"]:checked').value;
     
     if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Faltan datos obligatorios');
@@ -765,7 +793,6 @@ async function confirmOrder(){
         const result = await api('submitOrder', orderData);
         
         if(result.success) {
-            // Guardar info para página de confirmación
             S.pedidoInfo = {
                 noPedido: result.noPedido,
                 nombre: nom + ' ' + ape,
@@ -775,13 +802,11 @@ async function confirmOrder(){
                 productos: productos
             };
             
-            // Mostrar página de confirmación
             document.getElementById('confNoPedido').textContent = '#' + result.noPedido;
             document.getElementById('confNombre').textContent = nom + ' ' + ape;
             document.getElementById('confMetodo').textContent = metodo_pago;
             document.getElementById('confTotal').textContent = '$' + finalTotal.toFixed(2);
             
-            // Mostrar botón MP solo si eligió MP
             const btnMP = document.getElementById('btnMP');
             btnMP.style.display = metodo_pago === 'Mercado Pago' ? 'block' : 'none';
             
@@ -815,7 +840,6 @@ function descargarPDF(){
 
 function irAMercadoPago(){
     alert('⏳ Redirigiendo a Mercado Pago...\n\n(Integración en fase de prueba)');
-    // window.open('https://mercadopago.com.mx', '_blank');
 }
 
 function searchProds(){
@@ -832,19 +856,16 @@ async function login(){
     S.email = e;
     document.getElementById('plantLoader').style.display = 'flex';
     try {
-        // Cargar datos de la app
         const appData = await api('getAppData', {});
         if(!appData.success) throw new Error(appData.error);
         S.rawData = appData;
         
-        // Verificar si es cliente frecuente
         const freqData = await api('checkFrequentClient', { email: e });
         if(freqData.success && freqData.isFrequent) {
             S.isFrequent = true;
             S.frecuenteCategoria = freqData.categoria;
         }
         
-        // Cargar datos del cliente (si existe)
         const clientData = await api('getClientData', { email: e });
         if(clientData.success && clientData.exists) {
             S.clientData = clientData;
@@ -853,7 +874,6 @@ async function login(){
         document.getElementById('mainLogo').src = appData.logoUrl;
         initCats();
         
-        // Mostrar banner si es frecuente
         if(S.isFrequent) {
             const banner = document.getElementById('bannerFrecuente');
             banner.textContent = freqData.mensaje;
@@ -867,23 +887,6 @@ async function login(){
     finally { 
         document.getElementById('plantLoader').style.display = 'none'; 
     }
-}
-
-// Mostrar dirección guardada si existe
-function go(n){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
-    document.getElementById('s'+n).classList.add('act');
-    document.getElementById('topBar').classList.toggle('show', n===3);
-    
-    if(n === 4 && S.clientData && S.clientData.calle) {
-        document.getElementById('direccionGuardada').classList.remove('hidden');
-        document.getElementById('dirGuardadaTexto').textContent = 
-            `${S.clientData.calle} #${S.clientData.numero}, Col. ${S.clientData.colonia}, ${S.clientData.municipio}, ${S.clientData.estado}. C.P. ${S.clientData.cp}`;
-    } else if(n === 4) {
-        document.getElementById('direccionGuardada').classList.add('hidden');
-    }
-    
-    window.scrollTo(0,0);
 }
 
 window.onload = () => {};
