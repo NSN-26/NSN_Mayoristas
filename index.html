@@ -174,7 +174,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
+                <input type="tel" id="tel" placeholder="Número Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
@@ -473,14 +473,20 @@ function processFinalSummary(){
         }
     });
 
-    let realTier = 'Lista Base';
-    if(subtotalBase >= 20000) realTier = 'Diamante';
-    else if(subtotalBase >= 12000) realTier = 'Oro';
-    else if(subtotalBase >= 4500) realTier = 'Plata';
-    else if(subtotalBase >= 1333) realTier = '25%';
+    // LÓGICA CORRECTA: Determinar qué categoría REALMENTE aplica basada en la inversión real
+    let appliedTier = S.cat; // Comienza con la categoría que seleccionó el cliente
+    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
+    
+    // Si NO cumple con el mínimo de su categoría seleccionada, buscar la siguiente inferior que SÍ cumpla
+    if(subtotalBase < minRequiredForSelected) {
+        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
+        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
+    }
 
-    const realPct = S.rawData.discounts[realTier];
-    const finalTotalCalculated = subtotalBase * (1 - realPct);
+    const appliedPct = S.rawData.discounts[appliedTier] || 0;
+    const finalTotalCalculated = subtotalBase * (1 - appliedPct);
 
     document.getElementById('clientSummary').innerHTML = `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -491,8 +497,8 @@ function processFinalSummary(){
                 <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}, ${est}. C.P. ${cp}</p>
             </div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
-                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado Inicialmente</p>
-                <p class="font-bold text-emerald-700 uppercase">${S.cat} (-${Math.round(S.selectedPct*100)}%)</p>
+                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado</p>
+                <p class="font-bold text-emerald-700 uppercase">${S.cat} (Mínimo: $${minRequiredForSelected.toLocaleString()})</p>
             </div>
         </div>
     `;
@@ -500,13 +506,18 @@ function processFinalSummary(){
     document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">${htmlItems}</div>`;
 
     let auditMsg = '';
-    if(realTier === S.cat) {
-        auditMsg = `<div class="text-emerald-700 font-black flex items-center gap-2">✅ ¡Felicidades! Inversión base de $${subtotalBase.toLocaleString()} correcta para nivel ${S.cat}.</div>`;
+    if(appliedTier === S.cat) {
+        auditMsg = `<div class="text-emerald-700 font-black text-sm tracking-tight">
+            ✅ <span class="uppercase tracking-widest">¡CUMPLIDO!</span><br>
+            <span class="text-xs font-bold mt-1 block">Tu inversión base de $${subtotalBase.toLocaleString()} cumple con el mínimo de la categoría ${S.cat} ($${minRequiredForSelected.toLocaleString()}). Se aplicará el descuento del ${Math.round(appliedPct*100)}%.</span>
+        </div>`;
     } else {
+        const tierApliedMin = S.rawData.mins[appliedTier] || 0;
         auditMsg = `
             <div class="text-amber-800">
-                <p class="font-black flex items-center gap-2 uppercase text-xs">⚠️ Inversión insuficiente para nivel ${S.cat}</p>
-                <p class="text-[11px] mt-1">Tu inversión base es de <b>$${subtotalBase.toLocaleString()}</b>. El sistema aplicó el descuento de nivel <b>${realTier} (-${Math.round(realPct*100)}%)</b>.</p>
+                <p class="font-black uppercase text-sm tracking-tight">⚠️ INVERSIÓN INSUFICIENTE</p>
+                <p class="text-xs font-bold mt-2 block">Tu inversión base de <b>$${subtotalBase.toLocaleString()}</b> es menor al mínimo de ${S.cat} ($${minRequiredForSelected.toLocaleString()}).</p>
+                <p class="text-xs font-bold mt-1 block">Se aplicará automáticamente la categoría <b>${appliedTier}</b> con descuento del ${Math.round(appliedPct*100)}% (Mínimo: $${tierApliedMin.toLocaleString()}).</p>
             </div>
         `;
     }
