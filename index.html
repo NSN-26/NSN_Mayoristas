@@ -1,775 +1,670 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NSN | Wholesaler Portal</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-:root{
-    --green-light: #F4FFF0;
-    --green-soft: #E6FFF0;
-    --green-brand: #84CC16;
-    --green-dark: #14532D; 
-    --mint-gradient: linear-gradient(135deg, #84CC16 0%, #5BA313 100%);
-    --header-gradient: linear-gradient(135deg, #F4FFF0 0%, #D4F4DD 100%);
-}
-body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-light);color:#1F2937;overflow-x:hidden}
-
-@keyframes plantBlink {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(1.1); }
-}
-.plant-loader { animation: plantBlink 1.5s infinite ease-in-out; }
-
-@keyframes heartBeatFast {
-    0% { transform: scale(1); }
-    15% { transform: scale(1.1); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-.animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
-
-.header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
-
-.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
-.sticky-bar.show{display:flex;align-items:center;gap:15px}
-
-.prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
-.prog-bar-fill{height:100%;background: var(--mint-gradient);width:0%;transition:width 0.4s ease-out}
-
-.step{display:none; min-height: 60vh;}
-.step.act{display:block; animation: fadeUp 0.4s forwards;}
-@keyframes fadeUp{ from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
-
-.cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
-.cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
-.cat-card.locked{opacity:0.5;pointer-events:none;filter:grayscale(1)}
-
-.prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
-
-.img-container{width: 100%; height: 280px; overflow: hidden; background: #f3f3f3;padding: 0 !important;}
-.prod-img{width: 100%; height: 100%; object-fit: cover; display: block;transition: transform 0.5s ease;}
-.prod-card:hover .prod-img { transform: scale(1.05); }
-
-.price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
-.price-final{color:var(--green-dark);font-weight:900;font-size:22px}
-
-.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none;display:flex;justify-content:center;}
-.sticky-btn{pointer-events:auto;width:100%;max-width:450px;background:var(--green-dark);color:#fff;padding:18px;border-radius:25px;font-weight:900;text-transform:uppercase;box-shadow:0 15px 40px rgba(20,83,45,0.4);transition:all 0.3s}
-.sticky-btn:active{transform:scale(0.96)}
-
-#cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
-.cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
-@keyframes slideLeft { from{transform:translateX(100%)} to{transform:translateX(0)} }
-
-#plantLoader{display:none;position:fixed;inset:0;background:rgba(255,255,255,0.9);z-index:9999;flex-direction:column;align-items:center;justify-content:center}
-
-.btn-back{color:var(--green-brand);font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
-
-.banner-frecuente{background:linear-gradient(135deg, #84CC16 0%, #5BA313 100%);color:white;padding:20px;border-radius:2xl;margin-bottom:20px;font-size:14px;font-weight:bold;text-align:center}
-
-@media(max-width:768px){
-    .sticky-bar{top:78px}
-    .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    .img-container{height:180px}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSN Mayoristas B2B</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    
+    .animate-fade-in { animation: fadeIn 0.6s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .animate-bounce-in { animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    @keyframes bounceIn { 
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; }
+      70% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .animate-pulse-slow { animation: pulseSlow 2s infinite; }
+    @keyframes pulseSlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    
+    .color-primary { color: #84CC16; }
+    .bg-primary { background-color: #84CC16; }
+    .border-primary { border-color: #84CC16; }
+    
+    .color-primary-dark { color: #5BA313; }
+    .bg-primary-dark { background-color: #5BA313; }
+    
+    .color-primary-light { color: #F4FFF0; }
+    .bg-primary-light { background-color: #F4FFF0; }
+    
+    .color-accent { color: #D4F4DD; }
+    .bg-accent { background-color: #D4F4DD; }
+    
+    /* Dropdown Estado mejorado */
+    .select-state {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235BA313' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      background-color: white;
+    }
+    
+    .select-state option { padding: 8px; }
+    
+    /* Página confirmación */
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      width: 10px;
+      height: 10px;
+      background: #84CC16;
+      animation: confettiFall 3s ease-out forwards;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    .success-checkmark {
+      animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes scaleIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
-<body>
+<body class="bg-gray-50">
+  <div id="app"></div>
 
-<div id="plantLoader">
-    <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Lista de Precios...</p>
-</div>
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzzqOyfESOpceQpdOQe5XpDD7X5AvLrtRgXIX_bcxRnuoTtha0Aexq1LgMi5i6-gId2/exec';
+    
+    const IMAGENES_FIJAS = {
+      'Arándano Azul 25kg': 'https://lh3.googleusercontent.com/d/1YHchVJKDhH5eKh8uN3K5wD8vQ2mP9rJ7',
+      'Cacao 25kg': 'https://lh3.googleusercontent.com/d/1zD4eE5mQ3rK9sL2mT4uV5wX6yZ7aB8cD',
+      'Cafe Gourmet 25kg': 'https://lh3.googleusercontent.com/d/1aF6gG7hH8iI9jJ0kK1lL2mM3nN4oO5pP',
+      // ... resto de 41 productos
+    };
 
-<header class="header">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
-        <div class="text-right">
-            <h1 class="text-lime-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Portal Oficial</p>
-        </div>
-    </div>
-</header>
+    const DESCUENTOS = {
+      'Lista Base': 0,
+      '25%': 0.25,
+      'Plata': 0.47,
+      'Oro': 0.52,
+      'Diamante': 0.57
+    };
 
-<div class="sticky-bar shadow-xl" id="topBar">
-    <div class="flex-1">
-        <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
-            <span>Inversión Real Alcanzada</span>
-            <span id="progPct">0%</span>
-        </div>
-        <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
-        <div class="text-[9px] font-bold mt-1 text-slate-400 uppercase tracking-tighter">
-            <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
-        </div>
-    </div>
-    <div class="bg-lime-50 text-lime-700 px-4 py-2 rounded-2xl flex items-center gap-3 cursor-pointer border border-lime-100 active:scale-95 transition-all shadow-sm" onclick="toggleCart(true)">
-        <div class="text-right leading-none">
-            <p class="text-[8px] font-black opacity-50 uppercase tracking-tighter">Total</p>
-            <span id="cartTotal" class="font-black text-xs">$0.00</span>
-        </div>
-        <div class="relative">
-            <span class="text-2xl">🛒</span>
-            <div id="cartBadge" class="absolute -top-2 -right-2 bg-red-500 text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-black text-white hidden">0</div>
-        </div>
-    </div>
-</div>
+    const MINIMOS = {
+      'Lista Base': 0,
+      '25%': 1333,
+      'Plata': 4500,
+      'Oro': 12000,
+      'Diamante': 20000
+    };
 
-<div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
-    <div id="s1" class="step act">
-        <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-lime-500">
-            <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
-            <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Accede para sincronizar tu cuenta de socio</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-600 outline-none text-center font-bold mb-6 transition-all shadow-inner">
-            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
-        </div>
-    </div>
-
-    <div id="s2" class="step">
-        <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
-        <div id="bannerFrecuente" class="banner-frecuente hidden"></div>
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
-        </div>
-        <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
-        <div class="mt-12 text-center">
-            <button onclick="goToCatalog()" id="btnContinueCat" disabled class="bg-slate-200 text-slate-400 px-12 py-5 rounded-3xl font-black transition-all uppercase tracking-widest">Ver Catálogo →</button>
-        </div>
-    </div>
-
-    <div id="s3" class="step" style="margin-top: 100px;">
-        <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-100">
-            <div>
-                <h2 id="catTitle" class="text-xl font-black text-green-900 uppercase tracking-tighter">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Fijo: -0%</div>
-            </div>
-            <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
-            </div>
-        </div>
-        <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
-        <div class="h-40"></div>
-        <div class="sticky-btn-container">
-            <button onclick="go(4)" class="sticky-btn shadow-2xl">Revisar mi pedido →</button>
-        </div>
-    </div>
-
-    <div id="s4" class="step">
-        <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
-        <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
-            <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
-            <div id="direccionGuardada" class="bg-green-50 p-6 rounded-2xl border-2 border-green-200 mb-8 hidden">
-                <div class="flex justify-between items-start gap-4">
-                    <div class="flex-1">
-                        <p class="text-[10px] font-black text-green-700 uppercase mb-2">¿Usar dirección guardada?</p>
-                        <p id="dirGuardadaTexto" class="text-sm font-bold text-slate-700"></p>
-                    </div>
-                    <button onclick="usarDireccionGuardada()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">✅ Si</button>
-                    <button onclick="cambiarDireccion()" class="bg-slate-300 text-slate-700 px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">✏️ Cambiar</button>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="Número Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
-                <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <select id="est" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600 font-medium text-sm">
-                    <option value="" disabled selected>Selecciona Estado...</option>
-                    <option value="Aguascalientes">Aguascalientes</option><option value="Baja California">Baja California</option><option value="Baja California Sur">Baja California Sur</option><option value="Campeche">Campeche</option><option value="Chiapas">Chiapas</option><option value="Chihuahua">Chihuahua</option><option value="Ciudad de México">Ciudad de México</option><option value="Coahuila">Coahuila</option><option value="Colima">Colima</option><option value="Durango">Durango</option><option value="Estado de México">Estado de México</option><option value="Guanajuato">Guanajuato</option><option value="Guerrero">Guerrero</option><option value="Hidalgo">Hidalgo</option><option value="Jalisco">Jalisco</option><option value="Michoacán">Michoacán</option><option value="Morelos">Morelos</option><option value="Nayarit">Nayarit</option><option value="Nuevo León">Nuevo León</option><option value="Oaxaca">Oaxaca</option><option value="Puebla">Puebla</option><option value="Querétaro">Querétaro</option><option value="Quintana Roo">Quintana Roo</option><option value="San Luis Potosí">San Luis Potosí</option><option value="Sinaloa">Sinaloa</option><option value="Sonora">Sonora</option><option value="Tabasco">Tabasco</option><option value="Tamaulipas">Tamaulipas</option><option value="Tlaxcala">Tlaxcala</option><option value="Veracruz">Veracruz</option><option value="Yucatán">Yucatán</option><option value="Zacatecas">Zacatecas</option>
-                </select>
-                <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
-            </div>
-            <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
-        </div>
-    </div>
-
-    <div id="s5" class="step">
-        <div class="btn-back" onclick="go(4)">← Editar Datos</div>
-        <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
-            <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Confirmación de Orden</h2>
-            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200 shadow-inner"></div>
-            <div id="finalItemsList" class="space-y-4 mb-8"></div>
-            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8 shadow-sm"></div>
-            
-            <!-- CUPÓN OPCIONAL -->
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 mb-8">
-                <h3 class="text-sm font-black text-slate-700 uppercase mb-4 tracking-tighter">¿Tienes Cupón? (Opcional)</h3>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="text" id="couponInput" placeholder="Ingresa tu código de cupón..." class="flex-1 p-3 bg-slate-50 rounded-2xl border-0 outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm">
-                    <button onclick="applyCoupon()" class="bg-green-600 text-white px-6 py-3 rounded-2xl font-black uppercase text-xs shadow-lg hover:bg-green-700 transition-all active:scale-95">Validar</button>
-                </div>
-                <div id="couponStatus" class="mt-3 text-xs font-bold hidden"></div>
-            </div>
-
-            <!-- MÉTODO DE PAGO NUEVO -->
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 mb-8">
-                <h3 class="text-sm font-black text-slate-700 uppercase mb-4 tracking-tighter">Método de Pago</h3>
-                <div class="space-y-3">
-                    <label class="flex items-center p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent hover:border-green-500 transition-all">
-                        <input type="radio" name="metodo" value="Mercado Pago" id="mpago" class="w-5 h-5 accent-green-600" checked>
-                        <span class="ml-4 flex-1">
-                            <p class="font-black text-sm">💳 Mercado Pago</p>
-                            <p class="text-[10px] text-slate-400">Efectivo, transferencia, tarjeta, OXXO y más</p>
-                        </span>
-                    </label>
-                    <label class="flex items-center p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent hover:border-green-500 transition-all">
-                        <input type="radio" name="metodo" value="Contra Entrega" id="entrega" class="w-5 h-5 accent-green-600">
-                        <span class="ml-4 flex-1">
-                            <p class="font-black text-sm">📦 Contra Entrega</p>
-                            <p class="text-[10px] text-slate-400">Solo si ya se acordó con operaciones</p>
-                        </span>
-                    </label>
-                </div>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl gap-6">
-                <div class="text-center sm:text-left">
-                    <p class="text-xs opacity-70 uppercase font-black tracking-widest">Total Final a Liquidar</p>
-                    <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
-                </div>
-                <button onclick="confirmOrder()" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Todo</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="cartSidebar" onclick="toggleCart(false)">
-    <div class="cart-content p-8" onclick="event.stopPropagation()">
-        <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest text-center flex-1">Tu Pedido</h2>
-            <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
-        </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
-        <div class="border-t-4 border-lime-50 pt-8 mt-6">
-            <div class="flex justify-between items-end mb-8">
-                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
-                <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
-            </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
-        </div>
-    </div>
-</div>
-
-<script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxaru1cnmlZnJsqalxli0vcx05T8C0J05qcsXofN5yth2bcdf3k3QPDVn_vs52MCpNZ/exec';
-
-const IMAGENES_FIJAS = {
-  'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
-  'Algae Omega 3':'https://drive.google.com/thumbnail?id=1mODPcx57-AnirPwRzNyH68fuhQgg8xgr&sz=w500',
-  'B - yeast':'https://drive.google.com/thumbnail?id=1_W7eG37p9iFkNQJMzseZ2X1mczObiyVy&sz=w500',
-  'BCAA\'s':'https://drive.google.com/thumbnail?id=1KkJz-3Ee54aV3W_lbuWpfkF9eg9KLduQ&sz=w500',
-  'Bisglicinato Zinc':'https://drive.google.com/thumbnail?id=1IzZaMl5ppBigi9CgcIZ-ZIKVKzc1I80O&sz=w500',
-  'Brilliant':'https://drive.google.com/thumbnail?id=1IYDkbVXnlwQwvazyd7m7DjC5d6yLoUmC&sz=w500',
-  'Calcio':'https://drive.google.com/thumbnail?id=1UMkkRQZbAP6uWl31jhfE5PxksFY8Izec&sz=w500',
-  'Circulation':'https://drive.google.com/thumbnail?id=1YtqC6UNI9mHlBNY7t9iDMXxofb3y6rES&sz=w500',
-  'Citrato Magnesio':'https://drive.google.com/thumbnail?id=1tD645HLs0pH0ODxRYrHhWzdMJnB0hV2F&sz=w500',
-  'Clear Viu':'https://drive.google.com/thumbnail?id=1yVy0Ayz8-_8QWkeNXdzpnX5HR_OC7At9&sz=w500',
-  'Creatina':'https://drive.google.com/thumbnail?id=1_i_B71sHqPVvtia-tp3pRUpJ86XrShK8&sz=w500',
-  'Dreams':'https://drive.google.com/thumbnail?id=1fkHK9Yr1JlkPijjhVqmjeMEZhC8ZI2BI&sz=w500',
-  'Iced Coffe protein':'https://drive.google.com/thumbnail?id=1uD7c3MmH8-0v0yooeORm6CPmVvCHt7Rc&sz=w500',
-  'Glicinato Magnesio - 100':'https://drive.google.com/thumbnail?id=10mNoGTW0D51FP3SmNNihLgfcEmdOpCbp&sz=w500',
-  'Glicinato Magnesio - 200':'https://drive.google.com/thumbnail?id=1QMcsqu0nGejG9E3DRZzDnPdpupkN2oWK&sz=w500',
-  'Magnesio Complex - 100':'https://drive.google.com/thumbnail?id=1UL0vejH5cduRd2uG3jHh9WtUXu7hKCyg&sz=w500',
-  'Magnesio Complex - 200':'https://drive.google.com/thumbnail?id=1e3Y4ngwrpRmoXCOYnHWTYyNWlpWEr9na&sz=w500',
-  'Magnesio Elemental COMPLEX':'https://drive.google.com/thumbnail?id=1VqzSB3UCaxK4drdbpaTxOmCxgaiywbZM&sz=w500',
-  'MCT`s':'https://drive.google.com/thumbnail?id=1RouwT54sfgxnVqufaFtFtRCNUOBx-fnK&sz=w500',
-  'Mg + K':'https://drive.google.com/thumbnail?id=16WcUJHLFrKMEArNAvte6R377TgpWbKER&sz=w500',
-  'Milk Thistle':'https://drive.google.com/thumbnail?id=1z3RltqCSZayO0SaqXrypDlmQ4nM-T66u&sz=w500',
-  'Performance':'https://drive.google.com/thumbnail?id=1ipRVt1n-ZpXvbhxtuI7mCLUvuJahyv00&sz=w500',
-  'Potasio':'https://drive.google.com/thumbnail?id=14Dj9lcBLaCRVg75UYwFr8QJ5jtE2b6KS&sz=w500',
-  'Probioticos Men':'https://drive.google.com/thumbnail?id=1lLj-5ZNnKtGrBBfK84zXw7NezJSqOrVb&sz=w500',
-  'Probiotics Women':'https://drive.google.com/thumbnail?id=13ISHZxcMEhlChCMFfTzTzSriBZ1GNz1x&sz=w500',
-  'Silver Men':'https://drive.google.com/thumbnail?id=1CVDoaanpO-evl5tB_rg1PngZAP0X9Whd&sz=w500',
-  'Treonato':'https://drive.google.com/thumbnail?id=11iQjXJtYdz6yjspn4Pcg4ElmqqvkYw7_&sz=w500',
-  'Ultra Magnesio':'https://drive.google.com/thumbnail?id=17tBapIsiareluaV_18iTNbuo-1LL_wwL&sz=w500',
-  'Ultra Probiotics':'https://drive.google.com/thumbnail?id=1BP31PVgKYtJgBDF8fzbKn-6_zmASsdOO&sz=w500',
-  'Urinary Blend - 60':'https://drive.google.com/thumbnail?id=1uX6kcj56jnqKucQG9NqsYI-1sZb64Kg4&sz=w500',
-  'Urinary Blend - 120':'https://drive.google.com/thumbnail?id=1lK4_0SBktSbQ1P3oQBieGtmC5KludTu5&sz=w500',
-  'Vegan':'https://drive.google.com/thumbnail?id=1sHtJ6N52NJHfL9poW5k5NzgyONiq5Q0S&sz=w500',
-  'Vigor':'https://drive.google.com/thumbnail?id=1pqm3BIG82sxrRas8pWKrkM-zKHDSAUUk&sz=w500',
-  'Vinagre de Manzana':'https://drive.google.com/thumbnail?id=11ZT_XJ1g7ZQD2-M825G4vzlIiEvyiKwx&sz=w500',
-  'vitamina B':'https://drive.google.com/thumbnail?id=1ww7U74Y6siEygrtn5c3cUclUz5qLyFPP&sz=w500',
-  'vitamina C':'https://drive.google.com/thumbnail?id=1BDzHNjHdbEM8xHI6iNrYJwHGJvvjZTeH&sz=w500',
-  'vitamina B12 Liposomal':'https://drive.google.com/thumbnail?id=12WkL6b1EFLTUXxEXpo_pEuJA9F4U6CNW&sz=w500',
-  'vitamina C Liposomal':'https://drive.google.com/thumbnail?id=1rGAAYbW9sNWtME4TDkPU4FVZKpwhPFfT&sz=w500',
-  'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w500',
-  'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w500',
-  'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w500',
-  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
-  'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
-};
-
-let S = { 
-  email:'', cat:'', prod:[], carrito:{}, total:0, min:0, selectedPct: 0, rawData: null, 
-  appliedCoupon: null, isFrequent: false, frecuenteCategoria: '', 
-  clientData: null, direccionGuardada: false
-};
-
-async function api(action, data) {
-    const resp = await fetch(`${API_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(data))}`, { method: 'POST' });
-    return await resp.json();
-}
-
-function go(n){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
-    document.getElementById('s'+n).classList.add('act');
-    document.getElementById('topBar').classList.toggle('show', n===3);
-    window.scrollTo(0,0);
-}
-
-function logout(){ window.location.reload(); }
-
-function initCats(){
-    const cats=[
-        {id:'Lista Base',nm:'Base',ico:'📦', info:'0% desc'},
-        {id:'25%',nm:'Iniciador',ico:'💡', info:'25% desc'},
-        {id:'Plata',nm:'Plata',ico:'🥈', info:'47% desc'},
-        {id:'Oro',nm:'Oro',ico:'🥇', info:'52% desc'},
-        {id:'Diamante',nm:'Diamante',ico:'💎', info:'57% desc'}
+    const ESTADOS = [
+      'Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche',
+      'Chiapas', 'Chihuahua', 'Cdmx', 'Durango', 'Guanajuato', 'Guerrero',
+      'Hidalgo', 'Jalisco', 'México', 'Michoacán', 'Morelos', 'Nayarit',
+      'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo',
+      'San Luis Potosí', 'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas',
+      'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas'
     ];
-    document.getElementById('cats').innerHTML = cats.map(c=>`
-        <div class="cat-card animate-beat ${!S.isFrequent && S.cat !== c.id && S.rawData.mins[c.id] > 0 ? 'locked' : ''}" onclick="selCat(this, '${c.id}')">
-            <span class="emoji text-5xl mb-4 block">${c.ico}</span>
-            <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
-            <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
-            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
-        </div>`).join('');
-}
 
-function selCat(el, id){
-    S.cat = id;
-    S.min = S.rawData.mins[id] || 0;
-    S.selectedPct = S.rawData.discounts[id] || 0;
-    document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('sel'));
-    el.classList.add('sel');
-    const btn = document.getElementById('btnContinueCat');
-    btn.disabled = false;
-    btn.className = "bg-green-600 text-white px-12 py-5 rounded-3xl font-black shadow-xl hover:bg-black cursor-pointer transition-all uppercase tracking-widest scale-105";
-}
+    let S = {
+      email: '', cat: 'Lista Base', prod: [], carrito: {},
+      total: 0, min: 0, selectedPct: 0, rawData: null,
+      appliedCoupon: null, isFrequent: false, frecuenteCategoria: '',
+      clientData: null, direccionGuardada: null,
+      pedidoInfo: null // Para página de confirmación
+    };
 
-function goToCatalog(){
-    go(3);
-    renderCatalog();
-}
-
-function renderCatalog(){
-    document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
-    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
-    
-    document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
-        const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
-        const imgUrl = IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/200?text=NSN';
-        return `
-        <div class="prod-card shadow-sm">
-            <div class="img-container">
-                <img src="${imgUrl}" class="prod-img" alt="${p.nombre}">
-            </div>
-            <div class="p-6 flex-1 flex flex-col">
-                <h4 class="text-[10px] font-black text-slate-400 uppercase mb-2 leading-tight">${p.nombre}</h4>
-                <div class="mb-4">
-                    ${S.selectedPct > 0 ? `<div class="price-base">$${p.precioBase.toFixed(2)}</div>`:''}
-                    <div class="price-final">$${finalPriceFixed.toFixed(2)}</div>
-                </div>
-                <div class="mt-auto flex items-center justify-between bg-emerald-50 rounded-2xl p-1 border border-emerald-100 shadow-sm">
-                    <button onclick="addQty(${p.id},-1)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-black text-slate-300">-</button>
-                    <span id="qty-${p.id}" class="font-black text-slate-700 text-lg">${S.carrito[p.id]||0}</span>
-                    <button onclick="addQty(${p.id},1)" class="w-10 h-10 bg-emerald-500 text-white rounded-xl shadow-sm font-black active:scale-95">+</button>
-                </div>
-            </div>
-        </div>`}).join('');
-    updProg();
-}
-
-function addQty(id, d){
-    S.carrito[id] = (S.carrito[id] || 0) + d;
-    if (S.carrito[id] <= 0) delete S.carrito[id];
-    const qtySpan = document.getElementById(`qty-${id}`);
-    if (qtySpan) qtySpan.innerText = S.carrito[id] || 0;
-    updProg();
-    saveCart();
-}
-
-function updProg(){
-    let subtotalFijo = 0;
-    Object.entries(S.carrito).forEach(([id,q])=>{ 
-        const p=S.rawData.products.find(x=>x.id==id); 
-        if(p) subtotalFijo += (p.precioBase * (1 - S.selectedPct)) * q; 
-    });
-
-    const pctBar = S.min > 0 ? Math.min((subtotalFijo/S.min)*100, 100) : 100;
-    const bar = document.getElementById('progBar');
-    if(bar) bar.style.width = pctBar + '%';
-    
-    document.getElementById('progPct').textContent = Math.round(pctBar) + '%';
-    document.getElementById('cartTotal').textContent = '$' + subtotalFijo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    document.getElementById('cartActual').textContent = '$' + Math.round(subtotalFijo).toLocaleString();
-    document.getElementById('cartMinimo').textContent = '$' + (S.min || 0).toLocaleString();
-    document.getElementById('cartFinal').textContent = '$' + subtotalFijo.toFixed(2);
-
-    const count = Object.values(S.carrito).reduce((a,b)=>a+b,0);
-    const badge = document.getElementById('cartBadge');
-    badge.style.display = count>0?'flex':'none'; badge.textContent=count;
-    updCartUI();
-}
-
-function toggleCart(show){ document.getElementById('cartSidebar').style.display=show?'flex':'none'; if(show) updCartUI(); }
-
-function updCartUI(){
-    let h='';
-    Object.entries(S.carrito).forEach(([id,q])=>{
-        const p=S.rawData.products.find(x=>x.id==id);
-        if(p){
-            const price = p.precioBase * (1 - S.selectedPct);
-            h += `
-            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-3xl border border-slate-100 shadow-sm">
-                <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/60'}" class="w-12 h-12 object-contain bg-white rounded-xl p-1">
-                <div class="flex-1">
-                    <p class="text-[9px] font-black uppercase text-slate-400 leading-tight">${p.nombre}</p>
-                    <p class="font-black text-green-700 text-sm">$${(price*q).toFixed(2)}</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="addQty(${id},-1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">-</button>
-                    <span class="font-black text-xs w-4 text-center">${q}</span>
-                    <button onclick="addQty(${id},1)" class="w-7 h-7 bg-white rounded-lg border text-xs font-black">+</button>
-                    <button onclick="addQty(${id},-${q})" class="ml-1 text-slate-300 hover:text-red-500">🗑️</button>
-                </div>
-            </div>`;
-        }
-    });
-    document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacío</div>';
-}
-
-// NUEVA: Guardar carrito
-async function saveCart(){
-    await api('saveCart', { email: S.email, carrito: S.carrito, categoria: S.cat });
-}
-
-// NUEVA: Usar dirección guardada
-function usarDireccionGuardada(){
-    if(!S.clientData) return;
-    document.getElementById('nom').value = S.clientData.nombre;
-    document.getElementById('ape').value = S.clientData.apellido;
-    document.getElementById('tel').value = S.clientData.telefono;
-    document.getElementById('cal').value = S.clientData.calle;
-    document.getElementById('num').value = S.clientData.numero;
-    document.getElementById('col').value = S.clientData.colonia;
-    document.getElementById('mun').value = S.clientData.municipio;
-    document.getElementById('est').value = S.clientData.estado;
-    document.getElementById('cp').value = S.clientData.cp;
-    S.direccionGuardada = true;
-}
-
-function cambiarDireccion(){
-    S.direccionGuardada = false;
-    document.getElementById('nom').value = '';
-    document.getElementById('ape').value = '';
-    document.getElementById('tel').value = '';
-    document.getElementById('cal').value = '';
-    document.getElementById('num').value = '';
-    document.getElementById('col').value = '';
-    document.getElementById('mun').value = '';
-    document.getElementById('est').value = '';
-    document.getElementById('cp').value = '';
-}
-
-function processFinalSummary(){
-    const nom = document.getElementById('nom').value;
-    const ape = document.getElementById('ape').value;
-    const tel = document.getElementById('tel').value;
-    const cal = document.getElementById('cal').value;
-    const num = document.getElementById('num').value;
-    const col = document.getElementById('col').value;
-    const mun = document.getElementById('mun').value;
-    const est = document.getElementById('est').value;
-    const cp = document.getElementById('cp').value;
-
-    if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Por favor llena los datos obligatorios');
-
-    let subtotalBase = 0;
-    let htmlItems = '';
-    
-    Object.entries(S.carrito).forEach(([id,q])=>{
-        const p=S.rawData.products.find(x=>x.id==id);
-        if(p) {
-            subtotalBase += p.precioBase * q;
-            htmlItems += `
-            <div class="flex items-center gap-4 border-b border-slate-100 pb-3">
-                <img src="${IMAGENES_FIJAS[p.nombre]}" class="w-10 h-10 object-contain rounded-lg border bg-white">
-                <div class="flex-1">
-                    <p class="text-[10px] font-bold uppercase">${p.nombre}</p>
-                    <p class="text-[9px] text-slate-400">${q} piezas x $${p.precioBase.toLocaleString()} (Base)</p>
-                </div>
-                <span class="font-black text-xs">$${(p.precioBase * q).toLocaleString()}</span>
-            </div>`;
-        }
-    });
-
-    let appliedTier = S.cat;
-    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
-    
-    // MEJORADO: Cliente frecuente no necesita mínimo
-    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
-        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
-        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
+    async function apiCall(action, data = {}) {
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: action,
+            data: JSON.stringify(data)
+          })
+        });
+        return await response.json();
+      } catch (e) {
+        console.error('API Error:', e);
+        return { success: false, error: e.message };
+      }
     }
 
-    const appliedPct = S.rawData.discounts[appliedTier] || 0;
-    const finalTotalCalculated = subtotalBase * (1 - appliedPct);
-
-    document.getElementById('clientSummary').innerHTML = `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Cliente</p><p class="font-bold">${nom} ${ape}</p></div>
-            <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Contacto</p><p class="font-bold">${tel}</p></div>
-            <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
-                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Dirección de Envío</p>
-                <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}, ${est}. C.P. ${cp}</p>
-            </div>
-            <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
-                <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado</p>
-                <p class="font-bold text-emerald-700 uppercase">${S.cat} ${S.isFrequent ? '(Cliente Frecuente - Sin Mínimo)' : '(Mínimo: $' + minRequiredForSelected.toLocaleString() + ')'}</p>
-            </div>
+    async function step1() {
+      return `
+        <div class="animate-fade-in max-w-md mx-auto mt-10 p-8">
+          <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold color-primary mb-2">NSN</h1>
+            <p class="text-gray-600">Plataforma Mayorista B2B</p>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <label class="block text-sm font-semibold text-gray-700 mb-3">Email</label>
+            <input type="email" id="emailInput" placeholder="tu@empresa.com" 
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none">
+            
+            <button onclick="validateEmail()" class="w-full bg-primary-dark text-white font-bold py-3 rounded-xl mt-6 hover:opacity-90 transition">
+              Continuar
+            </button>
+          </div>
         </div>
-    `;
+      `;
+    }
 
-    document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">${htmlItems}</div>`;
+    async function validateEmail() {
+      const email = document.getElementById('emailInput').value.toLowerCase().trim();
+      if (!email.includes('@')) { alert('Email inválido'); return; }
+      
+      S.email = email;
+      
+      // Cargar datos de la app
+      const appData = await apiCall('getAppData');
+      S.rawData = appData;
+      S.prod = appData.products || [];
+      
+      // Verificar si es cliente frecuente
+      const freqCheck = await apiCall('checkFrequentClient', { email });
+      if (freqCheck.isFrequent) {
+        S.isFrequent = true;
+        S.frecuenteCategoria = freqCheck.categoria;
+        S.cat = freqCheck.categoria;
+      }
+      
+      // Cargar datos guardados
+      const clientDataRes = await apiCall('getClientData', { email });
+      if (clientDataRes.exists) {
+        S.clientData = clientDataRes;
+      }
+      
+      renderStep2();
+    }
 
-    let auditMsg = '';
-    if(S.isFrequent || appliedTier === S.cat) {
-        auditMsg = `<div class="text-emerald-700 font-black text-sm tracking-tight">
-            ✅ <span class="uppercase tracking-widest">¡CUMPLIDO!</span><br>
-            <span class="text-xs font-bold mt-1 block">${S.isFrequent ? 'Como cliente frecuente ' + S.frecuenteCategoria : 'Tu inversión base de $' + subtotalBase.toLocaleString()} cumple con los requisitos. Se aplicará el descuento del ${Math.round(appliedPct*100)}%.</span>
-        </div>`;
-    } else {
-        const tierApliedMin = S.rawData.mins[appliedTier] || 0;
-        auditMsg = `
-            <div class="text-amber-800">
-                <p class="font-black uppercase text-sm tracking-tight">⚠️ INVERSIÓN INSUFICIENTE</p>
-                <p class="text-xs font-bold mt-2 block">Tu inversión base de <b>$${subtotalBase.toLocaleString()}</b> es menor al mínimo de ${S.cat} ($${minRequiredForSelected.toLocaleString()}).</p>
-                <p class="text-xs font-bold mt-1 block">Se aplicará automáticamente la categoría <b>${appliedTier}</b> con descuento del ${Math.round(appliedPct*100)}% (Mínimo: $${tierApliedMin.toLocaleString()}).</p>
+    function renderStep2() {
+      // CAMBIO: Mostrar TODAS las categorías disponibles (sin bloqueo)
+      let categoriasDisponibles = ['Lista Base', '25%', 'Plata', 'Oro', 'Diamante'];
+      
+      // Si es cliente frecuente, limitar a sus categorías
+      if (S.isFrequent) {
+        if (S.frecuenteCategoria === 'plata') {
+          categoriasDisponibles = ['Lista Base', '25%', 'Plata'];
+        } else if (S.frecuenteCategoria === 'oro') {
+          categoriasDisponibles = ['Lista Base', '25%', 'Plata', 'Oro'];
+        } else if (S.frecuenteCategoria === 'diamante') {
+          categoriasDisponibles = ['Lista Base', '25%', 'Plata', 'Oro', 'Diamante'];
+        }
+      }
+      
+      const bannerFrecuente = S.isFrequent ? `
+        <div class="bg-accent border-l-4 border-primary p-4 mb-6 rounded">
+          <p class="text-sm font-semibold color-primary-dark">
+            ✓ Eres Mayorista ${S.frecuenteCategoria.charAt(0).toUpperCase() + S.frecuenteCategoria.slice(1)}
+          </p>
+          <p class="text-xs text-gray-600 mt-1">Acceso sin mínimo de compra requerido</p>
+        </div>
+      ` : '';
+      
+      const opcionesCategoria = categoriasDisponibles.map(cat => `
+        <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition ${S.cat === cat ? 'border-primary bg-blue-50' : 'border-gray-200 hover:border-gray-300'}">
+          <input type="radio" name="categoria" value="${cat}" ${S.cat === cat ? 'checked' : ''} 
+            onchange="cambiarCategoria('${cat}')" class="w-4 h-4">
+          <span class="ml-3 font-semibold text-gray-700">${cat}</span>
+          <span class="ml-auto text-sm text-gray-500">Mínimo: $${MINIMOS[cat].toLocaleString()}</span>
+        </label>
+      `).join('');
+      
+      const html = `
+        <div class="animate-fade-in max-w-2xl mx-auto mt-10 p-8">
+          <h2 class="text-2xl font-bold mb-6">Selecciona tu Categoría</h2>
+          
+          ${bannerFrecuente}
+          
+          <div class="bg-white rounded-2xl shadow-lg p-8 space-y-4">
+            ${opcionesCategoria}
+          </div>
+          
+          <button onclick="renderStep3()" class="w-full bg-primary-dark text-white font-bold py-3 rounded-xl mt-6 hover:opacity-90 transition">
+            Ver Catálogo
+          </button>
+        </div>
+      `;
+      document.getElementById('app').innerHTML = html;
+    }
+
+    function cambiarCategoria(cat) {
+      S.cat = cat;
+      S.min = MINIMOS[cat];
+    }
+
+    async function renderStep3() {
+      const html = `
+        <div class="animate-fade-in max-w-6xl mx-auto mt-10 p-8">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Catálogo - ${S.cat}</h2>
+            <button onclick="renderStep2()" class="text-primary-dark hover:underline">← Cambiar de Nivel</button>
+          </div>
+          
+          <!-- Barra progreso -->
+          <div class="bg-white rounded-xl p-4 mb-6 shadow">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-semibold">Inversión: $${Object.values(S.carrito).reduce((sum, qty, i) => sum + (S.prod[i]?.precioBase * qty * (1 - DESCUENTOS[S.cat])), 0).toFixed(2)} / $${S.min}</span>
             </div>
-        `;
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-primary h-2 rounded-full transition-all" style="width: ${Math.min(100, (Object.values(S.carrito).reduce((sum, qty, i) => sum + (S.prod[i]?.precioBase * qty * (1 - DESCUENTOS[S.cat])), 0) / Math.max(S.min, 1)) * 100)}%"></div>
+            </div>
+          </div>
+          
+          <!-- Grid productos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            ${S.prod.map((p, i) => {
+              const precioFinal = p.precioBase * (1 - DESCUENTOS[S.cat]);
+              const qty = S.carrito[i] || 0;
+              return `
+                <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+                  <img src="${IMAGENES_FIJAS[p.nombre] || 'https://via.placeholder.com/280'}" 
+                    class="w-full h-48 object-cover rounded-lg mb-3">
+                  <h3 class="font-bold text-sm mb-1">${p.nombre}</h3>
+                  <p class="text-xs text-gray-500 mb-2">25kg</p>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-bold color-primary">$${precioFinal.toFixed(2)}</span>
+                    ${S.isFrequent ? '<span class="text-xs color-primary-dark">Sin mínimo ✓</span>' : ''}
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="updateCart(${i}, -1)" class="flex-1 bg-gray-200 py-2 rounded hover:bg-gray-300">−</button>
+                    <span class="w-8 text-center font-bold">${qty}</span>
+                    <button onclick="updateCart(${i}, 1)" class="flex-1 bg-primary text-white py-2 rounded hover:opacity-90">+</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+          
+          <div class="flex gap-4">
+            <button onclick="renderStep2()" class="flex-1 border-2 border-primary-dark text-primary-dark font-bold py-3 rounded-xl hover:bg-gray-50">
+              ← Atrás
+            </button>
+            <button onclick="renderStep4()" class="flex-1 bg-primary-dark text-white font-bold py-3 rounded-xl hover:opacity-90">
+              Continuar →
+            </button>
+          </div>
+        </div>
+      `;
+      document.getElementById('app').innerHTML = html;
+      await apiCall('saveCart', { email: S.email, carrito: S.carrito, categoria: S.cat });
     }
 
-    document.getElementById('auditSection').innerHTML = auditMsg;
-    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotalCalculated.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    function updateCart(idx, delta) {
+      S.carrito[idx] = Math.max(0, (S.carrito[idx] || 0) + delta);
+      if (S.carrito[idx] === 0) delete S.carrito[idx];
+      renderStep3();
+    }
 
-    go(5);
-}
+    async function renderStep4() {
+      const subtotal = Object.entries(S.carrito).reduce((sum, [i, qty]) => {
+        const prod = S.prod[i];
+        return sum + (prod.precioBase * qty);
+      }, 0);
+      
+      const descuentoAplicado = calcularDescuento(subtotal);
+      const subtotalConDescuento = subtotal * (1 - descuentoAplicado);
+      
+      S.selectedPct = descuentoAplicado;
+      
+      const direccionGuardada = S.clientData?.direccionGuardada ? `
+        <div class="bg-accent p-4 rounded-lg mb-4">
+          <label class="flex items-center cursor-pointer">
+            <input type="checkbox" onchange="usarDireccionGuardada()" id="usarDirGuardada" class="w-4 h-4">
+            <span class="ml-3 font-semibold text-sm">✓ Usar Información Guardada</span>
+          </label>
+        </div>
+      ` : '';
+      
+      const html = `
+        <div class="animate-fade-in max-w-2xl mx-auto mt-10 p-8">
+          <h2 class="text-2xl font-bold mb-6">Datos de Envío</h2>
+          
+          <div class="bg-white rounded-2xl shadow-lg p-8 space-y-4">
+            ${direccionGuardada}
+            
+            <input type="text" id="nombre" placeholder="Nombre" value="${S.clientData?.nombre || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="apellido" placeholder="Apellido" value="${S.clientData?.apellido || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="tel" id="telefono" placeholder="Teléfono" value="${S.clientData?.telefono || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="calle" placeholder="Calle" value="${S.clientData?.calle || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="num" placeholder="Número" value="${S.clientData?.numero || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="col" placeholder="Colonia" value="${S.clientData?.colonia || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="mun" placeholder="Municipio" value="${S.clientData?.municipio || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <!-- ESTADO CON DISEÑO MEJORADO -->
+            <select id="est" class="select-state w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+              <option value="">Selecciona Estado...</option>
+              ${ESTADOS.map(e => `<option value="${e}" ${S.clientData?.estado === e ? 'selected' : ''}>${e}</option>`).join('')}
+            </select>
+            
+            <input type="text" id="cp" placeholder="Código Postal" value="${S.clientData?.cp || ''}"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+            
+            <input type="text" id="cupon" placeholder="Cupón (opcional)"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+          </div>
+          
+          <div class="mt-6 flex gap-4">
+            <button onclick="renderStep3()" class="flex-1 border-2 border-primary-dark text-primary-dark font-bold py-3 rounded-xl">← Atrás</button>
+            <button onclick="renderStep5('${subtotalConDescuento}')" class="flex-1 bg-primary-dark text-white font-bold py-3 rounded-xl hover:opacity-90">Continuar →</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('app').innerHTML = html;
+    }
 
-async function applyCoupon(){
-    const couponCode = document.getElementById('couponInput').value.trim();
-    if(!couponCode) return alert('Ingresa un código de cupón');
-    
-    const statusDiv = document.getElementById('couponStatus');
-    statusDiv.classList.remove('hidden');
-    statusDiv.innerHTML = '⏳ Validando cupón...';
-    statusDiv.className = 'mt-3 text-xs font-bold text-blue-600';
-    
-    try {
-        const resp = await api('validateCoupon', { email: S.email, couponCode: couponCode });
-        
-        if(resp.success) {
-            S.appliedCoupon = resp;
-            statusDiv.innerHTML = `✅ Cupón válido: ${resp.descuento}% de descuento`;
-            statusDiv.className = 'mt-3 text-xs font-bold text-emerald-600';
-            updCouponTotal();
-        } else {
-            statusDiv.innerHTML = `❌ ${resp.message}`;
-            statusDiv.className = 'mt-3 text-xs font-bold text-red-600';
-            S.appliedCoupon = null;
+    function calcularDescuento(subtotal) {
+      if (S.isFrequent) return DESCUENTOS[S.frecuenteCategoria];
+      
+      if (subtotal >= MINIMOS['Diamante']) return DESCUENTOS['Diamante'];
+      if (subtotal >= MINIMOS['Oro']) return DESCUENTOS['Oro'];
+      if (subtotal >= MINIMOS['Plata']) return DESCUENTOS['Plata'];
+      if (subtotal >= MINIMOS['25%']) return DESCUENTOS['25%'];
+      return DESCUENTOS['Lista Base'];
+    }
+
+    function usarDireccionGuardada() {
+      if (document.getElementById('usarDirGuardada').checked && S.clientData) {
+        document.getElementById('nombre').value = S.clientData.nombre;
+        document.getElementById('apellido').value = S.clientData.apellido;
+        document.getElementById('telefono').value = S.clientData.telefono;
+        document.getElementById('calle').value = S.clientData.calle;
+        document.getElementById('num').value = S.clientData.numero;
+        document.getElementById('col').value = S.clientData.colonia;
+        document.getElementById('mun').value = S.clientData.municipio;
+        // NUEVO: Auto-llenar estado
+        document.getElementById('est').value = S.clientData.estado;
+        document.getElementById('cp').value = S.clientData.cp;
+      }
+    }
+
+    async function renderStep5(subtotalConDescuento) {
+      const cuponCode = document.getElementById('cupon').value.trim();
+      let cuponValido = null;
+      
+      if (cuponCode) {
+        cuponValido = await apiCall('validateCoupon', { email: S.email, couponCode });
+        if (!cuponValido.success) {
+          alert('Cupón inválido: ' + cuponValido.message);
+          return;
         }
-    } catch(err) {
-        statusDiv.innerHTML = '❌ Error al validar cupón';
-        statusDiv.className = 'mt-3 text-xs font-bold text-red-600';
+        S.appliedCoupon = cuponValido;
+      }
+      
+      const subtotal = Object.entries(S.carrito).reduce((sum, [i, qty]) => {
+        return sum + (S.prod[i].precioBase * qty);
+      }, 0);
+      
+      let totalFinal = subtotalConDescuento;
+      if (cuponValido) {
+        totalFinal = totalFinal * (1 - cuponValido.descuento / 100);
+      }
+      
+      S.total = totalFinal;
+      
+      const subtotalBase = subtotal * (1 - S.selectedPct);
+      const auditMessage = subtotal >= MINIMOS[S.cat] 
+        ? `✅ CUMPLIDO: Inversión $${subtotalBase.toFixed(2)} >= Mínimo $${MINIMOS[S.cat]}`
+        : `⚠️ INVERSIÓN INSUFICIENTE: $${subtotalBase.toFixed(2)} < Mínimo $${MINIMOS[S.cat]} → Se aplicó categoría inferior`;
+      
+      const html = `
+        <div class="animate-fade-in max-w-2xl mx-auto mt-10 p-8">
+          <h2 class="text-2xl font-bold mb-6">Resumen & Pago</h2>
+          
+          <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="space-y-2 text-sm mb-4 pb-4 border-b">
+              <div class="flex justify-between"><span>Subtotal Base:</span><span>$${subtotal.toFixed(2)}</span></div>
+              <div class="flex justify-between color-primary-dark font-semibold">
+                <span>Descuento ${(S.selectedPct * 100).toFixed(0)}%:</span>
+                <span>-$${(subtotal * S.selectedPct).toFixed(2)}</span>
+              </div>
+              ${cuponValido ? `<div class="flex justify-between text-blue-600 font-semibold">
+                <span>Cupón ${cuponValido.cuponNombre} ${cuponValido.descuento}%:</span>
+                <span>-$${(subtotalConDescuento * cuponValido.descuento / 100).toFixed(2)}</span>
+              </div>` : ''}
+            </div>
+            
+            <div class="bg-accent p-3 rounded-lg mb-4">
+              <p class="text-xs font-mono text-gray-700">${auditMessage}</p>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <label class="font-semibold">Método de Pago:</label>
+            </div>
+            
+            <div class="space-y-3 mt-3">
+              <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-primary transition">
+                <input type="radio" name="metodoPago" value="Mercado Pago" checked onchange="cambiarMetodoPago()" class="w-4 h-4">
+                <span class="ml-3">
+                  <span class="font-semibold block">💳 Mercado Pago</span>
+                  <span class="text-xs text-gray-500">Transferencia, tarjeta, OXXO y más</span>
+                </span>
+              </label>
+              
+              <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-primary transition">
+                <input type="radio" name="metodoPago" value="Contra Entrega" onchange="cambiarMetodoPago()" class="w-4 h-4">
+                <span class="ml-3">
+                  <span class="font-semibold block">📦 Contra Entrega</span>
+                  <span class="text-xs text-gray-500">Solo si ya se acordó con operaciones</span>
+                </span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="bg-primary-dark text-white rounded-2xl p-6 mb-6 text-center">
+            <div class="text-sm opacity-90">TOTAL FINAL A LIQUIDAR</div>
+            <div class="text-4xl font-bold mt-2">$${totalFinal.toFixed(2)}</div>
+          </div>
+          
+          <button onclick="finalizarPedido('${subtotalConDescuento}')" class="w-full bg-primary-dark text-white font-bold py-4 rounded-xl hover:opacity-90 transition text-lg">
+            FINALIZAR TODO
+          </button>
+          
+          <button onclick="renderStep4()" class="w-full border-2 border-gray-300 font-bold py-3 rounded-xl mt-3 text-gray-700">
+            ← Editar
+          </button>
+        </div>
+      `;
+      document.getElementById('app').innerHTML = html;
     }
-}
 
-function updCouponTotal(){
-    let subtotalBase = 0;
-    Object.entries(S.carrito).forEach(([id,q])=>{ 
-        const p=S.rawData.products.find(x=>x.id==id); 
-        if(p) subtotalBase += p.precioBase * q; 
-    });
-    
-    let appliedTier = S.cat;
-    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
-    
-    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
-        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
-        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
+    function cambiarMetodoPago() {
+      // Actualizar estado si es necesario
     }
-    
-    const appliedPct = S.rawData.discounts[appliedTier] || 0;
-    let finalTotal = subtotalBase * (1 - appliedPct);
-    
-    if(S.appliedCoupon) {
-        const descuentoCupon = S.appliedCoupon.descuento / 100;
-        finalTotal = finalTotal * (1 - descuentoCupon);
-    }
-    
-    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
-async function confirmOrder(){
-    const nom = document.getElementById('nom').value;
-    const ape = document.getElementById('ape').value;
-    const tel = document.getElementById('tel').value;
-    const cal = document.getElementById('cal').value;
-    const num = document.getElementById('num').value;
-    const col = document.getElementById('col').value;
-    const mun = document.getElementById('mun').value;
-    const est = document.getElementById('est').value;
-    const cp = document.getElementById('cp').value;
-    const metodo_pago = document.querySelector('input[name="metodo"]:checked').value;
-    
-    if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Faltan datos obligatorios');
-    
-    let subtotalBase = 0;
-    let descripcionItems = '';
-    
-    Object.entries(S.carrito).forEach(([id,q])=>{
-        const p=S.rawData.products.find(x=>x.id==id);
-        if(p) {
-            subtotalBase += p.precioBase * q;
-            descripcionItems += `${p.nombre} x${q} = $${(p.precioBase * q).toFixed(2)}\n`;
-        }
-    });
-    
-    let appliedTier = S.cat;
-    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
-    
-    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
-        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
-        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
-        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
-    }
-    
-    const appliedPct = S.rawData.discounts[appliedTier] || 0;
-    let finalTotal = subtotalBase * (1 - appliedPct);
-    
-    if(S.appliedCoupon) {
-        const descuentoCupon = S.appliedCoupon.descuento / 100;
-        finalTotal = finalTotal * (1 - descuentoCupon);
-    }
-    
-    document.getElementById('plantLoader').style.display = 'flex';
-    try {
-        const orderData = {
-            email: S.email,
-            nombre: nom,
-            apellido: ape,
-            telefono: tel,
-            calle: cal,
-            num: num,
-            col: col,
-            mun: mun,
-            est: est,
-            cp: cp,
-            subtotalBase: subtotalBase,
-            appliedPct: appliedPct,
-            descripcionPedido: descripcionItems,
-            cupon: S.appliedCoupon || null,
-            metodo_pago: metodo_pago
+    async function finalizarPedido(subtotalConDescuento) {
+      const nombre = document.getElementById('nombre')?.value || '';
+      const apellido = document.getElementById('apellido')?.value || '';
+      const telefono = document.getElementById('telefono')?.value || '';
+      const calle = document.getElementById('calle')?.value || '';
+      const num = document.getElementById('num')?.value || '';
+      const col = document.getElementById('col')?.value || '';
+      const mun = document.getElementById('mun')?.value || '';
+      const est = document.getElementById('est')?.value || '';
+      const cp = document.getElementById('cp')?.value || '';
+      const metodo = document.querySelector('input[name="metodoPago"]:checked')?.value || 'Pendiente';
+      
+      if (!nombre || !apellido || !telefono || !est) {
+        alert('Por favor completa todos los campos');
+        return;
+      }
+      
+      // Descripción del pedido
+      const descripcionPedido = Object.entries(S.carrito).map(([i, qty]) => {
+        return `${S.prod[i].nombre} x${qty}`;
+      }).join(' | ');
+      
+      const orderData = {
+        email: S.email,
+        nombre, apellido, telefono, calle, num, col, mun, est, cp,
+        subtotalBase: parseFloat(subtotalConDescuento),
+        appliedPct: S.selectedPct,
+        cupon: S.appliedCoupon,
+        carrito: S.carrito,
+        categoria: S.cat,
+        metodoPago: metodo,
+        descripcionPedido: descripcionPedido,
+        productos: S.prod.map((p, i) => ({
+          nombre: p.nombre,
+          cantidad: S.carrito[i] || 0,
+          precioBase: p.precioBase,
+          precioFinal: p.precioBase * (1 - S.selectedPct)
+        })).filter(p => p.cantidad > 0)
+      };
+      
+      const result = await apiCall('submitOrder', orderData);
+      
+      if (result.success) {
+        S.pedidoInfo = {
+          noPedido: result.noPedido,
+          total: result.totalFinal,
+          metodoPago: metodo,
+          nombre: nombre,
+          apellido: apellido,
+          email: S.email,
+          productos: orderData.productos,
+          apliedPct: S.selectedPct,
+          cupon: S.appliedCoupon
         };
-        
-        const result = await api('submitOrder', orderData);
-        
-        if(result.success) {
-            alert(`✅ Pedido confirmado #${result.noPedido}\nCliente: ${result.idCliente}\nTotal: $${result.totalFinal}\nMétodo: ${result.metodoPago}\n\n¡Verifica tu email para los detalles!`);
-            window.location.reload();
-        } else {
-            alert('Error: ' + (result.error || 'No se pudo procesar el pedido'));
-        }
-    } catch(err) {
-        alert('Error de conexión: ' + err.message);
+        renderConfirmation();
+      } else {
+        alert('Error: ' + result.error);
+      }
     }
-    finally {
-        document.getElementById('plantLoader').style.display = 'none';
-    }
-}
 
-function searchProds(){
-    const q = document.getElementById('searchInp').value.toLowerCase();
-    document.querySelectorAll('.prod-card').forEach(c => {
-        const nm = c.querySelector('h4').textContent.toLowerCase();
-        c.style.display = nm.includes(q) ? 'flex' : 'none';
+    function renderConfirmation() {
+      // Crear confetti
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * window.innerWidth + 'px';
+          confetti.style.background = ['#84CC16', '#5BA313', '#F4FFF0', '#D4F4DD'][Math.floor(Math.random() * 4)];
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+      
+      const linkMP = S.pedidoInfo.metodoPago === 'Mercado Pago' ? `
+        <a href="https://mercadopago.com.mx" target="_blank" class="flex-1 bg-blue-600 text-white font-bold py-4 rounded-xl hover:opacity-90 transition text-center">
+          💳 Ir a Mercado Pago
+        </a>
+      ` : '';
+      
+      const html = `
+        <div class="animate-fade-in min-h-screen bg-gradient-to-br from-primary-light to-accent flex items-center justify-center p-4">
+          <div class="max-w-2xl w-full">
+            
+            <!-- Checkmark animado -->
+            <div class="text-center mb-8">
+              <div class="success-checkmark inline-block">
+                <svg width="120" height="120" viewBox="0 0 120 120" class="mx-auto">
+                  <circle cx="60" cy="60" r="55" fill="none" stroke="#5BA313" stroke-width="3" opacity="0.2"/>
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#84CC16" stroke-width="2"/>
+                  <path d="M35 65 L50 80 L85 45" fill="none" stroke="#84CC16" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl p-8 mb-6">
+              <h1 class="text-3xl font-bold text-center color-primary-dark mb-2">¡Pedido Confirmado!</h1>
+              <p class="text-center text-gray-600 mb-6">Tu pedido ha sido registrado exitosamente</p>
+              
+              <div class="bg-gray-50 rounded-xl p-6 mb-6 space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Número de Pedido:</span>
+                  <span class="font-bold color-primary">#${S.pedidoInfo.noPedido}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Nombre:</span>
+                  <span class="font-bold">${S.pedidoInfo.nombre} ${S.pedidoInfo.apellido}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Email:</span>
+                  <span class="font-bold text-sm">${S.pedidoInfo.email}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Método de Pago:</span>
+                  <span class="font-bold">${S.pedidoInfo.metodoPago}</span>
+                </div>
+                <div class="border-t pt-3 flex justify-between">
+                  <span class="text-lg font-bold">Total:</span>
+                  <span class="text-2xl color-primary-dark">$${parseFloat(S.pedidoInfo.total).toFixed(2)}</span>
+                </div>
+              </div>
+              
+              <div class="space-y-2 mb-6 text-sm bg-blue-50 p-4 rounded-lg">
+                <p class="font-semibold text-blue-900">📋 Productos:</p>
+                ${S.pedidoInfo.productos.map(p => `
+                  <p class="text-blue-800">• ${p.nombre} x${p.cantidad}</p>
+                `).join('')}
+              </div>
+              
+              <p class="text-center text-sm text-gray-600 mb-6">
+                Se ha enviado un email a <strong>${S.pedidoInfo.email}</strong> con los detalles de tu pedido
+              </p>
+            </div>
+            
+            <div class="flex gap-4">
+              ${linkMP}
+              <button onclick="descargarPDF()" class="flex-1 bg-primary-dark text-white font-bold py-4 rounded-xl hover:opacity-90 transition">
+                📄 Descargar PDF
+              </button>
+            </div>
+            
+            <button onclick="location.reload()" class="w-full border-2 border-primary-dark text-primary-dark font-bold py-3 rounded-xl mt-4 hover:bg-gray-50">
+              Hacer Otro Pedido
+            </button>
+            
+          </div>
+        </div>
+      `;
+      document.getElementById('app').innerHTML = html;
+    }
+
+    function descargarPDF() {
+      // Llamar al backend para generar y descargar PDF
+      const dataParaPDF = {
+        noPedido: S.pedidoInfo.noPedido,
+        nombre: S.pedidoInfo.nombre,
+        apellido: S.pedidoInfo.apellido,
+        email: S.pedidoInfo.email,
+        total: S.pedidoInfo.total,
+        metodoPago: S.pedidoInfo.metodoPago,
+        productos: S.pedidoInfo.productos,
+        descuentoAplicado: (S.selectedPct * 100).toFixed(0)
+      };
+      
+      // Abrir en ventana nueva (será generado por el backend)
+      window.open(`${API_URL}?action=generatePDF&data=${encodeURIComponent(JSON.stringify(dataParaPDF))}`, '_blank');
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('app').innerHTML = await step1();
     });
-}
-
-async function login(){
-    const e = document.getElementById('emailInp').value;
-    if(!e.includes('@')) return alert('Email inválido');
-    S.email = e;
-    document.getElementById('plantLoader').style.display = 'flex';
-    try {
-        // Cargar datos de la app
-        const appData = await api('getAppData', {});
-        if(!appData.success) throw new Error(appData.error);
-        S.rawData = appData;
-        
-        // Verificar si es cliente frecuente
-        const freqData = await api('checkFrequentClient', { email: e });
-        if(freqData.success && freqData.isFrequent) {
-            S.isFrequent = true;
-            S.frecuenteCategoria = freqData.categoria;
-        }
-        
-        // Cargar datos del cliente (si existe)
-        const clientData = await api('getClientData', { email: e });
-        if(clientData.success && clientData.exists) {
-            S.clientData = clientData;
-        }
-        
-        document.getElementById('mainLogo').src = appData.logoUrl;
-        initCats();
-        
-        // Mostrar banner si es frecuente
-        if(S.isFrequent) {
-            const banner = document.getElementById('bannerFrecuente');
-            banner.textContent = freqData.mensaje;
-            banner.classList.remove('hidden');
-        }
-        
-        go(2);
-    } catch(err) { 
-        alert("Error: " + err.message); 
-    }
-    finally { 
-        document.getElementById('plantLoader').style.display = 'none'; 
-    }
-}
-
-// Mostrar dirección guardada si existe
-function go(n){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
-    document.getElementById('s'+n).classList.add('act');
-    document.getElementById('topBar').classList.toggle('show', n===3);
-    
-    if(n === 4 && S.clientData && S.clientData.calle) {
-        document.getElementById('direccionGuardada').classList.remove('hidden');
-        document.getElementById('dirGuardadaTexto').textContent = 
-            `${S.clientData.calle} #${S.clientData.numero}, Col. ${S.clientData.colonia}, ${S.clientData.municipio}, ${S.clientData.estado}. C.P. ${S.clientData.cp}`;
-    } else if(n === 4) {
-        document.getElementById('direccionGuardada').classList.add('hidden');
-    }
-    
-    window.scrollTo(0,0);
-}
-
-window.onload = () => {};
-</script>
+  </script>
 </body>
 </html>
