@@ -326,7 +326,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwnz2NRYx9bCOg5kxVVPw3fZjfYiIYpUZhefaKkbxVTSYy9QJsD_bYXVmiJzVxWUX9I/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwgSA5qdVUs7iHpNhLjjWRF6iaPSlqGn5OtZP2p6wkRrcqSi6NXblS8bdIPy81rELtm/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -543,21 +543,58 @@ function usarDireccionGuardada(){
     document.getElementById('est').value = '';
     document.getElementById('cp').value = '';
     
-    // Rellenar con trim()
+    // Rellenar con trim() - Extraer SOLO el último dato si está duplicado
+    const calleRaw = (S.clientData.calle || '').trim();
+    const cpRaw = (S.clientData.cp || '').trim();
+    
+    // Si calle contiene múltiples direcciones (duplicadas), extraer solo la primera
+    let calleFinal = calleRaw;
+    if(calleRaw.includes('#Col.')) {
+        calleFinal = calleRaw.split('#Col.')[0].trim();
+    }
+    
+    // Si CP tiene duplicados, extraer solo el primero
+    let cpFinal = cpRaw;
+    if(cpRaw.includes(',')) {
+        cpFinal = cpRaw.split(',')[0].trim();
+    }
+    
     document.getElementById('nom').value = (S.clientData.nombre || '').trim();
     document.getElementById('ape').value = (S.clientData.apellido || '').trim();
     document.getElementById('tel').value = (S.clientData.telefono || '').trim();
-    document.getElementById('cal').value = (S.clientData.calle || '').trim();
+    document.getElementById('cal').value = calleFinal;
     document.getElementById('num').value = (S.clientData.numero || '').trim();
     document.getElementById('col').value = (S.clientData.colonia || '').trim();
     document.getElementById('mun').value = (S.clientData.municipio || '').trim();
-    document.getElementById('cp').value = (S.clientData.cp || '').trim();
+    document.getElementById('cp').value = cpFinal;
     
     // FIX: Asegurar que el estado se rellena correctamente
-    const estadoValue = (S.clientData.estado || '').trim();
+    const estadoRaw = (S.clientData.estado || '').trim();
+    
+    // Limpiar estado si tiene duplicados
+    let estadoFinal = estadoRaw;
+    if(estadoRaw.includes(',')) {
+        estadoFinal = estadoRaw.split(',')[0].trim();
+    }
+    if(estadoRaw.includes('C.P.')) {
+        estadoFinal = estadoRaw.split('C.P.')[0].trim();
+    }
+    
     const estSelect = document.getElementById('est');
-    estSelect.value = estadoValue;
-    if(estSelect.value !== estadoValue) {
+    
+    // Buscar coincidencia exacta en las opciones
+    let encontrado = false;
+    for(let i = 0; i < estSelect.options.length; i++) {
+        if(estSelect.options[i].value === estadoFinal) {
+            estSelect.value = estadoFinal;
+            encontrado = true;
+            break;
+        }
+    }
+    
+    // Si no encontró, dejar vacío pero log para debug
+    if(!encontrado) {
+        console.log('Estado no encontrado:', estadoFinal);
         estSelect.value = '';
     }
     
@@ -677,9 +714,19 @@ async function applyCoupon(){
         
         if(resp.success) {
             S.appliedCoupon = resp;
-            statusDiv.innerHTML = `✅ Cupón válido: ${resp.descuento}% de descuento`;
+            statusDiv.innerHTML = `✅ Cupón válido: -${resp.descuento}% (${resp.cuponNombre})`;
             statusDiv.className = 'mt-3 text-xs font-bold text-emerald-600';
+            
+            // MEJORADO: Actualizar total INMEDIATAMENTE
             updCouponTotal();
+            
+            // Cambiar botón a "Cupón aplicado"
+            const btnCupon = document.querySelector('button[onclick="applyCoupon()"]');
+            if(btnCupon) {
+                btnCupon.textContent = '✅ Cupón Aplicado';
+                btnCupon.disabled = true;
+                btnCupon.className = btnCupon.className.replace('bg-green-600', 'bg-emerald-700');
+            }
         } else {
             statusDiv.innerHTML = `❌ ${resp.message}`;
             statusDiv.className = 'mt-3 text-xs font-bold text-red-600';
@@ -811,9 +858,9 @@ async function confirmOrder(){
             btnMP.style.display = metodo_pago === 'Mercado Pago' ? 'block' : 'none';
             
             go(6);
-        } else {
-            alert('Error: ' + (result.error || 'No se pudo procesar el pedido'));
-        }
+            
+            // MEJORADO: Agregar confetti animation
+            launchConfetti();
     } catch(err) {
         alert('Error de conexión: ' + err.message);
     }
@@ -839,7 +886,29 @@ function descargarPDF(){
 }
 
 function irAMercadoPago(){
-    alert('⏳ Redirigiendo a Mercado Pago...\n\n(Integración en fase de prueba)');
+    if(!S.pedidoInfo) return alert('Información de pedido no disponible');
+    
+    // Crear preference en Mercado Pago y redirigir
+    const preferenceData = {
+        items: S.pedidoInfo.productos.map(p => ({
+            title: p.nombre,
+            quantity: p.cantidad,
+            unit_price: p.precioFinal
+        })),
+        payer: {
+            email: S.pedidoInfo.email
+        },
+        external_reference: `NSN-${S.pedidoInfo.noPedido}`,
+        back_urls: {
+            success: window.location.origin,
+            failure: window.location.origin,
+            pending: window.location.origin
+        }
+    };
+    
+    // TODO: Llamar a endpoint backend para crear preference
+    // Por ahora, redirigir a Mercado Pago test
+    window.open('https://www.mercadopago.com.mx/checkout/v1/redirect?pref_id=test', '_blank');
 }
 
 function searchProds(){
@@ -890,6 +959,80 @@ async function login(){
 }
 
 window.onload = () => {};
+
+// MEJORADO: Agregar confetti animation
+function launchConfetti() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'confetti-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '9998';
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const particles = [];
+    const colors = ['#84CC16', '#5BA313', '#F4FFF0', '#D4F4DD', '#E6FFF0'];
+    
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 8 + 4;
+            this.speedX = (Math.random() - 0.5) * 8;
+            this.speedY = Math.random() * -8 - 3;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.opacity = 1;
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.speedY += 0.2; // gravity
+            this.opacity -= 0.01;
+        }
+        
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.opacity;
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+            ctx.globalAlpha = 1;
+        }
+    }
+    
+    // Crear confetti
+    for(let i = 0; i < 100; i++) {
+        particles.push(new Particle(Math.random() * canvas.width, canvas.height));
+    }
+    
+    // Animar
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for(let i = particles.length - 1; i >= 0; i--) {
+            particles[i].update();
+            particles[i].draw();
+            
+            if(particles[i].opacity <= 0) {
+                particles.splice(i, 1);
+            }
+        }
+        
+        if(particles.length > 0) {
+            requestAnimationFrame(animate);
+        } else {
+            canvas.remove();
+        }
+    }
+    
+    animate();
+}
 </script>
 </body>
 </html>
