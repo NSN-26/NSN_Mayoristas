@@ -33,7 +33,6 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-/* BARRA DE PROGRESO CORREGIDA AL 100% */
 .sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
@@ -46,39 +45,31 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
+.cat-card.locked{opacity:0.5;pointer-events:none;filter:grayscale(1)}
 
 .prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
 .prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
 
-.img-container{width: 100%; 
-    height: 280px; 
-    overflow: hidden; 
-    background: #f3f3f3;
-    padding: 0 !important;}
-.prod-img{width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    display: block;
-    transition: transform 0.5s ease;}
-
-.prod-card:hover .prod-img {
-    transform: scale(1.05);
-}
+.img-container{width: 100%; height: 280px; overflow: hidden; background: #f3f3f3;padding: 0 !important;}
+.prod-img{width: 100%; height: 100%; object-fit: cover; display: block;transition: transform 0.5s ease;}
+.prod-card:hover .prod-img { transform: scale(1.05); }
 
 .price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
-.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
-.sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
+.sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none;display:flex;justify-content:center;}
+.sticky-btn{pointer-events:auto;width:100%;max-width:450px;background:var(--green-dark);color:#fff;padding:18px;border-radius:25px;font-weight:900;text-transform:uppercase;box-shadow:0 15px 40px rgba(20,83,45,0.4);transition:all 0.3s}
 .sticky-btn:active{transform:scale(0.96)}
 
 #cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
 .cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
 @keyframes slideLeft { from{transform:translateX(100%)} to{transform:translateX(0)} }
 
-#plantLoader{display:none; position:fixed; inset:0; background:rgba(255,255,255,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center}
+#plantLoader{display:none;position:fixed;inset:0;background:rgba(255,255,255,0.9);z-index:9999;flex-direction:column;align-items:center;justify-content:center}
 
 .btn-back{color:var(--green-brand);font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+
+.banner-frecuente{background:linear-gradient(135deg, #84CC16 0%, #5BA313 100%);color:white;padding:20px;border-radius:2xl;margin-bottom:20px;font-size:14px;font-weight:bold;text-align:center}
 
 @media(max-width:768px){
     .sticky-bar{top:78px}
@@ -139,6 +130,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
+        <div id="bannerFrecuente" class="banner-frecuente hidden"></div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
             <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
@@ -171,6 +163,16 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
             <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
+            <div id="direccionGuardada" class="bg-green-50 p-6 rounded-2xl border-2 border-green-200 mb-8 hidden">
+                <div class="flex justify-between items-start gap-4">
+                    <div class="flex-1">
+                        <p class="text-[10px] font-black text-green-700 uppercase mb-2">¿Usar dirección guardada?</p>
+                        <p id="dirGuardadaTexto" class="text-sm font-bold text-slate-700"></p>
+                    </div>
+                    <button onclick="usarDireccionGuardada()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">✅ Si</button>
+                    <button onclick="cambiarDireccion()" class="bg-slate-300 text-slate-700 px-4 py-2 rounded-xl font-black text-xs whitespace-nowrap">✏️ Cambiar</button>
+                </div>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
@@ -179,44 +181,10 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
                 <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
-                
-                <!-- LISTA DE ESTADOS DE MEXICO AGREGADA -->
                 <select id="est" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600 font-medium text-sm">
                     <option value="" disabled selected>Selecciona Estado...</option>
-                    <option value="Aguascalientes">Aguascalientes</option>
-                    <option value="Baja California">Baja California</option>
-                    <option value="Baja California Sur">Baja California Sur</option>
-                    <option value="Campeche">Campeche</option>
-                    <option value="Chiapas">Chiapas</option>
-                    <option value="Chihuahua">Chihuahua</option>
-                    <option value="Ciudad de México">Ciudad de México</option>
-                    <option value="Coahuila">Coahuila</option>
-                    <option value="Colima">Colima</option>
-                    <option value="Durango">Durango</option>
-                    <option value="Estado de México">Estado de México</option>
-                    <option value="Guanajuato">Guanajuato</option>
-                    <option value="Guerrero">Guerrero</option>
-                    <option value="Hidalgo">Hidalgo</option>
-                    <option value="Jalisco">Jalisco</option>
-                    <option value="Michoacán">Michoacán</option>
-                    <option value="Morelos">Morelos</option>
-                    <option value="Nayarit">Nayarit</option>
-                    <option value="Nuevo León">Nuevo León</option>
-                    <option value="Oaxaca">Oaxaca</option>
-                    <option value="Puebla">Puebla</option>
-                    <option value="Querétaro">Querétaro</option>
-                    <option value="Quintana Roo">Quintana Roo</option>
-                    <option value="San Luis Potosí">San Luis Potosí</option>
-                    <option value="Sinaloa">Sinaloa</option>
-                    <option value="Sonora">Sonora</option>
-                    <option value="Tabasco">Tabasco</option>
-                    <option value="Tamaulipas">Tamaulipas</option>
-                    <option value="Tlaxcala">Tlaxcala</option>
-                    <option value="Veracruz">Veracruz</option>
-                    <option value="Yucatán">Yucatán</option>
-                    <option value="Zacatecas">Zacatecas</option>
+                    <option value="Aguascalientes">Aguascalientes</option><option value="Baja California">Baja California</option><option value="Baja California Sur">Baja California Sur</option><option value="Campeche">Campeche</option><option value="Chiapas">Chiapas</option><option value="Chihuahua">Chihuahua</option><option value="Ciudad de México">Ciudad de México</option><option value="Coahuila">Coahuila</option><option value="Colima">Colima</option><option value="Durango">Durango</option><option value="Estado de México">Estado de México</option><option value="Guanajuato">Guanajuato</option><option value="Guerrero">Guerrero</option><option value="Hidalgo">Hidalgo</option><option value="Jalisco">Jalisco</option><option value="Michoacán">Michoacán</option><option value="Morelos">Morelos</option><option value="Nayarit">Nayarit</option><option value="Nuevo León">Nuevo León</option><option value="Oaxaca">Oaxaca</option><option value="Puebla">Puebla</option><option value="Querétaro">Querétaro</option><option value="Quintana Roo">Quintana Roo</option><option value="San Luis Potosí">San Luis Potosí</option><option value="Sinaloa">Sinaloa</option><option value="Sonora">Sonora</option><option value="Tabasco">Tabasco</option><option value="Tamaulipas">Tamaulipas</option><option value="Tlaxcala">Tlaxcala</option><option value="Veracruz">Veracruz</option><option value="Yucatán">Yucatán</option><option value="Zacatecas">Zacatecas</option>
                 </select>
-
                 <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
             <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
@@ -230,12 +198,44 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
             <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200 shadow-inner"></div>
             <div id="finalItemsList" class="space-y-4 mb-8"></div>
             <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8 shadow-sm"></div>
+            
+            <!-- CUPÓN OPCIONAL -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 mb-8">
+                <h3 class="text-sm font-black text-slate-700 uppercase mb-4 tracking-tighter">¿Tienes Cupón? (Opcional)</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="couponInput" placeholder="Ingresa tu código de cupón..." class="flex-1 p-3 bg-slate-50 rounded-2xl border-0 outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm">
+                    <button onclick="applyCoupon()" class="bg-green-600 text-white px-6 py-3 rounded-2xl font-black uppercase text-xs shadow-lg hover:bg-green-700 transition-all active:scale-95">Validar</button>
+                </div>
+                <div id="couponStatus" class="mt-3 text-xs font-bold hidden"></div>
+            </div>
+
+            <!-- MÉTODO DE PAGO NUEVO -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 mb-8">
+                <h3 class="text-sm font-black text-slate-700 uppercase mb-4 tracking-tighter">Método de Pago</h3>
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent hover:border-green-500 transition-all">
+                        <input type="radio" name="metodo" value="Mercado Pago" id="mpago" class="w-5 h-5 accent-green-600" checked>
+                        <span class="ml-4 flex-1">
+                            <p class="font-black text-sm">💳 Mercado Pago</p>
+                            <p class="text-[10px] text-slate-400">Efectivo, transferencia, tarjeta, OXXO y más</p>
+                        </span>
+                    </label>
+                    <label class="flex items-center p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent hover:border-green-500 transition-all">
+                        <input type="radio" name="metodo" value="Contra Entrega" id="entrega" class="w-5 h-5 accent-green-600">
+                        <span class="ml-4 flex-1">
+                            <p class="font-black text-sm">📦 Contra Entrega</p>
+                            <p class="text-[10px] text-slate-400">Solo si ya se acordó con operaciones</p>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
             <div class="flex flex-col sm:flex-row justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl gap-6">
                 <div class="text-center sm:text-left">
                     <p class="text-xs opacity-70 uppercase font-black tracking-widest">Total Final a Liquidar</p>
                     <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
                 </div>
-                <button onclick="alert('Pedido confirmado')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Todo</button>
+                <button onclick="confirmOrder()" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Todo</button>
             </div>
         </div>
     </div>
@@ -259,7 +259,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyfartvUqRTL-MUJWAl0m5BaIGD50m3tePlnfzrkDlzV2VvXaFm7tE5vN2y8VMIfYi-/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxaru1cnmlZnJsqalxli0vcx05T8C0J05qcsXofN5yth2bcdf3k3QPDVn_vs52MCpNZ/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -307,7 +307,11 @@ const IMAGENES_FIJAS = {
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
 };
 
-let S = { email:'', cat:'', prod:[], carrito:{}, total:0, min:0, selectedPct: 0, rawData: null };
+let S = { 
+  email:'', cat:'', prod:[], carrito:{}, total:0, min:0, selectedPct: 0, rawData: null, 
+  appliedCoupon: null, isFrequent: false, frecuenteCategoria: '', 
+  clientData: null, direccionGuardada: false
+};
 
 async function api(action, data) {
     const resp = await fetch(`${API_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(data))}`, { method: 'POST' });
@@ -332,7 +336,7 @@ function initCats(){
         {id:'Diamante',nm:'Diamante',ico:'💎', info:'57% desc'}
     ];
     document.getElementById('cats').innerHTML = cats.map(c=>`
-        <div class="cat-card animate-beat" onclick="selCat(this, '${c.id}')">
+        <div class="cat-card animate-beat ${!S.isFrequent && S.cat !== c.id && S.rawData.mins[c.id] > 0 ? 'locked' : ''}" onclick="selCat(this, '${c.id}')">
             <span class="emoji text-5xl mb-4 block">${c.ico}</span>
             <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
             <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
@@ -358,6 +362,7 @@ function goToCatalog(){
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
+    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
         const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
@@ -389,6 +394,7 @@ function addQty(id, d){
     const qtySpan = document.getElementById(`qty-${id}`);
     if (qtySpan) qtySpan.innerText = S.carrito[id] || 0;
     updProg();
+    saveCart();
 }
 
 function updProg(){
@@ -441,6 +447,39 @@ function updCartUI(){
     document.getElementById('cartItems').innerHTML = h || '<div class="text-center py-20 opacity-20 font-black uppercase text-xs tracking-widest">Vacío</div>';
 }
 
+// NUEVA: Guardar carrito
+async function saveCart(){
+    await api('saveCart', { email: S.email, carrito: S.carrito, categoria: S.cat });
+}
+
+// NUEVA: Usar dirección guardada
+function usarDireccionGuardada(){
+    if(!S.clientData) return;
+    document.getElementById('nom').value = S.clientData.nombre;
+    document.getElementById('ape').value = S.clientData.apellido;
+    document.getElementById('tel').value = S.clientData.telefono;
+    document.getElementById('cal').value = S.clientData.calle;
+    document.getElementById('num').value = S.clientData.numero;
+    document.getElementById('col').value = S.clientData.colonia;
+    document.getElementById('mun').value = S.clientData.municipio;
+    document.getElementById('est').value = S.clientData.estado;
+    document.getElementById('cp').value = S.clientData.cp;
+    S.direccionGuardada = true;
+}
+
+function cambiarDireccion(){
+    S.direccionGuardada = false;
+    document.getElementById('nom').value = '';
+    document.getElementById('ape').value = '';
+    document.getElementById('tel').value = '';
+    document.getElementById('cal').value = '';
+    document.getElementById('num').value = '';
+    document.getElementById('col').value = '';
+    document.getElementById('mun').value = '';
+    document.getElementById('est').value = '';
+    document.getElementById('cp').value = '';
+}
+
 function processFinalSummary(){
     const nom = document.getElementById('nom').value;
     const ape = document.getElementById('ape').value;
@@ -473,12 +512,11 @@ function processFinalSummary(){
         }
     });
 
-    // LÓGICA CORRECTA: Determinar qué categoría REALMENTE aplica basada en la inversión real
-    let appliedTier = S.cat; // Comienza con la categoría que seleccionó el cliente
+    let appliedTier = S.cat;
     let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
     
-    // Si NO cumple con el mínimo de su categoría seleccionada, buscar la siguiente inferior que SÍ cumpla
-    if(subtotalBase < minRequiredForSelected) {
+    // MEJORADO: Cliente frecuente no necesita mínimo
+    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
         if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
         if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
         if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
@@ -498,7 +536,7 @@ function processFinalSummary(){
             </div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
                 <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado</p>
-                <p class="font-bold text-emerald-700 uppercase">${S.cat} (Mínimo: $${minRequiredForSelected.toLocaleString()})</p>
+                <p class="font-bold text-emerald-700 uppercase">${S.cat} ${S.isFrequent ? '(Cliente Frecuente - Sin Mínimo)' : '(Mínimo: $' + minRequiredForSelected.toLocaleString() + ')'}</p>
             </div>
         </div>
     `;
@@ -506,10 +544,10 @@ function processFinalSummary(){
     document.getElementById('finalItemsList').innerHTML = `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">${htmlItems}</div>`;
 
     let auditMsg = '';
-    if(appliedTier === S.cat) {
+    if(S.isFrequent || appliedTier === S.cat) {
         auditMsg = `<div class="text-emerald-700 font-black text-sm tracking-tight">
             ✅ <span class="uppercase tracking-widest">¡CUMPLIDO!</span><br>
-            <span class="text-xs font-bold mt-1 block">Tu inversión base de $${subtotalBase.toLocaleString()} cumple con el mínimo de la categoría ${S.cat} ($${minRequiredForSelected.toLocaleString()}). Se aplicará el descuento del ${Math.round(appliedPct*100)}%.</span>
+            <span class="text-xs font-bold mt-1 block">${S.isFrequent ? 'Como cliente frecuente ' + S.frecuenteCategoria : 'Tu inversión base de $' + subtotalBase.toLocaleString()} cumple con los requisitos. Se aplicará el descuento del ${Math.round(appliedPct*100)}%.</span>
         </div>`;
     } else {
         const tierApliedMin = S.rawData.mins[appliedTier] || 0;
@@ -528,21 +566,139 @@ function processFinalSummary(){
     go(5);
 }
 
-async function login(){
-    const e = document.getElementById('emailInp').value;
-    if(!e.includes('@')) return alert('Email inválido');
-    S.email = e;
+async function applyCoupon(){
+    const couponCode = document.getElementById('couponInput').value.trim();
+    if(!couponCode) return alert('Ingresa un código de cupón');
+    
+    const statusDiv = document.getElementById('couponStatus');
+    statusDiv.classList.remove('hidden');
+    statusDiv.innerHTML = '⏳ Validando cupón...';
+    statusDiv.className = 'mt-3 text-xs font-bold text-blue-600';
+    
+    try {
+        const resp = await api('validateCoupon', { email: S.email, couponCode: couponCode });
+        
+        if(resp.success) {
+            S.appliedCoupon = resp;
+            statusDiv.innerHTML = `✅ Cupón válido: ${resp.descuento}% de descuento`;
+            statusDiv.className = 'mt-3 text-xs font-bold text-emerald-600';
+            updCouponTotal();
+        } else {
+            statusDiv.innerHTML = `❌ ${resp.message}`;
+            statusDiv.className = 'mt-3 text-xs font-bold text-red-600';
+            S.appliedCoupon = null;
+        }
+    } catch(err) {
+        statusDiv.innerHTML = '❌ Error al validar cupón';
+        statusDiv.className = 'mt-3 text-xs font-bold text-red-600';
+    }
+}
+
+function updCouponTotal(){
+    let subtotalBase = 0;
+    Object.entries(S.carrito).forEach(([id,q])=>{ 
+        const p=S.rawData.products.find(x=>x.id==id); 
+        if(p) subtotalBase += p.precioBase * q; 
+    });
+    
+    let appliedTier = S.cat;
+    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
+    
+    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
+        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
+        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
+    }
+    
+    const appliedPct = S.rawData.discounts[appliedTier] || 0;
+    let finalTotal = subtotalBase * (1 - appliedPct);
+    
+    if(S.appliedCoupon) {
+        const descuentoCupon = S.appliedCoupon.descuento / 100;
+        finalTotal = finalTotal * (1 - descuentoCupon);
+    }
+    
+    document.getElementById('finalTotalCalculated').textContent = '$' + finalTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+async function confirmOrder(){
+    const nom = document.getElementById('nom').value;
+    const ape = document.getElementById('ape').value;
+    const tel = document.getElementById('tel').value;
+    const cal = document.getElementById('cal').value;
+    const num = document.getElementById('num').value;
+    const col = document.getElementById('col').value;
+    const mun = document.getElementById('mun').value;
+    const est = document.getElementById('est').value;
+    const cp = document.getElementById('cp').value;
+    const metodo_pago = document.querySelector('input[name="metodo"]:checked').value;
+    
+    if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Faltan datos obligatorios');
+    
+    let subtotalBase = 0;
+    let descripcionItems = '';
+    
+    Object.entries(S.carrito).forEach(([id,q])=>{
+        const p=S.rawData.products.find(x=>x.id==id);
+        if(p) {
+            subtotalBase += p.precioBase * q;
+            descripcionItems += `${p.nombre} x${q} = $${(p.precioBase * q).toFixed(2)}\n`;
+        }
+    });
+    
+    let appliedTier = S.cat;
+    let minRequiredForSelected = S.rawData.mins[S.cat] || 0;
+    
+    if(!S.isFrequent && subtotalBase < minRequiredForSelected) {
+        if(S.cat === 'Diamante' && subtotalBase < 20000) appliedTier = 'Oro';
+        if((S.cat === 'Diamante' || S.cat === 'Oro') && subtotalBase < 12000) appliedTier = 'Plata';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata') && subtotalBase < 4500) appliedTier = '25%';
+        if((S.cat === 'Diamante' || S.cat === 'Oro' || S.cat === 'Plata' || S.cat === '25%') && subtotalBase < 1333) appliedTier = 'Lista Base';
+    }
+    
+    const appliedPct = S.rawData.discounts[appliedTier] || 0;
+    let finalTotal = subtotalBase * (1 - appliedPct);
+    
+    if(S.appliedCoupon) {
+        const descuentoCupon = S.appliedCoupon.descuento / 100;
+        finalTotal = finalTotal * (1 - descuentoCupon);
+    }
+    
     document.getElementById('plantLoader').style.display = 'flex';
     try {
-        const d = await api('getAppData', {});
-        if(d.success){
-            S.rawData = d;
-            document.getElementById('mainLogo').src = d.logoUrl;
-            initCats();
-            go(2);
-        } else { alert("Error: " + d.error); }
-    } catch(err) { alert("Fallo de conexión"); }
-    finally { document.getElementById('plantLoader').style.display = 'none'; }
+        const orderData = {
+            email: S.email,
+            nombre: nom,
+            apellido: ape,
+            telefono: tel,
+            calle: cal,
+            num: num,
+            col: col,
+            mun: mun,
+            est: est,
+            cp: cp,
+            subtotalBase: subtotalBase,
+            appliedPct: appliedPct,
+            descripcionPedido: descripcionItems,
+            cupon: S.appliedCoupon || null,
+            metodo_pago: metodo_pago
+        };
+        
+        const result = await api('submitOrder', orderData);
+        
+        if(result.success) {
+            alert(`✅ Pedido confirmado #${result.noPedido}\nCliente: ${result.idCliente}\nTotal: $${result.totalFinal}\nMétodo: ${result.metodoPago}\n\n¡Verifica tu email para los detalles!`);
+            window.location.reload();
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo procesar el pedido'));
+        }
+    } catch(err) {
+        alert('Error de conexión: ' + err.message);
+    }
+    finally {
+        document.getElementById('plantLoader').style.display = 'none';
+    }
 }
 
 function searchProds(){
@@ -552,6 +708,67 @@ function searchProds(){
         c.style.display = nm.includes(q) ? 'flex' : 'none';
     });
 }
+
+async function login(){
+    const e = document.getElementById('emailInp').value;
+    if(!e.includes('@')) return alert('Email inválido');
+    S.email = e;
+    document.getElementById('plantLoader').style.display = 'flex';
+    try {
+        // Cargar datos de la app
+        const appData = await api('getAppData', {});
+        if(!appData.success) throw new Error(appData.error);
+        S.rawData = appData;
+        
+        // Verificar si es cliente frecuente
+        const freqData = await api('checkFrequentClient', { email: e });
+        if(freqData.success && freqData.isFrequent) {
+            S.isFrequent = true;
+            S.frecuenteCategoria = freqData.categoria;
+        }
+        
+        // Cargar datos del cliente (si existe)
+        const clientData = await api('getClientData', { email: e });
+        if(clientData.success && clientData.exists) {
+            S.clientData = clientData;
+        }
+        
+        document.getElementById('mainLogo').src = appData.logoUrl;
+        initCats();
+        
+        // Mostrar banner si es frecuente
+        if(S.isFrequent) {
+            const banner = document.getElementById('bannerFrecuente');
+            banner.textContent = freqData.mensaje;
+            banner.classList.remove('hidden');
+        }
+        
+        go(2);
+    } catch(err) { 
+        alert("Error: " + err.message); 
+    }
+    finally { 
+        document.getElementById('plantLoader').style.display = 'none'; 
+    }
+}
+
+// Mostrar dirección guardada si existe
+function go(n){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('act'));
+    document.getElementById('s'+n).classList.add('act');
+    document.getElementById('topBar').classList.toggle('show', n===3);
+    
+    if(n === 4 && S.clientData && S.clientData.calle) {
+        document.getElementById('direccionGuardada').classList.remove('hidden');
+        document.getElementById('dirGuardadaTexto').textContent = 
+            `${S.clientData.calle} #${S.clientData.numero}, Col. ${S.clientData.colonia}, ${S.clientData.municipio}, ${S.clientData.estado}. C.P. ${S.clientData.cp}`;
+    } else if(n === 4) {
+        document.getElementById('direccionGuardada').classList.add('hidden');
+    }
+    
+    window.scrollTo(0,0);
+}
+
 window.onload = () => {};
 </script>
 </body>
