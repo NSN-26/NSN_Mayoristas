@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NSN | Portal Mayoristas</title>
+<title>NSN | Wholesaler Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
@@ -24,16 +24,17 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 
 @keyframes heartBeatFast {
     0% { transform: scale(1); }
-    15% { transform: scale(1.2); }
+    15% { transform: scale(1.1); }
     30% { transform: scale(1); }
-    45% { transform: scale(1.2); }
+    45% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
 .animate-beat:hover .emoji { animation: heartBeatFast 0.6s infinite; display: inline-block; }
 
 .header{background: var(--header-gradient);padding:15px;position:sticky;top:0;z-index:1100;box-shadow:0 4px 15px rgba(0,0,0,0.05);border-bottom:2px solid var(--green-brand)}
 
-.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+/* BARRA DE PROGRESO CORREGIDA AL 100% */
+.sticky-bar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);padding:10px 20px;position:fixed;top:80px;z-index:1000;border-bottom:2px solid var(--green-brand);display:none;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.03)}
 .sticky-bar.show{display:flex;align-items:center;gap:15px}
 
 .prog-bar-bg{height:12px;background:#E2E8F0;border-radius:20px;flex:1;overflow:hidden}
@@ -46,17 +47,18 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 .cat-card{background:#fff;border-radius:30px;padding:35px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.3s;box-shadow: 0 10px 40px rgba(0,0,0,0.02)}
 .cat-card.sel{border-color:var(--green-brand);background: var(--green-soft);transform:scale(1.03)}
 
-/* IMÁGENES PROFESIONALES AL 100% */
 .prod-card{background:#fff;border-radius:28px;border:1px solid #f1f5f9;transition:all 0.3s;display:flex;flex-direction:column;overflow:hidden;height:100%}
-.img-container{width:100%; height:280px; overflow:hidden; background:#fff; position:relative}
-.prod-img{width:100%; height:100%; object-fit:cover; display:block}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(132,204,22,0.08)}
+
+.img-container{background:#fff; width:100%; height:260px; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden}
+.prod-img{width:100%; height:100%; object-fit:contain; padding:15px}
 
 .price-base{text-decoration:line-through;color:#9CA3AF;font-size:12px;font-weight:700}
 .price-final{color:var(--green-dark);font-weight:900;font-size:22px}
 
 .sticky-btn-container{position:fixed;bottom:25px;left:0;right:0;padding:0 25px;z-index:1050;pointer-events:none; display:flex; justify-content:center;}
-.sticky-btn{pointer-events:auto; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.3); width:100%; transition:all 0.3s}
-.sticky-btn:active{transform:scale(0.95)}
+.sticky-btn{pointer-events:auto; width:100%; max-width:450px; background: var(--green-dark); color:#fff; padding:18px; border-radius:25px; font-weight:900; text-transform:uppercase; box-shadow:0 15px 40px rgba(20,83,45,0.4); transition:all 0.3s}
+.sticky-btn:active{transform:scale(0.96)}
 
 #cartSidebar{display:none;position:fixed;top:0;right:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:2100;justify-content:flex-end}
 .cart-content{width:100%;max-width:380px;background:#fff;height:100%;display:flex;flex-direction:column;box-shadow:-10px 0 50px rgba(0,0,0,0.1);animation: slideLeft 0.3s forwards;}
@@ -69,7 +71,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 @media(max-width:768px){
     .sticky-bar{top:78px}
     .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    .img-container{height:200px}
+    .img-container{height:180px}
 }
 </style>
 </head>
@@ -85,7 +87,7 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         <img id="mainLogo" src="" class="h-[50px] drop-shadow-sm" alt="NSN">
         <div class="text-right">
             <h1 class="text-lime-900 font-black uppercase tracking-tighter text-sm sm:text-lg leading-none">Portal Mayorista</h1>
-            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Premium Nutrition</p>
+            <p class="text-lime-700 text-[9px] font-black opacity-80 uppercase tracking-widest">Portal Oficial</p>
         </div>
     </div>
 </header>
@@ -93,11 +95,11 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
 <div class="sticky-bar shadow-xl" id="topBar">
     <div class="flex-1">
         <div class="flex justify-between text-[10px] font-black text-lime-900 mb-1 uppercase tracking-widest">
-            <span>Inversión Real</span>
+            <span>Inversión Real Alcanzada</span>
             <span id="progPct">0%</span>
         </div>
         <div class="prog-bar-bg"><div class="prog-bar-fill shadow-sm" id="progBar"></div></div>
-        <div class="text-[9px] font-bold mt-1 text-slate-400">
+        <div class="text-[9px] font-bold mt-1 text-slate-400 uppercase tracking-tighter">
             <span id="cartActual">$0</span> / <span id="cartMinimo">$0</span>
         </div>
     </div>
@@ -113,23 +115,21 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
     </div>
 </div>
 
-<div class="container max-w-6xl mx-auto p-4">
-    <!-- PASO 1 -->
+<div class="container max-w-6xl mx-auto p-4 min-h-[60vh]">
     <div id="s1" class="step act">
         <div class="max-w-md mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl text-center mt-12 border-t-8 border-lime-500">
             <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">Bienvenido</h2>
             <p class="text-slate-400 text-sm mb-10 font-medium tracking-tight">Accede para sincronizar tu cuenta de socio</p>
-            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-lime-500 outline-none text-center font-bold mb-6 transition-all shadow-inner">
-            <button onclick="login()" id="btnLogin" class="w-full bg-lime-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
+            <input type="email" id="emailInp" placeholder="tu@empresa.com" class="w-full p-5 rounded-3xl bg-slate-50 border-2 border-transparent focus:border-green-600 outline-none text-center font-bold mb-6 transition-all shadow-inner">
+            <button onclick="login()" id="btnLogin" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-widest">ENTRAR</button>
         </div>
     </div>
 
-    <!-- PASO 2 -->
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-black text-lime-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
-            <p class="text-lime-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios en el catálogo se fijarán según tu elección</p>
+            <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
+            <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
         </div>
         <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
@@ -137,16 +137,15 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 3 -->
     <div id="s3" class="step" style="margin-top: 40px;">
         <div class="btn-back" onclick="go(2)">← Cambiar de Nivel</div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-lime-50">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-100">
             <div>
-                <h2 id="catTitle" class="text-xl font-black text-lime-900 uppercase tracking-tighter">Catálogo</h2>
-                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter">Fijo: -0%</div>
+                <h2 id="catTitle" class="text-xl font-black text-green-900 uppercase tracking-tighter">Catálogo</h2>
+                <div id="appliedDiscountBadge" class="bg-lime-600 text-white text-[10px] font-black px-3 py-1 rounded-full mt-1 inline-block tracking-tighter shadow-sm">Fijo: -0%</div>
             </div>
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-lime-500 font-medium text-sm text-center">
+                <input type="text" id="searchInp" onkeyup="searchProds()" placeholder="🔍 Buscar productos..." class="p-3 pl-10 rounded-2xl bg-slate-50 border-0 w-full outline-none focus:ring-2 focus:ring-green-500 font-medium text-sm text-center">
             </div>
         </div>
         <div class="prod-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodGrid"></div>
@@ -156,49 +155,84 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
         </div>
     </div>
 
-    <!-- PASO 4 -->
     <div id="s4" class="step">
         <div class="btn-back" onclick="go(3)">← Volver al Catálogo</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl">
-            <h2 class="text-2xl font-black mb-8 text-lime-950 uppercase text-center tracking-tighter">Información de Envío</h2>
+            <h2 class="text-2xl font-black mb-8 text-green-950 uppercase text-center tracking-tighter">Información de Envío</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="nom" placeholder="Nombre(s)" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="ape" placeholder="Apellidos" class="p-4 bg-slate-50 rounded-2xl border-0">
-                <input type="tel" id="tel" placeholder="WhatsApp / Tel" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
+                <input type="tel" id="tel" placeholder="WhatsApp" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="cal" placeholder="Calle" class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="num" placeholder="Número Ext." class="p-4 bg-slate-50 rounded-2xl border-0">
                 <input type="text" id="col" placeholder="Colonia" class="p-4 bg-slate-50 rounded-2xl border-0 md:col-span-2">
                 <input type="text" id="mun" placeholder="Municipio" class="p-4 bg-slate-50 rounded-2xl border-0">
+                
+                <!-- LISTA DE ESTADOS DE MEXICO AGREGADA -->
+                <select id="est" class="p-4 bg-slate-50 rounded-2xl border-0 focus:ring-2 focus:ring-green-600 font-medium text-sm">
+                    <option value="" disabled selected>Selecciona Estado...</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                </select>
+
                 <input type="text" id="cp" placeholder="C.P." class="p-4 bg-slate-50 rounded-2xl border-0">
             </div>
             <button onclick="processFinalSummary()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black mt-10 shadow-xl hover:bg-black transition-all uppercase tracking-widest">Generar Resumen Final</button>
         </div>
     </div>
 
-    <!-- PASO 5: RESUMEN FINAL AUDITADO -->
     <div id="s5" class="step">
         <div class="btn-back" onclick="go(4)">← Editar Datos</div>
         <div class="bg-white p-8 rounded-[3rem] shadow-2xl border-t-8 border-green-900">
             <h2 class="text-2xl font-black text-green-900 uppercase text-center mb-6 tracking-tighter">Confirmación de Orden</h2>
-            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200"></div>
+            <div id="clientSummary" class="bg-slate-50 p-6 rounded-3xl mb-8 text-sm border border-slate-200 shadow-inner"></div>
             <div id="finalItemsList" class="space-y-4 mb-8"></div>
-            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8"></div>
+            <div id="auditSection" class="bg-amber-50 border-2 border-dashed border-amber-200 p-6 rounded-3xl mb-8 shadow-sm"></div>
             <div class="flex flex-col sm:flex-row justify-between items-center bg-green-900 text-white p-8 rounded-3xl shadow-xl gap-6">
                 <div class="text-center sm:text-left">
                     <p class="text-xs opacity-70 uppercase font-black tracking-widest">Total Final a Liquidar</p>
                     <h3 id="finalTotalCalculated" class="text-4xl font-black">$0.00</h3>
                 </div>
-                <button onclick="alert('Pedido confirmado')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto">Finalizar Todo</button>
+                <button onclick="alert('Pedido confirmado')" class="bg-white text-green-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-100 transition-all w-full sm:w-auto shadow-lg">Finalizar Todo</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- SIDEBAR CARRITO -->
 <div id="cartSidebar" onclick="toggleCart(false)">
     <div class="cart-content p-8" onclick="event.stopPropagation()">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest">Tu Pedido</h2>
+            <h2 class="text-xl font-black text-green-950 uppercase tracking-widest text-center flex-1">Tu Pedido</h2>
             <button onclick="toggleCart(false)" class="text-3xl text-slate-300 hover:text-red-500 transition-colors">✕</button>
         </div>
         <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 pr-2"></div>
@@ -207,13 +241,13 @@ body{font-family:'Inter',system-ui,sans-serif;background-color: var(--green-ligh
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal (Precio Fijo)</span>
                 <span id="cartFinal" class="text-3xl font-black text-green-900">$0.00</span>
             </div>
-            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
+            <button onclick="toggleCart(false); go(4)" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase shadow-2xl hover:bg-black transition-all">Confirmar Datos →</button>
         </div>
     </div>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyt8t33ljD7Oec1uOrIIU-lZuwgofVJUbaCCrBSerC_cEqlvsfteiR9V63FHJMeD6MZ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyfartvUqRTL-MUJWAl0m5BaIGD50m3tePlnfzrkDlzV2VvXaFm7tE5vN2y8VMIfYi-/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -257,7 +291,7 @@ const IMAGENES_FIJAS = {
   'vit D liposomal - 400':'https://drive.google.com/thumbnail?id=114SyVIlUn6b3IJ00yGPm7WXNT8LnUmiM&sz=w500',
   'vit D liposomal - 5000':'https://drive.google.com/thumbnail?id=1wA4GXoVW4SB75nEMv-SmCdqrqSTIh3Uc&sz=w500',
   'Women Joy':'https://drive.google.com/thumbnail?id=1VeihrTE81DhwE64NGHZcwENRlxAT4qoA&sz=w500',
-  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w500',
+  'Zinc':'https://drive.google.com/thumbnail?id=1qKpRxe7StQywQ1WALejhE6BNwjRo8Sk0&sz=w400',
   'Glucosamina':'https://drive.google.com/thumbnail?id=1bx0Hc7DTDTA1oPsncsf0ocUX_Dgpcu6I&sz=w500'
 };
 
@@ -290,7 +324,7 @@ function initCats(){
             <span class="emoji text-5xl mb-4 block">${c.ico}</span>
             <h3 class="font-black text-lg text-emerald-900">${c.nm}</h3>
             <p class="text-[10px] text-emerald-600 font-black uppercase mt-1">${c.info}</p>
-            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
+            <div class="mt-4 text-[9px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black inline-block border border-emerald-100">$${(S.rawData.mins[c.id] || 0).toLocaleString()} min</div>
         </div>`).join('');
 }
 
@@ -312,7 +346,6 @@ function goToCatalog(){
 
 function renderCatalog(){
     document.getElementById('catTitle').textContent = `Lista ${S.cat}`;
-    document.getElementById('appliedDiscountBadge').textContent = `Fijo: -${Math.round(S.selectedPct*100)}%`;
     
     document.getElementById('prodGrid').innerHTML = S.rawData.products.map(p=>{
         const finalPriceFixed = p.precioBase * (1 - S.selectedPct);
@@ -404,9 +437,10 @@ function processFinalSummary(){
     const num = document.getElementById('num').value;
     const col = document.getElementById('col').value;
     const mun = document.getElementById('mun').value;
+    const est = document.getElementById('est').value;
     const cp = document.getElementById('cp').value;
 
-    if(!nom || !ape || !tel || !cal || !cp) return alert('Por favor llena los datos obligatorios');
+    if(!nom || !ape || !tel || !cal || !cp || !est) return alert('Por favor llena los datos obligatorios');
 
     let subtotalBase = 0;
     let htmlItems = '';
@@ -442,7 +476,7 @@ function processFinalSummary(){
             <div><p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Contacto</p><p class="font-bold">${tel}</p></div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
                 <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Dirección de Envío</p>
-                <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}. C.P. ${cp}</p>
+                <p class="text-xs">Calle ${cal} #${num}, Col. ${col}, ${mun}, ${est}. C.P. ${cp}</p>
             </div>
             <div class="col-span-1 sm:col-span-2 border-t pt-2 mt-2">
                 <p class="text-slate-400 text-[10px] uppercase font-black tracking-widest">Nivel Solicitado Inicialmente</p>
