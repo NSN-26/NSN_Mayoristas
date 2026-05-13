@@ -139,6 +139,11 @@ select#est {
     <div id="s2" class="step">
         <div class="btn-back" onclick="logout()">← SALIR DEL PORTAL</div>
         <div id="bannerFrecuente" class="banner-frecuente hidden"></div>
+        <div id="welcomeMessage" class="bg-white rounded-2xl p-6 mb-8 border-l-4 border-green-600 shadow-sm hidden">
+            <p class="text-sm text-green-600 font-black uppercase tracking-widest">Bienvenido</p>
+            <h3 id="welcomeName" class="text-2xl font-black text-green-950 mt-1">-</h3>
+            <p id="welcomeId" class="text-xs text-slate-500 font-bold mt-2">-</p>
+        </div>
         <div class="text-center mb-12">
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
             <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
@@ -326,7 +331,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxLuMT3GGadVbT9zZTZwDIxf1QwjQQ-Lz_hvvxnje0ck50aYKxgr2gHy0lt0qXd9e0/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzn8SMeticxBDDWnMs89OCrWQ4mHoNcm0QXBb6Tu9ojHcP1rw_km4e1WA0Gw3zxZjpd/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -846,7 +851,8 @@ async function confirmOrder(){
                 total: finalTotal.toFixed(2),
                 metodoPago: metodo_pago,
                 email: S.email,
-                productos: productos
+                productos: productos,
+                idCliente: result.idCliente
             };
             
             document.getElementById('confNoPedido').textContent = '#' + result.noPedido;
@@ -883,7 +889,8 @@ async function descargarPDF(){
             email: S.pedidoInfo.email,
             total: S.pedidoInfo.total,
             metodoPago: S.pedidoInfo.metodoPago,
-            productos: S.pedidoInfo.productos
+            productos: S.pedidoInfo.productos,
+            id_cliente: S.pedidoInfo.idCliente
         };
         
         document.getElementById('plantLoader').style.display = 'flex';
@@ -963,6 +970,16 @@ async function login(){
         
         document.getElementById('mainLogo').src = appData.logoUrl;
         initCats();
+        
+        // Mostrar saludo personalizado
+        if(S.clientData && S.clientData.exists) {
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            const welcomeName = document.getElementById('welcomeName');
+            const welcomeId = document.getElementById('welcomeId');
+            welcomeName.textContent = S.clientData.nombre + ' ' + S.clientData.apellido;
+            welcomeId.textContent = 'ID Cliente: ' + S.clientData.id + ' | Pedidos: ' + S.clientData.noPedidos;
+            welcomeMsg.classList.remove('hidden');
+        }
         
         if(S.isFrequent) {
             const banner = document.getElementById('bannerFrecuente');
