@@ -331,7 +331,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbz6s2Xn1LrnL6I9vUx5xrFem34gmZxRKseZ8jldISLL1kzKNnCk6URrMu98TDIC4syJ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzX6QWmrZaDpS7gzGiajSeICmQaiYbUAttzkHPomcX7F-LEKxYUX7u60GcJl2B9gSg/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -846,13 +846,15 @@ async function confirmOrder(){
         
         if(result.success) {
             S.pedidoInfo = {
+                paymentLink: result.paymentLink,
                 noPedido: result.noPedido,
                 nombre: nom + ' ' + ape,
                 total: finalTotal.toFixed(2),
                 metodoPago: metodo_pago,
                 email: S.email,
                 productos: productos,
-                idCliente: result.idCliente
+                idCliente: result.idCliente,
+                paymentLink: result.paymentLink
             };
             
             document.getElementById('confNoPedido').textContent = '#' + result.noPedido;
@@ -925,23 +927,10 @@ async function descargarPDF(){
 async function irAMercadoPago(){
     if(!S.pedidoInfo) return alert('Información de pedido no disponible');
     
-    try {
-        const mpData = {
-            noPedido: S.pedidoInfo.noPedido,
-            total: S.pedidoInfo.total,
-            email: S.pedidoInfo.email,
-            nombre: S.pedidoInfo.nombre
-        };
-        
-        const resp = await api('createMPPreference', mpData);
-        
-        if(resp.success && resp.mpUrl) {
-            window.open(resp.mpUrl, '_blank');
-        } else {
-            alert('Error al conectar con Mercado Pago. Intenta nuevamente.');
-        }
-    } catch(err) {
-        alert('Error: ' + err.message);
+    if(S.pedidoInfo.paymentLink) {
+        window.open(S.pedidoInfo.paymentLink, '_blank');
+    } else {
+        alert('Link de Mercado Pago no disponible. Intenta más tarde.');
     }
 }
 
