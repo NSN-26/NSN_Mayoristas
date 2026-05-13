@@ -90,7 +90,7 @@ select#est {
 
 <div id="plantLoader">
     <div class="text-7xl plant-loader mb-6">🌱</div>
-    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Sincronizando Lista de Precios...</p>
+    <p class="font-black text-lime-800 uppercase tracking-widest text-xs text-center">Cargando...</p>
 </div>
 
 <header class="header">
@@ -331,7 +331,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbzn8SMeticxBDDWnMs89OCrWQ4mHoNcm0QXBb6Tu9ojHcP1rw_km4e1WA0Gw3zxZjpd/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxnmRw2lcqRvOTRPNmd0I-5TzIWhZ5r8QYuI4baroIdXE-ZOjaxyTMRFJiCdOdZbTPV/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -897,16 +897,22 @@ async function descargarPDF(){
         const resp = await api('generarYEnviarPDF', dataParaPDF);
         document.getElementById('plantLoader').style.display = 'none';
         
-        if(resp.success) {
-            // Descargar automáticamente
-            const link = document.createElement('a');
-            link.href = resp.downloadUrl;
-            link.download = resp.fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        if(resp.success && resp.pdfBase64) {
+            // Descargar PDF desde base64
+            const bytes = atob(resp.pdfBase64);
+            const arr = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+            const blob = new Blob([arr], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Pedido_' + String(S.pedidoInfo.noPedido).padStart(4, '0') + '_NSN.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
             
-            alert('✅ PDF descargado y enviado a tu correo!');
+            alert('✅ PDF descargado! También fue enviado a tu correo.');
         } else {
             alert('Error al generar PDF: ' + (resp.error || 'Error desconocido'));
         }
