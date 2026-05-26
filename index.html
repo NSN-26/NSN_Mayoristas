@@ -148,7 +148,7 @@ select#est {
             <h2 class="text-3xl font-black text-green-950 uppercase tracking-tighter">Selecciona tu Nivel</h2>
             <p class="text-green-600 font-bold uppercase text-[10px] tracking-widest mt-2">Los precios se ajustarán automáticamente</p>
         </div>
-        <div id="cats" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+        <div id="cats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         <div class="mt-12 text-center">
             <button onclick="goToCatalog()" id="btnContinueCat" disabled class="bg-slate-200 text-slate-400 px-12 py-5 rounded-3xl font-black transition-all uppercase tracking-widest">Ver Catálogo →</button>
         </div>
@@ -331,7 +331,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyqDvcg7T7nRiF0wM3ewY-LCZdQhbASVou3MhGpXtfDOXQXf3tgy4vI_55VjvEO8P-c/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzIm4hkbHDEQpSfwQJbmWSro8wqD3zo8ncYcIaaKd6Qqq9xNNrBTcAzDblEv-RUnzz_/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -866,6 +866,22 @@ async function confirmOrder(){
             btnMP.style.display = metodo_pago === 'Mercado Pago' ? 'block' : 'none';
             
             go(6);
+            
+            // NUEVO: Enviar PDF y emails automáticamente al finalizar
+            const dataParaPDF = {
+                noPedido: result.noPedido,
+                nombre: nom,
+                apellido: ape,
+                email: S.email,
+                total: finalTotal.toFixed(2),
+                metodoPago: metodo_pago,
+                productos: productos,
+                id_cliente: result.idCliente
+            };
+            
+            api('generarYEnviarPDF', dataParaPDF).catch(err => {
+                console.log('⚠️ Error enviando emails: ' + err);
+            });
             
             // MEJORADO: Agregar confetti animation
             launchConfetti();
