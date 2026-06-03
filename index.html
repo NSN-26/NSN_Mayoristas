@@ -331,7 +331,7 @@ select#est {
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbw3oBKMmzzFe1AxuOd0XSQxaw4qODZp4_WNGx3FtLkP_0ovOVJ2SBYV334J7WPudoNT/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzXWGMHSKFcJlxAxHgqa0FGWpHcICq1dO8-PiYckAtCrswLR-qZYZ9U5JeCFz6dltgf/exec';
 
 const IMAGENES_FIJAS = {
   'Akkermansia':'https://drive.google.com/thumbnail?id=1w1TQx9P_VhHtra4a6fFFhCxI484T28eq&sz=w500',
@@ -854,7 +854,13 @@ async function confirmOrder(){
                 email: S.email,
                 productos: productos,
                 idCliente: result.idCliente,
-                paymentLink: result.paymentLink
+                telefono: tel,
+                calle: cal,
+                numero: num,
+                colonia: col,
+                municipio: mun,
+                estado: est,
+                cp: cp
             };
             
             document.getElementById('confNoPedido').textContent = '#' + result.noPedido;
@@ -876,7 +882,14 @@ async function confirmOrder(){
                 total: finalTotal.toFixed(2),
                 metodoPago: metodo_pago,
                 productos: productos,
-                id_cliente: result.idCliente
+                id_cliente: result.idCliente,
+                telefono: tel,
+                calle: cal,
+                num: num,
+                col: col,
+                mun: mun,
+                est: est,
+                cp: cp
             };
             
             api('generarYEnviarPDF', dataParaPDF).catch(err => {
@@ -908,7 +921,14 @@ async function descargarPDF(){
             total: S.pedidoInfo.total,
             metodoPago: S.pedidoInfo.metodoPago,
             productos: S.pedidoInfo.productos,
-            id_cliente: S.pedidoInfo.idCliente
+            id_cliente: S.pedidoInfo.idCliente,
+            telefono: S.pedidoInfo.telefono,
+            calle: S.pedidoInfo.calle,
+            num: S.pedidoInfo.numero,
+            col: S.pedidoInfo.colonia,
+            mun: S.pedidoInfo.municipio,
+            est: S.pedidoInfo.estado,
+            cp: S.pedidoInfo.cp
         };
         
         document.getElementById('plantLoader').style.display = 'flex';
